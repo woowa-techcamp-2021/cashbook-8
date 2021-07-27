@@ -5,6 +5,7 @@ abstract class View extends CommonElement {
 
   build () {
     this.render();
+    this.mount();
     this.addListener();
   }
 

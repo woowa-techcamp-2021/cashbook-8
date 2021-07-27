@@ -1,12 +1,8 @@
-class Notfound {
-  private $root: HTMLElement;
+import Page from '../../core/page';
 
-  constructor ($root: HTMLElement) {
-    this.$root = $root;
-  }
-
-  render () {
-    this.$root.innerHTML = `
+class NotfoundPage extends Page {
+  protected render () {
+    this.$target.innerHTML = `
       <div class="notfound">
         <h1 class="notfound__title">Notfound</h1>
       </div>
@@ -14,4 +10,4 @@ class Notfound {
   }
 }
 
-export default Notfound;
+export default NotfoundPage;

@@ -5,6 +5,8 @@ abstract class CommonElement {
     this.$target = $target;
   }
 
+  protected mount () {};
+
   abstract build (): void;
 
   protected abstract render (): void;
