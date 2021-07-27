@@ -15,6 +15,10 @@
 - [ ] `npm run lint`나 `yarn lint`를 실행하였나요?
 
 
+## 소요 시간
+> 이슈를 해결하며 사용된 시간
+
+- 0시간
 
 ## :speech_balloon: 작업 내용
 
