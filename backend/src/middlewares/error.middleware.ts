@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
+import { TokenExpiredError } from 'jsonwebtoken';
+import InvalidTokenError from '../errors/invalid-token.error';
 import ServerError from '../errors/server.error';
 
 const responseError = (res: Response, status: number, message: string) => {
@@ -8,14 +10,21 @@ const responseError = (res: Response, status: number, message: string) => {
 };
 
 const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction) => {
-  console.log(error.constructor);
+  console.log(error);
   if (error) {
     switch (error.constructor) {
-      case ServerError:
-        responseError(res, 500, error.message);
+      case InvalidTokenError:
+        responseError(res, 401, error.message);
         break;
 
-      // no default
+      case TokenExpiredError:
+        responseError(res, 410, error.message);
+        break;
+
+      case ServerError:
+      default:
+        responseError(res, 500, error.message);
+        break;
     }
   }
 

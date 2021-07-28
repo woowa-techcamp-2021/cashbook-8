@@ -9,5 +9,9 @@
     "outDir": "dist/",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
   }
 }
