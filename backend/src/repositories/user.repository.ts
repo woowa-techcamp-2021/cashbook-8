@@ -3,10 +3,10 @@ import User from '../entities/user';
 
 @EntityRepository(User)
 class UserRepository extends Repository<User> {
-  findByEmail (email: string): Promise<User | undefined> {
+  findByName (name: string): Promise<User | undefined> {
     return createQueryBuilder(User)
       .where({
-        email
+        name
       })
       .getOne();
   }
