@@ -12,7 +12,7 @@ class AuthController {
     const user = await userService.syncUser(githubToken);
     const accessToken = await jwtService.generate(user);
 
-    res.setHeader('accessToken', accessToken);
+    res.cookie('accessToken', accessToken);
     res.redirect(dotenv.CLIENT_URL);
   }
 }
