@@ -6,13 +6,12 @@ import github from '../third-party/github';
 class UserService {
   async syncUser (accessToken: string): Promise<User> {
     const githubUser = await github.fetchGithubUser(accessToken);
-    let user = await getCustomRepository(UserRepository).findByEmail(githubUser.email);
+    let user = await getCustomRepository(UserRepository).findByName(githubUser.login);
     if (user === undefined) {
       user = new User();
     }
 
     user = getCustomRepository(UserRepository).merge(user, {
-      email: githubUser.email,
       avatarURL: githubUser.avatar_url,
       name: githubUser.login,
       accessToken

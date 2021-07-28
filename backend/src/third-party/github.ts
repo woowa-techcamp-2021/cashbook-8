@@ -13,7 +13,6 @@ type AuthResponse = {
 
 type GithubUserResponse = {
   login: string;
-  email: string;
   'avatar_url': string;
 }
 
