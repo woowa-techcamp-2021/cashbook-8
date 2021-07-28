@@ -1,5 +1,7 @@
 import app from './app';
+import dotenv from './config/dotenv';
 
-app.listen(3000, () => {
-  console.log(`server is running on ${3000}`);
+const port = parseInt(dotenv.PORT);
+app.listen(port, () => {
+  console.log(`server is running on ${port}`);
 });
