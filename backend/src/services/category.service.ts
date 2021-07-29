@@ -2,6 +2,7 @@ import { getCustomRepository } from 'typeorm';
 import Category from '../entities/category';
 import User from '../entities/user';
 import DuplicateCategoryError from '../errors/duplicate-category.error';
+import NotMyCategoryError from '../errors/not-my-category.error';
 import NotfoundCategoryError from '../errors/notfound-category.error';
 import CategoryRepository from '../repositories/category.repository';
 import Builder from '../utils/builder';
@@ -34,7 +35,7 @@ class CategoryService {
     }
 
     if (category.userId !== user.id) {
-      throw new Error('삭제 권한이 없습니다');
+      throw new NotMyCategoryError('삭제 권한이 없습니다');
     }
 
     await getCustomRepository(CategoryRepository).delete(id);

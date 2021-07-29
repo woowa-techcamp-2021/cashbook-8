@@ -2,6 +2,7 @@ import { getCustomRepository } from 'typeorm';
 import Payment from '../entities/payment';
 import User from '../entities/user';
 import DuplicatePaymentError from '../errors/duplicate-payment.error';
+import NotMyPaymentError from '../errors/not-my-payment.error';
 import NotfoundPaymentError from '../errors/notfound-payment.error';
 import PaymentRepository from '../repositories/payment.repository';
 import Builder from '../utils/builder';
@@ -33,7 +34,7 @@ class PaymentService {
     }
 
     if (payment.userId !== user.id) {
-      throw new Error('삭제 권한이 없습니다');
+      throw new NotMyPaymentError('삭제 권한이 없습니다');
     }
 
     await getCustomRepository(PaymentRepository).delete(id);
