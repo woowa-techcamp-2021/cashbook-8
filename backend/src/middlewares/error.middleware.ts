@@ -3,7 +3,7 @@ import { TokenExpiredError } from 'jsonwebtoken';
 import DuplicateCategoryError from '../errors/duplicate-category.error';
 import InvalidDataError from '../errors/invalid-data.error';
 import InvalidTokenError from '../errors/invalid-token.error';
-import NotFoundCategoryError from '../errors/notfound-category.error';
+import NotfoundCategoryError from '../errors/notfound-category.error';
 import ServerError from '../errors/server.error';
 
 const responseError = (res: Response, status: number, message: string) => {
@@ -32,7 +32,7 @@ const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFu
         responseError(res, 409, error.message);
         break;
 
-      case NotFoundCategoryError:
+      case NotfoundCategoryError:
         responseError(res, 404, error.message);
         break;
 

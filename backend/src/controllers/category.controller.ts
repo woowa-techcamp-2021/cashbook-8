@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import categoryService from '../services/category.service';
 import CategoryCreateRequest from '../request/category.request/category-create.request';
-import { isNumber, isNumberString } from 'class-validator';
+import { isNumberString } from 'class-validator';
 import InvalidDataError from '../errors/invalid-data.error';
 
 class CategoryController {
