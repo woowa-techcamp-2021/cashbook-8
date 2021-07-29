@@ -9,9 +9,9 @@ import CategoryCreateRequest from '../request/category.request/category-create.r
 import Builder from '../utils/builder';
 
 class CategoryService {
-  async findCategories (userId: number): Promise<Category[] | undefined> {
+  async findCategories (user: User): Promise<Category[] | undefined> {
     try {
-      const categories = await getCustomRepository(CategoryRepository).findAllByUserId(userId);
+      const categories = await getCustomRepository(CategoryRepository).findAllByUserId(user.id);
       return categories;
     } catch (error) {
       throw new ServerError('카테고리를 불러오지 못했습니다');
