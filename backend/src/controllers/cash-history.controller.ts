@@ -2,13 +2,14 @@ import { Request, Response } from 'express';
 import CashHistory from '../entities/cash-history';
 import CashHistoryFindRequest from '../request/cash-history/cash-history-find.request';
 import cashHistoryService from '../services/cash-history.service';
+import isNotNone from '../utils/validation/isNotNone';
 
 class CashHistoryController {
   async findCashHistories (req: Request, res: Response) {
     const { user, query } = req;
     let cashHistories: CashHistory[] = [];
 
-    if (query.year || query.month) {
+    if (isNotNone(query.year) || isNotNone(query.month)) {
       const cashHistoryFindRequest = new CashHistoryFindRequest(query as unknown as CashHistoryFindRequest);
       await cashHistoryFindRequest.validate();
       const { year, month } = cashHistoryFindRequest;
