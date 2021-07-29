@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, RelationId } from 'typeorm';
+import { CashHistories } from '../enums/cash-history.enum';
 import Category from './category';
 import Payment from './payment';
 import User from './user';
@@ -10,6 +11,12 @@ class CashHistory {
 
   @Column()
   price!: number;
+
+  @Column({
+    type: 'enum',
+    enum: CashHistories
+  })
+  type!: CashHistories;
 
   @ManyToOne(() => User, {
     onDelete: 'CASCADE'
