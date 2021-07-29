@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { TokenExpiredError } from 'jsonwebtoken';
+import InvalidDataError from '../errors/invalid-data.error';
 import InvalidTokenError from '../errors/invalid-token.error';
 import ServerError from '../errors/server.error';
 
@@ -19,6 +20,10 @@ const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFu
 
       case TokenExpiredError:
         responseError(res, 410, error.message);
+        break;
+
+      case InvalidDataError:
+        responseError(res, 400, error.message);
         break;
 
       case ServerError:
