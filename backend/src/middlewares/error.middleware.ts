@@ -29,11 +29,11 @@ const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFu
         break;
 
       case DuplicateCategoryError:
-        responseError(res, 500, error.message);
+        responseError(res, 409, error.message);
         break;
 
       case NotFoundCategoryError:
-        responseError(res, 500, error.message);
+        responseError(res, 404, error.message);
         break;
 
       case ServerError:
