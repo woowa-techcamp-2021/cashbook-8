@@ -1,5 +1,5 @@
 import BaseError from './base.error';
 
-class CashHistoryNotfound extends BaseError { }
+class CashHistoryNotfoundError extends BaseError { }
 
-export default CashHistoryNotfound;
+export default CashHistoryNotfoundError;
