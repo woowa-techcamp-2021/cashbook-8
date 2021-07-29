@@ -6,7 +6,11 @@ class UserController {
 
     res.status(200).json({
       message: '본인 프로필 조회에 성공했습니다',
-      user
+      user: {
+        id: user.id,
+        name: user.name,
+        avatarURL: user.avatarURL
+      }
     });
   }
 }
