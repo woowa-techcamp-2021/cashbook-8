@@ -12,16 +12,16 @@ class Category {
   @Column()
   color!: string;
 
-  @JoinColumn({
-    name: 'user_id'
-  })
   @ManyToOne(() => User, {
     onDelete: 'CASCADE'
+  })
+  @JoinColumn({
+    name: 'user_id'
   })
   user!: User;
 
   @RelationId((category: Category) => category.user)
-  userId!: string;
+  userId!: number;
 }
 
 export default Category;
