@@ -5,7 +5,6 @@ import DuplicateCategoryNameError from '../errors/duplicate-category-name.error'
 import NotFoundCategoryIdError from '../errors/notfound-category-id.error';
 import ServerError from '../errors/server.error';
 import CategoryRepository from '../repositories/category.repository';
-import CategoryCreateRequest from '../request/category.request/category-create.request';
 import Builder from '../utils/builder';
 
 class CategoryService {
@@ -18,10 +17,10 @@ class CategoryService {
     }
   }
 
-  async createCategory (name: string, color: string, user: User): Promise<void> {
-    const category = Builder<CategoryCreateRequest>()
-      .name(name)
-      .color(color)
+  async createCategory (category: Category, user: User): Promise<void> {
+    const newCategory = Builder<Category>()
+      .name(category.name)
+      .color(category.color)
       .user(user)
       .build();
 
@@ -32,7 +31,7 @@ class CategoryService {
         console.log('나를 지난다');
         throw new DuplicateCategoryNameError('해당 카테고리가 이미 존재합니다');
       }
-      await getCustomRepository(CategoryRepository).insert(category);
+      await getCustomRepository(CategoryRepository).insert(newCategory);
     } catch (error) {
       throw new ServerError('카테고리 추가를 실패했습니다');
     }

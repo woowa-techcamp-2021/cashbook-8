@@ -7,7 +7,7 @@ class CategoryController {
   async findCategories (req: Request, res: Response) {
     const { user } = req;
 
-    const categories = await categoryService.findCategories(user.id);
+    const categories = await categoryService.findCategories(user);
 
     res.status(200).json({
       message: '카테고리 조회에 성공했습니다',
@@ -17,11 +17,12 @@ class CategoryController {
 
   async createCategory (req: Request, res: Response) {
     const { user } = req;
-    const { name, color } = req.body;
-    const categoryCreateRequest = new CategoryCreateRequest(name, color, user);
+
+    const category = req.body;
+    const categoryCreateRequest = new CategoryCreateRequest(category);
     await categoryCreateRequest.validate();
 
-    await categoryService.createCategory(name, color, user);
+    await categoryService.createCategory(category, user);
 
     res.status(200).json({
       message: '카테고리가 생성되었습니다'

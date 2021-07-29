@@ -1,4 +1,3 @@
-import User from '../../entities/user';
 import BaseRequest from '../base.request';
 
 class CategoryCreateRequest extends BaseRequest {
@@ -7,13 +6,10 @@ class CategoryCreateRequest extends BaseRequest {
 
   color: string;
 
-  user: User;
-
-  constructor (name: string, color: string, user: User) {
+  constructor (categoryCreateReqeust: CategoryCreateRequest) {
     super();
-    this.name = name;
-    this.color = color;
-    this.user = user;
+    this.name = categoryCreateReqeust.name;
+    this.color = categoryCreateReqeust.color;
   }
 }
 export default CategoryCreateRequest;
