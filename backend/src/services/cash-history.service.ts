@@ -1,9 +1,49 @@
 import { getCustomRepository } from 'typeorm';
 import CashHistory from '../entities/cash-history';
+import Category from '../entities/category';
+import Payment from '../entities/payment';
 import User from '../entities/user';
+import CashHistoryNotfoundError from '../errors/cash-history-notfound.error';
+import NotMyCashHistoryError from '../errors/not-my-cash-history.error';
 import CashHistoryRepository from '../repositories/cash-history.repository';
+import CashHistoryCreateRequest from '../request/cash-history/cash-history-create.request';
+import CashHistoryUpdateRequest from '../request/cash-history/cash-history-update.request';
+import Builder from '../utils/builder';
+import { getDaysInMonth } from '../utils/date';
+
+type GroupedCashHistory = {
+  year: number,
+  month: number,
+  date: number,
+  day: number,
+  cashHistories: CashHistory[],
+}
 
 class CashHistoryService {
+  groupCashHistories (year: number, month: number, cashHistories: CashHistory[]) {
+    const daysInMonth = getDaysInMonth(year, month);
+    const groupedCashHistories: GroupedCashHistory[] = [];
+    for (let i = 0; i < daysInMonth; i += 1) {
+      const date = i + 1;
+      const day = new Date(year, month, date).getDay();
+
+      groupedCashHistories.push({
+        year,
+        month,
+        date,
+        day,
+        cashHistories: []
+      });
+    }
+
+    cashHistories.forEach((cashHistory) => {
+      const date = cashHistory.createdAt.getDate();
+      groupedCashHistories[date].cashHistories.push(cashHistory);
+    });
+
+    return groupedCashHistories;
+  }
+
   async findCashHistories (user: User): Promise<CashHistory[]> {
     const { id } = user;
     const cashHistories = await getCustomRepository(CashHistoryRepository)
@@ -18,6 +58,77 @@ class CashHistoryService {
       .findByUserIdAndDate(id, year, month);
 
     return cashHistories;
+  }
+
+  async createCashHistory (user: User, cashHistoryCreateRequest: CashHistoryCreateRequest) {
+    const { id } = user;
+    const { price, type, categoryId, paymentId } = cashHistoryCreateRequest;
+    const category = new Category();// get category
+    const payment = new Payment();// get payment
+
+    if (category === undefined || category.userId !== id) {
+      // throw NotFound
+    }
+
+    if (payment === undefined || payment.userId !== id) {
+      // throw NotFound
+    }
+
+    const cashHistory = Builder<CashHistory>()
+      .price(price)
+      .type(type)
+      .category(category)
+      .payment(payment)
+      .user(user)
+      .build();
+
+    await getCustomRepository(CashHistoryRepository).insert(cashHistory);
+  }
+
+  async updateCashHistory (user: User, cashHistoryId: number, cashHistoryUpdateRequest: CashHistoryUpdateRequest) {
+    const { id } = user;
+    const { price, type, categoryId, paymentId } = cashHistoryUpdateRequest;
+    const category = new Category();// get category
+    const payment = new Payment();// get payment
+
+    const cashHistory = await getCustomRepository(CashHistoryRepository).findOne(cashHistoryId);
+    if (cashHistory === undefined) {
+      throw new CashHistoryNotfoundError('가계 내역이 존재하지 않습니다');
+    }
+
+    if (cashHistory.userId !== id) {
+      throw new NotMyCashHistoryError('본인의 가계내역만 수정할 수 있습니다');
+    }
+
+    if (category === undefined || category.userId !== id) {
+      // throw NotFound
+    }
+
+    if (payment === undefined || payment.userId !== id) {
+      // throw NotFound
+    }
+
+    const updateCashHistory = Builder<CashHistory>()
+      .price(price)
+      .type(type)
+      .category(category)
+      .payment(payment)
+      .build();
+
+    await getCustomRepository(CashHistoryRepository).update(cashHistoryId, updateCashHistory);
+  }
+
+  async deleteCashHistory (user: User, id: number): Promise<void> {
+    const cashHistory = await getCustomRepository(CashHistoryRepository).findOne(id);
+    if (cashHistory === undefined) {
+      throw new CashHistoryNotfoundError('가계 내역이 없습니다');
+    }
+
+    if (cashHistory.userId !== user.id) {
+      throw new NotMyCashHistoryError('본인의 가계만 삭제할 수 있습니다');
+    }
+
+    await getCustomRepository(CashHistoryRepository).delete(cashHistory);
   }
 }
 
