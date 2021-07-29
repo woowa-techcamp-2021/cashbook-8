@@ -3,6 +3,8 @@ import { TokenExpiredError } from 'jsonwebtoken';
 import DuplicateCategoryError from '../errors/duplicate-category.error';
 import InvalidDataError from '../errors/invalid-data.error';
 import InvalidTokenError from '../errors/invalid-token.error';
+import NotMyCashHistoryError from '../errors/not-my-cash-history.error';
+import NotfoundCashHistoryError from '../errors/notfound-cash-history.error';
 import NotfoundCategoryError from '../errors/notfound-category.error';
 import ServerError from '../errors/server.error';
 
@@ -30,6 +32,14 @@ const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFu
 
       case DuplicateCategoryError:
         responseError(res, 409, error.message);
+        break;
+
+      case NotMyCashHistoryError:
+        responseError(res, 403, error.message);
+        break;
+
+      case NotfoundCashHistoryError:
+        responseError(res, 404, error.message);
         break;
 
       case NotfoundCategoryError:

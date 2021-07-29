@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, RelationId } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 import { CashHistories } from '../enums/cash-history.enum';
 import Category from './category';
 import Payment from './payment';
@@ -6,7 +6,7 @@ import User from './user';
 
 @Entity('cash_history')
 class CashHistory {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
