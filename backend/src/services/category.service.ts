@@ -2,7 +2,7 @@ import { getCustomRepository } from 'typeorm';
 import Category from '../entities/category';
 import User from '../entities/user';
 import DuplicateCategoryError from '../errors/duplicate-category.error';
-import NotFoundCategoryError from '../errors/notfound-category.error';
+import NotfoundCategoryError from '../errors/notfound-category.error';
 import CategoryRepository from '../repositories/category.repository';
 import Builder from '../utils/builder';
 
@@ -29,7 +29,7 @@ class CategoryService {
   async deleteCategory (id: number): Promise<void> {
     const category = await getCustomRepository(CategoryRepository).findOne(id);
     if (category === undefined) {
-      throw new NotFoundCategoryError('존재하지 않는 카테고리입니다');
+      throw new NotfoundCategoryError('존재하지 않는 카테고리입니다');
     }
     await getCustomRepository(CategoryRepository).delete(id);
   }
