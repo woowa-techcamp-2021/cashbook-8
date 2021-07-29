@@ -14,6 +14,7 @@ class User {
   avatarURL!: string;
 
   @Column({
+    select: false,
     name: 'access_token'
   })
   accessToken!: string;

@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
+import User from '../entities/user';
 import ExpiredTokenError from '../errors/expired-token.error';
 import InvalidTokenError from '../errors/invalid-token.error';
 import jwtService from '../services/jwt.service';
+import Builder from '../utils/builder';
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
@@ -13,7 +15,13 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const token = authorization.replace('Bearer ', '');
   try {
     const user = jwtService.verify(token);
-    req.user = user;
+    req.user = Builder<User>()
+      .id(user.id)
+      .name(user.name)
+      .accessToken(user.accessToken)
+      .avatarURL(user.avatarURL)
+      .build();
+
     next();
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
