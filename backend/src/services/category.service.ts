@@ -25,10 +25,8 @@ class CategoryService {
       .build();
 
     try {
-      const item = await getCustomRepository(CategoryRepository).findByName(category.name);
-      console.log(item);
-      if (item !== undefined) {
-        console.log('나를 지난다');
+      const category = await getCustomRepository(CategoryRepository).findByName(newCategory.name);
+      if (category !== undefined) {
         throw new DuplicateCategoryError('해당 카테고리가 이미 존재합니다');
       }
       await getCustomRepository(CategoryRepository).insert(newCategory);

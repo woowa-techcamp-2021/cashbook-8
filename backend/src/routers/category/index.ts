@@ -6,7 +6,7 @@ import authMiddleware from '../../middlewares/auth.middleware';
 const categoryRouter = Router();
 
 categoryRouter.get('/all', authMiddleware, wrapAsync(categoryController.findCategories));
-categoryRouter.post('', authMiddleware, wrapAsync(categoryController.createCategory));
+categoryRouter.post('/', authMiddleware, wrapAsync(categoryController.createCategory));
 categoryRouter.delete('/:id', authMiddleware, wrapAsync(categoryController.deleteCategory));
 
 export default categoryRouter;
