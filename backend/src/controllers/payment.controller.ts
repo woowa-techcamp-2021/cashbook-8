@@ -31,13 +31,14 @@ class PaymentController {
   }
 
   async deletePayment (req: Request, res: Response) {
+    const { user } = req;
     const { id } = req.params;
 
     if (!isNumberString(id)) {
       throw new InvalidDataError('결제수단 아이디 타입이 올바르지 않습니다');
     }
 
-    await paymentService.deletePayment(Number(id));
+    await paymentService.deletePayment(Number(id), user);
 
     res.status(200).json({
       message: `${id}번 결제수단이 삭제되었습니다`
