@@ -1,8 +1,8 @@
 import { getCustomRepository } from 'typeorm';
 import Category from '../entities/category';
 import User from '../entities/user';
-import DuplicateCategoryNameError from '../errors/duplicate-category-name.error';
-import NotFoundCategoryIdError from '../errors/notfound-category-id.error';
+import DuplicateCategoryError from '../errors/duplicate-category.error';
+import NotFoundCategoryError from '../errors/notfound-category.error';
 import ServerError from '../errors/server.error';
 import CategoryRepository from '../repositories/category.repository';
 import Builder from '../utils/builder';
@@ -29,7 +29,7 @@ class CategoryService {
       console.log(item);
       if (item !== undefined) {
         console.log('나를 지난다');
-        throw new DuplicateCategoryNameError('해당 카테고리가 이미 존재합니다');
+        throw new DuplicateCategoryError('해당 카테고리가 이미 존재합니다');
       }
       await getCustomRepository(CategoryRepository).insert(newCategory);
     } catch (error) {
@@ -42,7 +42,7 @@ class CategoryService {
       const category = await getCustomRepository(CategoryRepository).findOne(id);
       console.log(category);
       if (category === undefined) {
-        throw new NotFoundCategoryIdError('존재하지 않는 카테고리입니다');
+        throw new NotFoundCategoryError('존재하지 않는 카테고리입니다');
       }
       await getCustomRepository(CategoryRepository).delete(id);
     } catch (error) {

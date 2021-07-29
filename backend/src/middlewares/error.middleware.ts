@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { TokenExpiredError } from 'jsonwebtoken';
-import DuplicateCategoryNameError from '../errors/duplicate-category-name.error';
+import DuplicateCategoryError from '../errors/duplicate-category.error';
 import InvalidDataError from '../errors/invalid-data.error';
 import InvalidTokenError from '../errors/invalid-token.error';
-import NotFoundCategoryIdError from '../errors/notfound-category-id.error';
+import NotFoundCategoryError from '../errors/notfound-category.error';
 import ServerError from '../errors/server.error';
 
 const responseError = (res: Response, status: number, message: string) => {
@@ -28,11 +28,11 @@ const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFu
         responseError(res, 400, error.message);
         break;
 
-      case DuplicateCategoryNameError:
+      case DuplicateCategoryError:
         responseError(res, 500, error.message);
         break;
 
-      case NotFoundCategoryIdError:
+      case NotFoundCategoryError:
         responseError(res, 500, error.message);
         break;
 
