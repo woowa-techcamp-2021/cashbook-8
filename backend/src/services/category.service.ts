@@ -24,28 +24,19 @@ class CategoryService {
       .user(user)
       .build();
 
-    try {
-      const category = await getCustomRepository(CategoryRepository).findByName(newCategory.name);
-      if (category !== undefined) {
-        throw new DuplicateCategoryError('해당 카테고리가 이미 존재합니다');
-      }
-      await getCustomRepository(CategoryRepository).insert(newCategory);
-    } catch (error) {
-      throw new ServerError('카테고리 추가를 실패했습니다');
+    const duplicatedCategory = await getCustomRepository(CategoryRepository).findByName(newCategory.name);
+    if (duplicatedCategory !== undefined) {
+      throw new DuplicateCategoryError('해당 카테고리가 이미 존재합니다');
     }
+    await getCustomRepository(CategoryRepository).insert(newCategory);
   }
 
   async deleteCategory (id: number): Promise<void> {
-    try {
-      const category = await getCustomRepository(CategoryRepository).findOne(id);
-      console.log(category);
-      if (category === undefined) {
-        throw new NotFoundCategoryError('존재하지 않는 카테고리입니다');
-      }
-      await getCustomRepository(CategoryRepository).delete(id);
-    } catch (error) {
-      throw new ServerError('카테고리 삭제를 실패했습니다');
+    const category = await getCustomRepository(CategoryRepository).findOne(id);
+    if (category === undefined) {
+      throw new NotFoundCategoryError('존재하지 않는 카테고리입니다');
     }
+    await getCustomRepository(CategoryRepository).delete(id);
   }
 }
 
