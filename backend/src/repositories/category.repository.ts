@@ -3,7 +3,7 @@ import Category from '../entities/category';
 
 @EntityRepository(Category)
 class CategoryRepository extends Repository<Category> {
-  findAllByUserId (userId: number): Promise<Category[] | undefined> {
+  findAllByUserId (userId: number): Promise<Category[]> {
     return createQueryBuilder(Category)
       .where('user_id = :userId', { userId })
       .getMany();

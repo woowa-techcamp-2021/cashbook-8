@@ -8,7 +8,7 @@ import CategoryRepository from '../repositories/category.repository';
 import Builder from '../utils/builder';
 
 class CategoryService {
-  async findCategories (user: User): Promise<Category[] | undefined> {
+  async findCategories (user: User): Promise<Category[]> {
     try {
       const categories = await getCustomRepository(CategoryRepository).findAllByUserId(user.id);
       return categories;
