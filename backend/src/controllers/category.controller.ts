@@ -31,13 +31,14 @@ class CategoryController {
   }
 
   async deleteCategory (req: Request, res: Response) {
+    const { user } = req;
     const { id } = req.params;
 
     if (!isNumberString(id)) {
       throw new InvalidDataError('카테고리 아이디 타입이 올바르지 않습니다');
     }
 
-    await categoryService.deleteCategory(Number(id));
+    await categoryService.deleteCategory(Number(id), user);
 
     res.status(200).json({
       message: `${id}번 카테고리가 삭제되었습니다`

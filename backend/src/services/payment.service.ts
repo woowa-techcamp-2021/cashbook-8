@@ -25,11 +25,17 @@ class PaymentService {
     await getCustomRepository(PaymentRepository).insert(newPayment);
   }
 
-  async deletePayment (id: number): Promise<void> {
+  async deletePayment (id: number, user: User): Promise<void> {
     const payment = await getCustomRepository(PaymentRepository).findOne(id);
+
     if (payment === undefined) {
       throw new NotfoundPaymentError('존재하지 않는 결제수단입니다');
     }
+
+    if (payment.userId !== user.id) {
+      throw new Error('삭제 권한이 없습니다');
+    }
+
     await getCustomRepository(PaymentRepository).delete(id);
   }
 }
