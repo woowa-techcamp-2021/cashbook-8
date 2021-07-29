@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import categoryService from '../services/category.service';
 import CategoryCreateRequest from '../request/category.request/category-create.request';
-import CategoryDeleteRequest from '../request/category.request/category-delete.request';
+import { isNumber, isNumberString } from 'class-validator';
+import InvalidDataError from '../errors/invalid-data.error';
 
 class CategoryController {
   async findCategories (req: Request, res: Response) {
@@ -31,9 +32,11 @@ class CategoryController {
 
   async deleteCategory (req: Request, res: Response) {
     const { id } = req.params;
-    console.log(req.params);
-    const categoryDeleteRequest = new CategoryDeleteRequest(Number(id));
-    await categoryDeleteRequest.validate();
+
+    // isNumber 할 것 없이 params는 언제나 string인가?
+    if (!isNumber(id) && !isNumberString(id)) {
+      throw new InvalidDataError('카테고리 아이디 타입이 올바르지 않습니다');
+    }
 
     await categoryService.deleteCategory(Number(id));
 
