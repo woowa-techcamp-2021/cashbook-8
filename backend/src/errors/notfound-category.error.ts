@@ -1,5 +1,5 @@
 import BaseError from './base.error';
 
-class NotFoundCategoryError extends BaseError { }
+class NotfoundCategoryError extends BaseError { }
 
-export default NotFoundCategoryError;
+export default NotfoundCategoryError;
