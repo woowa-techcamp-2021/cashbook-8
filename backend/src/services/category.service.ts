@@ -3,18 +3,13 @@ import Category from '../entities/category';
 import User from '../entities/user';
 import DuplicateCategoryError from '../errors/duplicate-category.error';
 import NotFoundCategoryError from '../errors/notfound-category.error';
-import ServerError from '../errors/server.error';
 import CategoryRepository from '../repositories/category.repository';
 import Builder from '../utils/builder';
 
 class CategoryService {
   async findCategories (user: User): Promise<Category[]> {
-    try {
-      const categories = await getCustomRepository(CategoryRepository).findAllByUserId(user.id);
-      return categories;
-    } catch (error) {
-      throw new ServerError('카테고리를 불러오지 못했습니다');
-    }
+    const categories = await getCustomRepository(CategoryRepository).findAllByUserId(user.id);
+    return categories;
   }
 
   async createCategory (category: Category, user: User): Promise<void> {

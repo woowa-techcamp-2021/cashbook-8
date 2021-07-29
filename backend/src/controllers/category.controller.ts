@@ -33,8 +33,7 @@ class CategoryController {
   async deleteCategory (req: Request, res: Response) {
     const { id } = req.params;
 
-    // isNumber 할 것 없이 params는 언제나 string인가?
-    if (!isNumber(id) && !isNumberString(id)) {
+    if (!isNumberString(id)) {
       throw new InvalidDataError('카테고리 아이디 타입이 올바르지 않습니다');
     }
 
