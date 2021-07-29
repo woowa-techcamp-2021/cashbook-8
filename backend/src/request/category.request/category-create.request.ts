@@ -1,9 +1,11 @@
+import { IsNotEmpty, Length } from 'class-validator';
 import BaseRequest from '../base.request';
 
 class CategoryCreateRequest extends BaseRequest {
-  // TODO: validation 설정하기.. 뭐해야할지 몰라서 비워둠
+  @IsNotEmpty()
   name: string;
 
+  @Length(1, 50)
   color: string;
 
   constructor (categoryCreateReqeust: CategoryCreateRequest) {
