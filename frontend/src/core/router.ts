@@ -15,6 +15,7 @@ class Router {
     this.routes = {
       [ROUTER_PATH.NOT_FOUND]: new HeaderView($root)
     };
+    this.onStateChange();
   }
 
   listen (): void {
