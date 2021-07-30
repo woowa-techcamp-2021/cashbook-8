@@ -16,7 +16,7 @@ const responseError = (res: Response, status: number, message: string) => {
   });
 };
 
-const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction) => {
+const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction): void => {
   console.log(error);
   if (error) {
     switch (error.constructor) {

@@ -7,6 +7,7 @@ type BuilderType<T> = {
 const Builder = <T>(): BuilderType<T> => {
   const data: T = {} as T;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const builder: any = new Proxy(
     {},
     {
@@ -15,7 +16,7 @@ const Builder = <T>(): BuilderType<T> => {
           return () => data;
         }
 
-        return (value: any) => {
+        return (value: T[keyof T]) => {
           data[property as keyof T] = value;
 
           return builder;
