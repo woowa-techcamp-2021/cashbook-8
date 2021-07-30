@@ -23,6 +23,9 @@ class HeaderView extends View {
     this.$target.innerHTML = `
       <header>
         ${this.headerViewModel.formatTime}
+        <div>
+          ${this.headerViewModel.cashHistories}
+        </div>
       </header>
     `;
 
