@@ -6,7 +6,7 @@ import InvalidTokenError from '../errors/invalid-token.error';
 import jwtService from '../services/jwt.service';
 import Builder from '../utils/builder';
 
-const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   const { authorization } = req.headers;
   if (authorization === null || authorization === undefined) {
     throw new InvalidTokenError('토큰이 존재하지 않습니다');
