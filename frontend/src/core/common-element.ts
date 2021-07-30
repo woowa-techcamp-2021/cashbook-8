@@ -5,7 +5,9 @@ abstract class CommonElement {
     this.$target = $target;
   }
 
-  protected mount () {};
+  protected mount (): void {
+    // mount시 실행될 내용
+  }
 
   abstract build (): void;
 

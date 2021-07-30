@@ -17,7 +17,7 @@ class Router {
     };
   }
 
-  listen () {
+  listen (): void {
     window.addEventListener('popstate', this.onStateChange.bind(this));
   }
 
@@ -31,11 +31,11 @@ class Router {
     this.routes[path].build();
   }
 
-  push (path: string) {
+  push (path: string): void {
     // todo: 필요 시 state 추가
     history.pushState({}, '', path);
     this.onStateChange();
   }
-};
+}
 
 export default Router;

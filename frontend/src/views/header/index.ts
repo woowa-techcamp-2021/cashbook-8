@@ -11,9 +11,7 @@ class HeaderView extends View {
     this.headerViewModel = new HeaderViewModel(this);
   }
 
-  protected addListener () { }
-
-  protected mount () {
+  protected mount (): void {
     const $header = $('header');
     if ($header !== null) {
       const $button = new ButtonUIElement($header, this.headerViewModel.onNextMonthClicked.bind(this.headerViewModel));
@@ -21,7 +19,7 @@ class HeaderView extends View {
     }
   }
 
-  protected render () {
+  protected render (): void {
     this.$target.innerHTML = `
       <header>
         ${this.headerViewModel.formatTime}
@@ -29,7 +27,7 @@ class HeaderView extends View {
     `;
 
     this.addListener();
-  };
+  }
 }
 
 export default HeaderView;

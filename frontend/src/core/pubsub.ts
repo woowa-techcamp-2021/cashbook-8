@@ -1,7 +1,9 @@
-class PubSub {
-  private actions: { [key: string]: Function[] } = { };
+type CallbackFunctions = () => void;
 
-  subscribe (action: string, callback: Function) {
+class PubSub {
+  private actions: { [key: string]: CallbackFunctions[] } = { };
+
+  subscribe (action: string, callback: CallbackFunctions) {
     if (!(action in this.actions)) {
       this.actions[action] = [];
     }

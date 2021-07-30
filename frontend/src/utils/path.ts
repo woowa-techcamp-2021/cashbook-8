@@ -1,1 +1,1 @@
-export const parsePath = (pathname: string) => pathname.replace('/', '');
+export const parsePath = (pathname: string): string => pathname.replace('/', '');

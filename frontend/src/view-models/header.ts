@@ -13,24 +13,23 @@ class HeaderViewModel extends ViewModel {
     this.focusDateModel = models.focusDate;
   }
 
-  protected subscribe () {
+  protected subscribe (): void {
     pubsub.subscribe(actions.ON_FOCUS_DATE_CHANGE, () => {
       this.view.build();
     });
   }
 
-  get formatTime () {
+  get formatTime (): string {
     const time = this.focusDateModel.focusDate;
 
     return time.toString();
   }
 
-  onNextMonthClicked () {
-    console.log(this);
+  onNextMonthClicked (): void {
     this.focusDateModel.focusDate = new Date(2021, 9, 27);
   }
 
-  onPreviousMonthClicked () {
+  onPreviousMonthClicked (): void {
     this.focusDateModel.focusDate = new Date(2021, 7, 27);
   }
 }
