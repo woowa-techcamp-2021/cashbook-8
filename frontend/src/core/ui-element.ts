@@ -1,7 +1,10 @@
 import CommonElement from './common-element';
 
 abstract class UIElement extends CommonElement {
-  protected addListener () {}
+  protected addListener (): void {
+    // listen 할 DOM 이벤트 등록
+  }
+
   protected $element: HTMLElement;
 
   constructor ($target: HTMLElement) {
@@ -10,7 +13,7 @@ abstract class UIElement extends CommonElement {
     this.$target.appendChild(this.$element);
   }
 
-  build () {
+  build (): void {
     this.render();
     this.mount();
     this.addListener();

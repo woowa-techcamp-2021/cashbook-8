@@ -1,7 +1,7 @@
 import CommonElement from './common-element';
 
 abstract class Page extends CommonElement {
-  build () {
+  build (): void {
     this.render();
   }
 }

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import pubsub from './pubsub';
 
 export type ProxyModelDataForm<T> = {
@@ -25,7 +27,7 @@ class ProxyModel<T extends object> {
     });
   }
 
-  getProxy () {
+  getProxy (): any {
     return this.proxy;
   }
 }
