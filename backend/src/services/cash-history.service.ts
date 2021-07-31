@@ -12,6 +12,7 @@ import CashHistoryCreateRequest from '../request/cash-history/cash-history-creat
 import CashHistoryUpdateRequest from '../request/cash-history/cash-history-update.request';
 import Builder from '../utils/builder';
 import { getDaysInMonth } from '../utils/date';
+import { CashHistories } from '../enums/cash-history.enum';
 
 type GroupedCashHistory = {
   year: number,
@@ -19,6 +20,8 @@ type GroupedCashHistory = {
   date: number,
   day: number,
   cashHistories: CashHistory[],
+  income: number;
+  expenditure: number;
 }
 
 class CashHistoryService {
@@ -34,16 +37,31 @@ class CashHistoryService {
         month,
         date,
         day,
-        cashHistories: []
+        cashHistories: [],
+        income: 0,
+        expenditure: 0
       });
     }
 
+    let totalIncome = 0;
+    let totalExpenditure = 0;
     cashHistories.forEach((cashHistory) => {
       const date = cashHistory.createdAt.getDate();
       groupedCashHistories[date].cashHistories.push(cashHistory);
+      if (cashHistory.type === CashHistories.Income) {
+        totalIncome += cashHistory.price;
+        groupedCashHistories[date].income += cashHistory.price;
+      } else {
+        totalExpenditure += cashHistory.price;
+        groupedCashHistories[date].expenditure += cashHistory.price;
+      }
     });
 
-    return groupedCashHistories;
+    return {
+      totalIncome,
+      totalExpenditure,
+      groupedCashHistories
+    };
   }
 
   async findCashHistories (user: User): Promise<CashHistory[]> {
