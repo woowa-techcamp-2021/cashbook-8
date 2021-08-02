@@ -43,6 +43,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
-    new webpack.EnvironmentPlugin([]),
+    new webpack.EnvironmentPlugin([
+      'API_URL',
+      'GITHUB_CLIENT_ID',
+      'GITHUB_REDIRECT_URI'
+    ]),
   ],
 }
