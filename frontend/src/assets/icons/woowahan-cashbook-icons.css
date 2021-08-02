@@ -1,0 +1,28 @@
+@font-face {
+  font-family: "woowahan-cashbook-icons";
+  src: url("./fonts/woowahan-cashbook-icons.woff2?d874bca4e155e033b66463417dc75e82") format("woff2"),
+url("./fonts/woowahan-cashbook-icons.woff?d874bca4e155e033b66463417dc75e82") format("woff");
+}
+
+[class^="wci-"]::before,
+[class*=" wci-"]::before {
+  display: inline-block;
+  font-family: woowahan-cashbook-icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wci-calendar::before { content: "\f101"; }
+.wci-chart::before { content: "\f102"; }
+.wci-check::before { content: "\f103"; }
+.wci-chevron-down::before { content: "\f104"; }
+.wci-chevron-left::before { content: "\f105"; }
+.wci-chevron-right::before { content: "\f106"; }
+.wci-close::before { content: "\f107"; }
+.wci-file-text::before { content: "\f108"; }

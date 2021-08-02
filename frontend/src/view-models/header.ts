@@ -4,18 +4,13 @@ import View from '../core/view';
 import ViewModel from '../core/view-model';
 import models from '../models';
 import { FocusDateData } from '../models/focus-date';
-import cashHistoryAPI from '../api/cash-history';
-import { CashHistoriesData } from '../models/cash-histories';
 
 class HeaderViewModel extends ViewModel {
   private focusDateModel: FocusDateData;
-  private cashHistoriesModel: CashHistoriesData;
 
   constructor (view: View) {
     super(view);
     this.focusDateModel = models.focusDate;
-    this.cashHistoriesModel = models.cashHistories;
-    this.fetchCashHistories();
   }
 
   protected subscribe (): void {
@@ -28,30 +23,22 @@ class HeaderViewModel extends ViewModel {
     });
   }
 
-  async fetchCashHistories (): Promise<void> {
-    const date = this.focusDateModel.focusDate;
-    setTimeout(async () => {
-      const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth());
-      this.cashHistoriesModel.cashHistories = histories;
-    }, 3000);
+  get focusedMonth (): number {
+    return this.focusDateModel.focusDate.getMonth() + 1;
   }
 
-  get formatTime (): string {
-    const time = this.focusDateModel.focusDate;
-
-    return time.toString();
-  }
-
-  get cashHistories (): string | undefined {
-    return this.cashHistoriesModel.cashHistories?.message;
+  get focusedYear (): number {
+    return this.focusDateModel.focusDate.getFullYear();
   }
 
   onNextMonthClicked (): void {
-    this.focusDateModel.focusDate = new Date(2021, 9, 27);
+    const { focusDate } = this.focusDateModel;
+    this.focusDateModel.focusDate = new Date(focusDate.setMonth(focusDate.getMonth() + 1));
   }
 
   onPreviousMonthClicked (): void {
-    this.focusDateModel.focusDate = new Date(2021, 7, 27);
+    const { focusDate } = this.focusDateModel;
+    this.focusDateModel.focusDate = new Date(focusDate.setMonth(focusDate.getMonth() - 1));
   }
 }
 
