@@ -6,8 +6,9 @@
   border: 1px solid var(--line);
 }
 
-.calendar-cell {
-  background-color: var(--line);
+.calendar-cell--today .calendar-cell__date {
+  background-color: var(--primary1);
+  color: var(--off-white);
 }
 
 .calendar-cell__container {
@@ -51,11 +52,20 @@
   color: var(--title-active);
 }
 
-.calendar-cell__date {
+.calendar-cell__date-wrapper {
   width: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
   color: var(--label);
   font-size: var(--bold-medium);
+}
+
+.calendar-cell__date {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }

@@ -70,6 +70,9 @@ class CalendarUIElement extends UIElement {
     });
 
     if (cellCount % 7 !== 0) {
+      for (let i = 0; i < 7 - cellCount % 7; i += 1) {
+        new CalendarCellUIElement($tr).build();
+      }
       this.appendRow($tr);
     }
   }

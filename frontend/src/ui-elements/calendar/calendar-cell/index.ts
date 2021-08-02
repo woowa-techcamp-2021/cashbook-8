@@ -20,7 +20,7 @@ class CalendarCellUIElement extends UIElement {
   }
 
   protected render (): void {
-    if (this.cashHistoriesInDay === undefined || this.cashHistoriesInDay.cashHistories.length <= 0) {
+    if (this.cashHistoriesInDay === undefined) {
       this.$element.innerHTML = `
         <div class="calendar-cell__container"></div>
       `;
@@ -28,6 +28,18 @@ class CalendarCellUIElement extends UIElement {
     }
 
     const { date, income, expenditure } = this.cashHistoriesInDay;
+    if (this.cashHistoriesInDay.cashHistories.length <= 0) {
+      this.$element.innerHTML = `
+        <div class="calendar-cell__container">
+          <div class="calendar-cell__price-wrapper"></div>
+          <div class="calendar-cell__date-wrapper">
+            <span class="calendar-cell__date">${date}</span>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
     this.$element.innerHTML = `
       <div class="calendar-cell__container">
         <div class="calendar-cell__price-wrapper">
@@ -36,7 +48,9 @@ class CalendarCellUIElement extends UIElement {
           <span class="calendar-cell__price calendar-cell__price--total">${expenditure - income}</span>
         </div>
 
-        <div class="calendar-cell__date">${date}</div>
+        <div class="calendar-cell__date-wrapper">
+          <span class="calendar-cell__date">${date}</span>
+        </div>
       </div>
     `;
   }
@@ -51,7 +65,7 @@ class CalendarCellUIElement extends UIElement {
     }
 
     const { year, month, date } = this.cashHistoriesInDay;
-    if (isSameDate(new Date(year, month, date), new Date())) {
+    if (isSameDate(new Date(year, month - 1, date), new Date())) {
       this.makeTodayCell();
     }
   }
