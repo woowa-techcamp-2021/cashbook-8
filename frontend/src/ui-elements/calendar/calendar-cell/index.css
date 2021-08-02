@@ -6,6 +6,10 @@
   border: 1px solid var(--line);
 }
 
+.calendar-cell {
+  background-color: var(--line);
+}
+
 .calendar-cell__container {
   position: absolute;
   display: flex;

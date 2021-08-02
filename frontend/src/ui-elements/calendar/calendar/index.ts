@@ -54,6 +54,7 @@ class CalendarUIElement extends UIElement {
 
     let $tr = document.createElement('tr');
 
+    // 비워있는 cell로 1일전까지 채움
     for (let i = 0; i < firstDayInMonth; i += 1) {
       new CalendarCellUIElement($tr).build();
     }

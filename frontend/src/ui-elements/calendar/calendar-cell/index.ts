@@ -1,5 +1,6 @@
 import UIElement from '../../../core/ui-element';
 import { CashHistoriesInDay } from '../../../types/cash-history';
+import { isSameDate } from '../../../utils/date';
 
 import './index.css';
 
@@ -12,6 +13,10 @@ class CalendarCellUIElement extends UIElement {
       className: 'calendar-cell'
     });
     this.cashHistoriesInDay = cashHistoriesInDay;
+  }
+
+  private makeTodayCell () {
+    this.$element.classList.add('calendar-cell--today');
   }
 
   protected render (): void {
@@ -41,7 +46,14 @@ class CalendarCellUIElement extends UIElement {
   }
 
   protected mount (): void {
-    // no mount
+    if (this.cashHistoriesInDay === undefined) {
+      return;
+    }
+
+    const { year, month, date } = this.cashHistoriesInDay;
+    if (isSameDate(new Date(year, month, date), new Date())) {
+      this.makeTodayCell();
+    }
   }
 }
 
