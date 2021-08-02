@@ -1,5 +1,5 @@
-import UIElement from '../../core/ui-element';
-import { CashHistoriesInDay } from '../../types/cash-history';
+import UIElement from '../../../core/ui-element';
+import { CashHistoriesInDay } from '../../../types/cash-history';
 
 import './index.css';
 
