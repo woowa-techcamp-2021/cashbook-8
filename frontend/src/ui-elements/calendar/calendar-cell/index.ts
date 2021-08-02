@@ -4,14 +4,22 @@ import { CashHistoriesInDay } from '../../../types/cash-history';
 import './index.css';
 
 class CalendarCellUIElement extends UIElement {
-  private cashHistoriesInDay: CashHistoriesInDay;
+  private cashHistoriesInDay: CashHistoriesInDay | undefined;
 
-  constructor ($target: HTMLElement, cashHistoriesInDay: CashHistoriesInDay) {
+  constructor ($target: HTMLElement, cashHistoriesInDay?: CashHistoriesInDay) {
     super($target);
     this.cashHistoriesInDay = cashHistoriesInDay;
   }
 
   protected render (): void {
+    if (this.cashHistoriesInDay === undefined) {
+      this.$element.innerHTML = `
+        <td class="calendar-cell">
+        </td>
+      `;
+      return;
+    }
+
     const { date, income, expenditure } = this.cashHistoriesInDay;
     this.$element.innerHTML = `
       <td class="calendar-cell">
