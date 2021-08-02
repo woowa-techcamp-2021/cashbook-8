@@ -8,6 +8,7 @@ class JwtService {
     const token = jwt.sign({ ...user }, dotenv.JWT_SECRET, {
       expiresIn: dotenv.JWT_EXPIRES_IN
     });
+    console.log(token);
     return token;
   }
 

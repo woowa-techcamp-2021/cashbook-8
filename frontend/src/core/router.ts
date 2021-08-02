@@ -1,11 +1,13 @@
 import LoginPage from '../pages/login';
+import MainPage from '../pages/main';
 import NotfoundPage from '../pages/notfound';
 import { parsePath } from '../utils/path';
 import Page from './page';
 
 const ROUTER_PATH = {
   LOGIN: 'login',
-  NOT_FOUND: 'notfound'
+  NOT_FOUND: 'notfound',
+  MAIN: 'main'
 };
 
 class Router {
@@ -16,7 +18,8 @@ class Router {
     this.$root = $root;
     this.routes = {
       [ROUTER_PATH.LOGIN]: new LoginPage($root),
-      [ROUTER_PATH.NOT_FOUND]: new NotfoundPage($root)
+      [ROUTER_PATH.NOT_FOUND]: new NotfoundPage($root),
+      [ROUTER_PATH.MAIN]: new MainPage($root)
     };
     this.onStateChange();
   }
@@ -28,10 +31,9 @@ class Router {
   private onStateChange () {
     const path = parsePath(location.pathname);
     if (!(path in this.routes)) {
-      this.routes[ROUTER_PATH.NOT_FOUND].build();
+      this.routes[ROUTER_PATH.MAIN].build();
       return;
     }
-
     this.routes[path].build();
   }
 
