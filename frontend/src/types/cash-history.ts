@@ -20,10 +20,14 @@ export type CashHistoriesInDay = {
   date: number;
   day: number;
   cashHistories: CashHistory[];
+  income: number;
+  expenditure: number;
 }
 
 export type CashHistoriesResponse = {
-  totalIncome: number;
-  totalExpenditure: number;
-  cashHistories: CashHistoriesInDay[];
+  cashHistories: {
+    totalIncome: number;
+    totalExpenditure: number;
+    groupedCashHistories: CashHistoriesInDay[];
+  }
 } & BaseResponse;
