@@ -1,11 +1,18 @@
 .calendar-cell {
   --side-size: calc(var(--inner-width) / 7);
+  width: var(--side-size);
+  height: var(--side-size);
+  position: relative;
+  border: 1px solid var(--line);
+}
 
+.calendar-cell__container {
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: var(--side-size);
-  height: var(--side-size);
+  width: 100%;
+  height: 100%;
   padding: 10px;
 }
 
@@ -46,4 +53,5 @@
   align-items: flex-end;
   justify-content: flex-end;
   color: var(--label);
+  font-size: var(--bold-medium);
 }

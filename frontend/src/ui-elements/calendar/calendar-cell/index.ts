@@ -7,22 +7,24 @@ class CalendarCellUIElement extends UIElement {
   private cashHistoriesInDay: CashHistoriesInDay | undefined;
 
   constructor ($target: HTMLElement, cashHistoriesInDay?: CashHistoriesInDay) {
-    super($target);
+    super($target, {
+      tag: 'td',
+      className: 'calendar-cell'
+    });
     this.cashHistoriesInDay = cashHistoriesInDay;
   }
 
   protected render (): void {
-    if (this.cashHistoriesInDay === undefined) {
+    if (this.cashHistoriesInDay === undefined || this.cashHistoriesInDay.cashHistories.length <= 0) {
       this.$element.innerHTML = `
-        <td class="calendar-cell">
-        </td>
+        <div class="calendar-cell__container"></div>
       `;
       return;
     }
 
     const { date, income, expenditure } = this.cashHistoriesInDay;
     this.$element.innerHTML = `
-      <td class="calendar-cell">
+      <div class="calendar-cell__container">
         <div class="calendar-cell__price-wrapper">
           <span class="calendar-cell__price calendar-cell__price--income">${income}</span>
           <span class="calendar-cell__price calendar-cell__price--expenditure">${expenditure}</span>
@@ -30,7 +32,7 @@ class CalendarCellUIElement extends UIElement {
         </div>
 
         <div class="calendar-cell__date">${date}</div>
-      </td>
+      </div>
     `;
   }
 
