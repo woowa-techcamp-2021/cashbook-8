@@ -1,6 +1,8 @@
 import actions from '../constant/actions';
 import CashHistoriesModel from './cash-histories';
+import CategoriesModel from './categories';
 import FocusDateModel from './focus-date';
+import PaymentsModel from './payments';
 
 const models = {
   focusDate: new FocusDateModel({
@@ -12,6 +14,18 @@ const models = {
   cashHistories: new CashHistoriesModel({
     cashHistories: {
       action: actions.ON_CASH_HISTORY_CHANGE,
+      data: null
+    }
+  }).getProxy(),
+  payments: new PaymentsModel({
+    payments: {
+      action: actions.ON_PAYMENTS_CHANGE,
+      data: null
+    }
+  }).getProxy(),
+  categories: new CategoriesModel({
+    categories: {
+      action: actions.ON_CATEGORIES_CHANGE,
       data: null
     }
   }).getProxy()
