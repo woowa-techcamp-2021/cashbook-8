@@ -3,7 +3,7 @@ import { CashHistoriesInDay } from '../../../types/cash-history';
 
 import './index.css';
 
-class CalendarCell extends UIElement {
+class CalendarCellUIElement extends UIElement {
   private cashHistoriesInDay: CashHistoriesInDay;
 
   constructor ($target: HTMLElement, cashHistoriesInDay: CashHistoriesInDay) {
@@ -35,4 +35,4 @@ class CalendarCell extends UIElement {
   }
 }
 
-export default CalendarCell;
+export default CalendarCellUIElement;
