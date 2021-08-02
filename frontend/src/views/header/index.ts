@@ -23,23 +23,25 @@ class HeaderView extends View {
   protected render (): void {
     this.$target.innerHTML = `
       <header>
-        <div>
-          우아한 가계부
-        </div>
+        <div class="header__container">
+          <div class="header__logo">
+            우아한 가계부
+          </div>
 
-        <div>
-          <i class="wci wci-chevron-left header__button--previous"></i>
-          <div>
-            <div>${this.headerViewModel.focusedMonth}월</div>
-            <div>${this.headerViewModel.focusedYear}</div>
-          <div>
-          <i class="wci wci-chevron-right header__button--right"></i>
-        </div>
+          <div class="header__focus-date-container">
+            <i class="wci wci-chevron-left header__button--previous"></i>
+            <div class="header__focus-date">
+              <div class="header__focus-month">${this.headerViewModel.focusedMonth}월</div>
+              <div class="header__focus-year">${this.headerViewModel.focusedYear}</div>
+            </div>
+            <i class="wci wci-chevron-right header__button--next"></i>
+          </div>
 
-        <div>
-          <i class="wci wci-file-text"></i>
-          <i class="wci wci-calendar"></i>
-          <i class="wci wci-chart"></i>
+          <div class="header__navigator">
+            <i class="wci wci-file-text"></i>
+            <i class="wci wci-calendar"></i>
+            <i class="wci wci-chart"></i>
+          </div>
         </div>
       </header>
     `;
