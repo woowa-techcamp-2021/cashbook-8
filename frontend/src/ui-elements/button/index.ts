@@ -9,13 +9,17 @@ class ButtonUIElement extends UIElement {
     this.onClick = onClick;
   }
 
-  protected addListener () {
+  protected mount (): void {
+    // no mount
+  }
+
+  protected addListener (): void {
     if (this.onClick !== undefined) {
       this.$element.addEventListener('click', this.onClick);
     }
   }
 
-  protected render () {
+  protected render (): void {
     this.$element.innerHTML = `
       <button>확인</button>
     `;

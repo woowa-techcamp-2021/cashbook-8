@@ -1,9 +1,9 @@
+import NotfoundPage from '../pages/notfound';
 import { parsePath } from '../utils/path';
-import HeaderView from '../views/header';
 import Page from './page';
 
 const ROUTER_PATH = {
-  NOT_FOUND: '/notfound'
+  NOT_FOUND: 'notfound'
 };
 
 class Router {
@@ -13,7 +13,7 @@ class Router {
   constructor ($root: HTMLElement) {
     this.$root = $root;
     this.routes = {
-      [ROUTER_PATH.NOT_FOUND]: new HeaderView($root)
+      [ROUTER_PATH.NOT_FOUND]: new NotfoundPage($root)
     };
     this.onStateChange();
   }
