@@ -1,8 +1,10 @@
+import LoginPage from '../pages/login';
 import NotfoundPage from '../pages/notfound';
 import { parsePath } from '../utils/path';
 import Page from './page';
 
 const ROUTER_PATH = {
+  LOGIN: 'login',
   NOT_FOUND: 'notfound'
 };
 
@@ -13,6 +15,7 @@ class Router {
   constructor ($root: HTMLElement) {
     this.$root = $root;
     this.routes = {
+      [ROUTER_PATH.LOGIN]: new LoginPage($root),
       [ROUTER_PATH.NOT_FOUND]: new NotfoundPage($root)
     };
     this.onStateChange();
