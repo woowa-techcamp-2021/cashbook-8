@@ -1,0 +1,49 @@
+.calendar-cell {
+  --side-size: calc(var(--inner-width) / 7);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: var(--side-size);
+  height: var(--side-size);
+  padding: 10px;
+}
+
+.calendar-cell__price-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.calendar-cell__price {
+  font-size: var(--bold-medium);
+}
+
+.calendar-cell__price--income {
+  color: var(--primary3);
+}
+
+.calendar-cell__price--income::before {
+  content: '+';
+}
+
+.calendar-cell__price--expenditure {
+  color: var(--error);
+}
+
+.calendar-cell__price--expenditure::before {
+  content: '-';
+}
+
+.calendar-cell__price--total {
+  color: var(--title-active);
+}
+
+.calendar-cell__date {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  color: var(--label);
+}
