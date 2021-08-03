@@ -89,11 +89,9 @@ class MainViewModel extends ViewModel {
     if (cashHistories === null) {
       return 0;
     }
-    let count = 0;
-    cashHistories.cashHistories.groupedCashHistories.forEach(
-      cashHistoryInDay => {
-        count += cashHistoryInDay.cashHistories.length;
-      });
+    const count = cashHistories.cashHistories.groupedCashHistories.reduce((count, cashHistoryInDay) => {
+      return count + cashHistoryInDay.cashHistories.length;
+    }, 0);
     return count;
   }
 
