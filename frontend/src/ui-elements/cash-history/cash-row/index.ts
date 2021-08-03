@@ -21,12 +21,13 @@ class CashRowUIElement extends UIElement {
   }
 
   protected render (): void {
+    const { category, content, payment, price } = this.cashHistory;
     this.$element.innerHTML = `
       <div class="cash-history__container">
-        <div class="cash-history__category" style="background-color: ${this.cashHistory.category.color}">${this.cashHistory.category.name}</div>
-        <div class="cash-history__content">${this.cashHistory.content}</div>
-        <div class="cash-history__payment">${this.cashHistory.payment.name}</div>
-        <div class="cash-history__price">${this.cashHistory.price}</div>
+        <div class="cash-history__category" style="background-color: ${category.color}">${category.name}</div>
+        <div class="cash-history__content">${content}</div>
+        <div class="cash-history__payment">${payment.name}</div>
+        <div class="cash-history__price">${price}</div>
       </div>
     `;
   }
