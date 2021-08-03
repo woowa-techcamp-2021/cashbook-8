@@ -1,7 +1,10 @@
 import View from '../../core/view';
 import CalendarUIElement from '../../ui-elements/calendar/calendar';
+import CalendarTotalPriceUIElement from '../../ui-elements/calendar/calendar-total-price';
 import { $ } from '../../utils/selector';
 import CalendarViewModel from '../../view-models/calendar';
+
+import './index.css';
 
 class CalendarView extends View {
   private calendarViewModel: CalendarViewModel;
@@ -17,20 +20,28 @@ class CalendarView extends View {
 
   protected render (): void {
     this.$target.innerHTML = `
-      <div class="calendar-view">
+    <div class="calendar-view">
+      <div class="calendar-ui">
       </div>
+
+      <div class="calendar-total-price">
+      </div>
+    </div>
     `;
   }
 
   protected mount (): void {
-    const $calendarView = $('.calendar-view');
+    const $calendarUI = $('.calendar-ui');
     const { monthlyCashHistories } = this.calendarViewModel;
 
-    if ($calendarView === null || monthlyCashHistories === undefined) {
-      return;
+    if (!($calendarUI === null || monthlyCashHistories === undefined)) {
+      new CalendarUIElement($calendarUI, monthlyCashHistories).build();
     }
 
-    new CalendarUIElement($calendarView, monthlyCashHistories).build();
+    const $calendarTotalPrice = $('.calendar-total-price');
+    if ($calendarTotalPrice !== null) {
+      new CalendarTotalPriceUIElement($calendarTotalPrice, this.calendarViewModel.totalPrices).build();
+    }
   }
 }
 

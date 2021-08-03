@@ -5,10 +5,29 @@
 
 .calendar thead {
   width: 100%;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--line);
+  border-radius: var(--calendar-radius);
+}
 
+.calendar th {
+  background-color: var(--off-white);
+  padding: 15px 0;
+}
+
+.calendar thead th:first-child {
+  border-top-left-radius: var(--calendar-radius);
+  border-bottom-left-radius: var(--calendar-radius);
+}
+
+.calendar thead th:last-child {
+  border-top-right-radius: var(--calendar-radius);
+  border-end-end-radius: var(--calendar-radius);
 }
 
 .calendar tbody {
+  position: relative;
+  top: 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: var(--calendar-radius);
 }

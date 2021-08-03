@@ -6,7 +6,7 @@ import ViewModel from '../core/view-model';
 import models from '../models';
 import { CashHistoriesData } from '../models/cash-histories';
 import { FocusDateData } from '../models/focus-date';
-import { CashHistoriesInDay } from '../types/cash-history';
+import { CashHistoriesInDay, TotalPrices } from '../types/cash-history';
 
 class CalendarViewModel extends ViewModel {
   private cashHistoriesModel: CashHistoriesData;
@@ -40,6 +40,18 @@ class CalendarViewModel extends ViewModel {
 
   get monthlyCashHistories (): CashHistoriesInDay[] | undefined {
     return this.cashHistoriesModel.cashHistories?.cashHistories.groupedCashHistories;
+  }
+
+  get totalPrices (): TotalPrices {
+    const { cashHistories } = this.cashHistoriesModel;
+    const totalIncome = cashHistories?.cashHistories.totalIncome ?? 0;
+    const totalExpenditure = cashHistories?.cashHistories.totalExpenditure ?? 0;
+
+    return {
+      totalIncome,
+      totalExpenditure,
+      totalPrice: totalIncome - totalExpenditure
+    };
   }
 }
 export default CalendarViewModel;

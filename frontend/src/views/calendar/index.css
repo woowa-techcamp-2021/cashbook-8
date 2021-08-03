@@ -1,0 +1,8 @@
+.calendar-view {
+  position: relative;
+  top: -20px;
+  width: var(--inner-width);
+  margin: 0 auto;
+  color: var(--label);
+  margin-bottom: 50px;
+}
