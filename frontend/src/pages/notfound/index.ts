@@ -6,6 +6,10 @@ class NotfoundPage extends Page {
     const notfoundView = new NotfoundView(this.$target);
     notfoundView.build();
   }
+
+  protected render (): void {
+    // no render
+  }
 }
 
 export default NotfoundPage;

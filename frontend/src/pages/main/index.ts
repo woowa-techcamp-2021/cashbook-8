@@ -1,33 +1,28 @@
 import Page from '../../core/page';
 import { $ } from '../../utils/selector';
-import CashHistoryCountView from '../../views/cash-history-count';
-import CashHistoryListView from '../../views/cash-history-list';
-import FilterBoxView from '../../views/filter-box';
 import HeaderView from '../../views/header';
+import MainView from '../../views/main';
 
 class MainPage extends Page {
   protected mount (): void {
-    const headerView = new HeaderView(this.$target);
-    const cashHistoryCountView = new CashHistoryCountView(this.$target);
-    const filterBoxViewIncome = new FilterBoxView(this.$target, '수입');
-    const filterBoxViewExpenditure = new FilterBoxView(this.$target, '지출');
-    const cashHistoryListView = new CashHistoryListView(this.$target);
+    const $headerView = $('.header-view');
+    const $mainView = $('.main-view');
 
-    // headerView.build();
-    // cashHistoryCountView.build();
-    // filterBoxViewIncome.build();
-    // filterBoxViewExpenditure.build();
+    if ($headerView === null || $mainView === null) {
+      return;
+    }
+    const headerView = new HeaderView($headerView);
+    const mainView = new MainView($mainView);
 
-    // $('#headerView')?.append(headerView);
+    headerView.build();
+    mainView.build();
   }
 
   protected render ():void {
     this.$target.innerHTML = `
       <div>
-        <div id="headerView"></div>
-        <div id="cashHistoryCountView"></div>
-        <div id="filterBoxViewIncome"></div>
-        <div id="filterBoxViewExpenditure"></div>
+        <div class="header-view"></div>
+        <div class="main-view"></div>
       </div>
     `;
   }
