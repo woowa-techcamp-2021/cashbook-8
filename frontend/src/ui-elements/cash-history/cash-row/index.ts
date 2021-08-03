@@ -1,6 +1,7 @@
 import UIElement from '../../../core/ui-element';
 import { CashHistory } from '../../../types/cash-history';
 import { EventListener } from '../../../types/dom';
+import { $ } from '../../../utils/selector';
 
 import './index.css';
 
@@ -16,18 +17,18 @@ class CashRowUIElement extends UIElement {
 
   protected addListener (): void {
     if (this.onClick !== undefined) {
-      this.$element.addEventListener('click', this.onClick);
+      // this.$element.addEventListener('click', this.onClick);
     }
   }
 
   protected render (): void {
-    const { category, content, payment, price } = this.cashHistory;
+    const { id, category, content, payment, price } = this.cashHistory;
     this.$element.innerHTML = `
-      <div class="cash-history__container">
-        <div class="cash-history__category" style="background-color: ${category.color}">${category.name}</div>
-        <div class="cash-history__content">${content}</div>
-        <div class="cash-history__payment">${payment.name}</div>
-        <div class="cash-history__price">${price}</div>
+      <div data-id="${id}" class="cash-history__container">
+        <div data-id="${id}" class="cash-history__category" style="background-color: ${category.color}">${category.name}</div>
+        <div data-id="${id}" class="cash-history__content">${content}</div>
+        <div data-id="${id}" class="cash-history__payment">${payment.name}</div>
+        <div data-id="${id}" class="cash-history__price">${price}</div>
       </div>
     `;
   }
