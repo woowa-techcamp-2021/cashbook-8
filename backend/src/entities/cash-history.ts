@@ -12,6 +12,9 @@ class CashHistory {
   @Column()
   price!: number;
 
+  @Column()
+  content!: string;
+
   @Column({
     type: 'enum',
     enum: CashHistories

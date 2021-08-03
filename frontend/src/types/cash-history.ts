@@ -5,6 +5,7 @@ import { Payment } from './payment';
 export type CashHistory = {
   id: number;
   price: number;
+  content: string;
   type: number;
   createdAt: string;
   category: Category;
