@@ -4,6 +4,7 @@
   position: relative;
   border-left: 1px solid var(--line);
   border-top: 1px solid var(--line);
+  cursor: pointer;
 }
 
 .calendar-cell > * {
