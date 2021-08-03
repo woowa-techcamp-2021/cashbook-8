@@ -1,6 +1,7 @@
 import UIElement from '../../../core/ui-element';
 import { CashHistoriesInDay } from '../../../types/cash-history';
 import { isSameDate } from '../../../utils/date';
+import { formatNumber } from '../../../utils/formatter';
 import CalendarDetailUIElement from '../calendar-detail';
 
 import './index.css';
@@ -9,11 +10,11 @@ class CalendarCellUIElement extends UIElement {
   private cashHistoriesInDay: CashHistoriesInDay | undefined;
   private calendarDetailUIElement: CalendarDetailUIElement | undefined;
 
-  constructor ($target: HTMLElement, cashHistoriesInDay?: CashHistoriesInDay) {
+  constructor ($target: HTMLElement, cellSequence: number, cashHistoriesInDay?: CashHistoriesInDay) {
     super($target, {
-      tag: 'td',
-      className: 'calendar-cell'
+      className: `calendar__td calendar-cell calendar-cell--${cellSequence}`
     });
+    this.$element.dataset.sequence = cellSequence.toString();
     this.cashHistoriesInDay = cashHistoriesInDay;
   }
 
@@ -45,9 +46,9 @@ class CalendarCellUIElement extends UIElement {
     this.$element.innerHTML = `
       <div class="calendar-cell__container">
         <div class="calendar-cell__price-wrapper">
-          <span class="calendar-cell__price calendar-cell__price--income">${income}</span>
-          <span class="calendar-cell__price calendar-cell__price--expenditure">${expenditure}</span>
-          <span class="calendar-cell__price calendar-cell__price--total">${income - expenditure}</span>
+          ${income > 0 ? `<span class="calendar-cell__price calendar-cell__price--income">${formatNumber(income)}</span>` : ''}
+          ${expenditure > 0 ? `<span class="calendar-cell__price calendar-cell__price--expenditure">${formatNumber(expenditure)}</span>` : ''}
+          ${income > 0 && expenditure > 0 ? `<span class="calendar-cell__price calendar-cell__price--total">${formatNumber(income - expenditure)}</span>` : ''}
         </div>
 
         <div class="calendar-cell__date-wrapper">
@@ -57,20 +58,8 @@ class CalendarCellUIElement extends UIElement {
     `;
   }
 
-  onDocumentClicked (e: Event): void {
-    const target = e.target as HTMLElement;
-    if (target !== this.$element) {
-      this.calendarDetailUIElement?.disappear();
-    }
-  }
-
   protected addListener (): void {
-    if (this.calendarDetailUIElement !== undefined) {
-      document.addEventListener('click', this.onDocumentClicked.bind(this));
-
-      this.$element.addEventListener('click',
-        this.calendarDetailUIElement.toggle.bind(this.calendarDetailUIElement));
-    }
+    // no event
   }
 
   protected mount (): void {

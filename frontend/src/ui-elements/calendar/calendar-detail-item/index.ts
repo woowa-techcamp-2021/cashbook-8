@@ -1,5 +1,7 @@
 import UIElement from '../../../core/ui-element';
+import { CashHistories } from '../../../enums/cash-history.enum';
 import { CashHistory } from '../../../types/cash-history';
+import { formatNumber } from '../../../utils/formatter';
 
 import './index.css';
 
@@ -15,7 +17,6 @@ class CalendarDetailItemUIElement extends UIElement {
 
   protected render (): void {
     const { price, category, type, content } = this.cashHistory;
-    // type enum 변경 필요
     this.$element.innerHTML = `
       <div class="calendar-detail__info-wrapper">
         <div class="calendar-detail__category"
@@ -25,8 +26,8 @@ class CalendarDetailItemUIElement extends UIElement {
         <span class="calendar-detail__content">${content}</span>
       </div>
 
-      <span class="calendar-detail__price calendar-detail__price--${type === 0 ? 'income' : 'expenditure'}">
-        ${price}
+      <span class="calendar-detail__price calendar-detail__price--${type === CashHistories.Income ? 'income' : 'expenditure'}">
+        ${formatNumber(price)}
       </span>
     `;
   }

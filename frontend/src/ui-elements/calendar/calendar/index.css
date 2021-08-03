@@ -1,49 +1,53 @@
 .calendar {
   --calendar-radius: 8px;
-  border-collapse: separate;
+  --side-size: calc(var(--inner-width) / 7);
 }
 
-.calendar thead {
-  width: 100%;
+.calendar__thead {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--line);
-  border-radius: var(--calendar-radius);
-}
-
-.calendar th {
   background-color: var(--off-white);
-  padding: 15px 0;
+  border-radius: var(--calendar-radius);
+  padding: 12px 0;
+  border: 1px solid var(--line);
 }
 
-.calendar thead th:first-child {
-  border-top-left-radius: var(--calendar-radius);
-  border-bottom-left-radius: var(--calendar-radius);
+.calendar__trow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.calendar thead th:last-child {
-  border-top-right-radius: var(--calendar-radius);
-  border-end-end-radius: var(--calendar-radius);
+.calendar__td--thead {
+  width: var(--side-size);
+  text-align: center;
 }
 
-.calendar tbody {
-  position: relative;
-  top: 20px;
+.calendar__tbody {
+  margin-top: 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: var(--calendar-radius);
 }
 
-.calendar tbody tr:first-child td:first-child {
+.calendar__tbody .calendar__trow:first-child .calendar__td:first-child {
   border-top-left-radius: var(--calendar-radius);
 }
 
-.calendar tbody tr:first-child td:last-child {
+.calendar__tbody .calendar__trow:first-child .calendar__td:last-child {
   border-top-right-radius: var(--calendar-radius);
 }
 
-.calendar tbody tr:last-child td:first-child {
+.calendar__tbody .calendar__trow:last-child .calendar__td:first-child {
   border-bottom-left-radius: var(--calendar-radius);
 }
 
-.calendar tbody tr:last-child td:last-child {
+.calendar__tbody .calendar__trow:last-child .calendar__td:last-child {
   border-bottom-right-radius: var(--calendar-radius);
+}
+
+.calendar__tbody .calendar__trow:last-child .calendar__td {
+  border-bottom: 1px solid var(--line);
+}
+
+.calendar__tbody .calendar__trow .calendar__td:last-child {
+  border-right: 1px solid var(--line);
 }
