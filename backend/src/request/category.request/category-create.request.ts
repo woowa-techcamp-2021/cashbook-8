@@ -10,7 +10,10 @@ class CategoryCreateRequest extends BaseRequest {
   @Matches(/^#(?:[0-9a-f]{3}){1,2}$/i)
   color: string;
 
-  @IsEnum(CashHistories)
+  @IsEnum([
+    CashHistories.Income,
+    CashHistories.Expenditure
+  ])
   type: CashHistories;
 
   constructor (categoryCreateRequest: CategoryCreateRequest) {
