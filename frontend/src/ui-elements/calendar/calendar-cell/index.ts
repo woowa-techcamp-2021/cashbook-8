@@ -58,13 +58,6 @@ class CalendarCellUIElement extends UIElement {
     `;
   }
 
-  // onDocumentClicked (e: Event): void {
-  //   const target = e.target as HTMLElement;
-  //   if (target !== this.$element) {
-  //     this.calendarDetailUIElement?.disappear();
-  //   }
-  // }
-
   protected addListener (): void {
     // no event
   }
