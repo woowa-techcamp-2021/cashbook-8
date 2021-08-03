@@ -1,6 +1,6 @@
 import View from '../../core/view';
 import DailyCashHistory from '../../ui-elements/cash-history/daily-cash-history';
-import { getDayString } from '../../utils/day';
+import { getDayString } from '../../utils/date';
 import { $ } from '../../utils/selector';
 import MainViewModel from '../../view-models/main';
 
