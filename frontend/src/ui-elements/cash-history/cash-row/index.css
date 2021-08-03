@@ -1,0 +1,45 @@
+.cash-history__container {
+  width: var(--inner-width);
+  height: 70px;
+  margin: 0 auto;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  border-bottom: solid 1px var(--line);
+  cursor: pointer;
+  font-size: var(--body-medium);
+}
+
+.cash-history__container:hover {
+  background-color: var(--background);
+}
+
+.cash-history__category {
+  width: 92px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--off-white);
+  border-radius: 999px;
+  margin-right: 10px;
+  font-size: var(--bold-medium);
+}
+
+.cash-history__content {
+  width: 306px;
+  color: var(--title-active);
+  margin-right: 10px;
+}
+
+.cash-history__payment {
+  width: 198px;
+  margin-right: 10px;
+}
+
+.cash-history__price {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
+  color: var(--title-active);
+}

@@ -1,0 +1,75 @@
+.main__console {
+  height: 100px;
+  width: var(--inner-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  color: var(--primary3);
+  font-size: var(--body-large);
+}
+
+.main__total {
+  flex-grow: 1;
+}
+
+.main__check-box {
+  margin: 0 12px;
+  width: 20px;
+  height: 20px;
+  background: var(--off-white);
+  border: 2px solid var(--grey2);
+  border-radius: 5px;
+  color: var(--off-white);
+  font-size: 14px;
+  padding-top: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.main__check-box--active {
+  background: var(--primary1);
+  border: 2px solid var(--primary1);
+}
+
+.main__filter {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: var(--body-medium);
+  color: var(--grey2);
+}
+
+.main__filter--active {
+  color: var(--primary3);
+}
+
+.main__filter--income,
+.main__filter--expenditure {
+
+}
+
+.main__cash-list-header {
+  width: var(--inner-width);
+  height: 80px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  display: flex;
+  align-items: flex-end;
+  font-size: var(--bold-medium);
+  color: var(--title-active);
+  border-bottom: solid 1px var(--line);
+}
+
+.main__cash-list-day {
+  margin-left: 8px;
+  flex-grow: 1;
+  color: var(--body);
+}
+
+.main__cash-list-income,
+.main__cash-list-expenditure {
+  margin-left: 8px;
+  color: var(--body);
+}

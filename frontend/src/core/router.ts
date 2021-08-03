@@ -1,10 +1,12 @@
 import CalendarPage from '../pages/calendar';
 import LoginPage from '../pages/login';
+import MainPage from '../pages/main';
 import NotfoundPage from '../pages/notfound';
 import { parsePath } from '../utils/path';
 import Page from './page';
 
 const ROUTER_PATH = {
+  MAIN: '',
   LOGIN: 'login',
   CALENDAR: 'calendar',
   NOT_FOUND: 'notfound'
@@ -17,6 +19,7 @@ class Router {
   constructor ($root: HTMLElement) {
     this.$root = $root;
     this.routes = {
+      [ROUTER_PATH.MAIN]: new MainPage($root),
       [ROUTER_PATH.CALENDAR]: new CalendarPage($root),
       [ROUTER_PATH.LOGIN]: new LoginPage($root),
       [ROUTER_PATH.NOT_FOUND]: new NotfoundPage($root)
@@ -34,7 +37,6 @@ class Router {
       this.routes[ROUTER_PATH.NOT_FOUND].build();
       return;
     }
-
     this.routes[path].build();
   }
 
