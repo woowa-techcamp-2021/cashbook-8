@@ -17,6 +17,7 @@ class CategoryService {
     const newCategory = Builder<Category>()
       .name(category.name)
       .color(category.color)
+      .type(category.type)
       .user(user)
       .build();
 

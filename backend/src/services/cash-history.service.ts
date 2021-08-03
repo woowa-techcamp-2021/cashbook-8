@@ -82,7 +82,7 @@ class CashHistoryService {
 
   async createCashHistory (user: User, cashHistoryCreateRequest: CashHistoryCreateRequest) {
     const { id } = user;
-    const { price, content, type, categoryId, paymentId } = cashHistoryCreateRequest;
+    const { price, content, categoryId, paymentId } = cashHistoryCreateRequest;
     const category = await getCustomRepository(CategoryRepository).findOne(categoryId);
     const payment = await getCustomRepository(PaymentRepository).findOne(paymentId);
 
@@ -97,7 +97,7 @@ class CashHistoryService {
     const cashHistory = Builder<CashHistory>()
       .price(price)
       .content(content)
-      .type(type)
+      .type(category.type)
       .category(category)
       .payment(payment)
       .user(user)
@@ -108,7 +108,7 @@ class CashHistoryService {
 
   async updateCashHistory (user: User, cashHistoryId: number, cashHistoryUpdateRequest: CashHistoryUpdateRequest) {
     const { id } = user;
-    const { price, content, type, categoryId, paymentId } = cashHistoryUpdateRequest;
+    const { price, content, categoryId, paymentId } = cashHistoryUpdateRequest;
     const category = await getCustomRepository(CategoryRepository).findOne(categoryId);
     const payment = await getCustomRepository(PaymentRepository).findOne(paymentId);
 
@@ -132,7 +132,7 @@ class CashHistoryService {
     const updateCashHistory = Builder<CashHistory>()
       .price(price)
       .content(content)
-      .type(type)
+      .type(category.type)
       .category(category)
       .payment(payment)
       .build();

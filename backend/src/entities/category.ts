@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, ManyToOne, RelationId } from 'typeorm';
+import { CashHistories } from '../enums/cash-history.enum';
 import User from './user';
 
 @Entity('category')
@@ -11,6 +12,12 @@ class Category {
 
   @Column()
   color!: string;
+
+  @Column({
+    type: 'enum',
+    enum: CashHistories
+  })
+  type!: CashHistories;
 
   @ManyToOne(() => User, {
     onDelete: 'CASCADE'
