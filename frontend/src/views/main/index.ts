@@ -31,7 +31,7 @@ class MainView extends View {
       $checkBox?.classList.add('main__check-box--active');
       $filter?.classList.add('main__filter--active');
     }
-    console.log($checkBox, $filter);
+    // console.log($checkBox, $filter);
     this.mainViewModel.filterButtonClick(this.isIncomeChecked, this.isExpenditureChecked);
   }
 
