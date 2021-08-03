@@ -17,6 +17,12 @@ const models = {
       data: null
     }
   }).getProxy(),
+  filteredCashHistories: new CashHistoriesModel({
+    cashHistories: {
+      action: actions.ON_FILTERED_CASH_HISTORY_CHANGE,
+      data: null
+    }
+  }).getProxy(),
   payments: new PaymentsModel({
     payments: {
       action: actions.ON_PAYMENTS_CHANGE,
