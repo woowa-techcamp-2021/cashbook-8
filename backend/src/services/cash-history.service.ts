@@ -47,13 +47,13 @@ class CashHistoryService {
     let totalExpenditure = 0;
     cashHistories.forEach((cashHistory) => {
       const date = cashHistory.createdAt.getDate();
-      groupedCashHistories[date].cashHistories.push(cashHistory);
+      groupedCashHistories[date - 1].cashHistories.push(cashHistory);
       if (cashHistory.type === CashHistories.Income) {
         totalIncome += cashHistory.price;
-        groupedCashHistories[date].income += cashHistory.price;
+        groupedCashHistories[date - 1].income += cashHistory.price;
       } else {
         totalExpenditure += cashHistory.price;
-        groupedCashHistories[date].expenditure += cashHistory.price;
+        groupedCashHistories[date - 1].expenditure += cashHistory.price;
       }
     });
 
