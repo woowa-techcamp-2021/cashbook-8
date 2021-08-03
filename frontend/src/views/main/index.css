@@ -16,10 +16,10 @@
   margin: 0 12px;
   width: 20px;
   height: 20px;
-  background: var(--white);
+  background: var(--off-white);
   border: 2px solid var(--grey2);
   border-radius: 5px;
-  color: var(--white);
+  color: var(--off-white);
   font-size: 14px;
   padding-top: 2px;
   display: flex;
