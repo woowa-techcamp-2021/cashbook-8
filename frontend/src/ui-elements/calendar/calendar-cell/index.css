@@ -6,6 +6,10 @@
   border: 1px solid var(--line);
 }
 
+.calendar-cell > * {
+  pointer-events: none;
+}
+
 .calendar-cell--today .calendar-cell__date {
   background-color: var(--primary1);
   color: var(--off-white);
