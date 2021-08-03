@@ -11,6 +11,8 @@ import { CategoriesData } from '../models/categories';
 import { FocusDateData } from '../models/focus-date';
 import { CashHistory } from '../types/cash-history';
 import { Category } from '../types/category';
+import { PieChartInputData } from '../ui-elements/chart/pie-chart';
+import { formatNumber } from '../utils/formatter';
 
 type ExpenditureGroupedByCategory = {
   expenditure: number;
@@ -58,6 +60,24 @@ class ExpenditureInMonthViewModel extends ViewModel {
 
     pubsub.subscribe(actions.ON_CATEGORIES_CHANGE, () => {
       this.view.build();
+    });
+  }
+
+  get expenditurePieChartInput (): PieChartInputData[] {
+    const totalExpenditure = this.cashHistoriesModel.cashHistories?.cashHistories.totalExpenditure ?? 0;
+    if (totalExpenditure <= 0) {
+      return [];
+    }
+
+    return this.expenditureGroupedByCategory.map((categoryExpenditure) => {
+      const { category, expenditure } = categoryExpenditure;
+
+      return {
+        name: category.name,
+        color: category.color,
+        value: expenditure,
+        label: formatNumber(expenditure)
+      };
     });
   }
 
