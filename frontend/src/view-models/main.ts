@@ -99,7 +99,7 @@ class MainViewModel extends ViewModel {
     return this.filteredCashHistoriesModel.cashHistories?.cashHistories.groupedCashHistories;
   }
 
-  getIncomeTotalPrice (): number {
+  get incomeTotalPrice (): number {
     const cashHistories = this.cashHistoriesModel.cashHistories;
 
     if (cashHistories === null) {
@@ -109,7 +109,7 @@ class MainViewModel extends ViewModel {
     return cashHistories.cashHistories.totalIncome;
   }
 
-  getExpenditureTotalPrice (): number {
+  get expenditureTotalPrice (): number {
     const cashHistories = this.cashHistoriesModel.cashHistories;
 
     if (cashHistories === null) {

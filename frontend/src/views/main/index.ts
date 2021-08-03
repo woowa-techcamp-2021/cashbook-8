@@ -58,13 +58,13 @@ class MainView extends View {
           <div class="main__check-box main__check-box--income main__check-box--active">
           <i class="wci wci-check"></i>
           </div>
-          <div>수입 ${this.mainViewModel.getIncomeTotalPrice()}</div>
+          <div>수입 ${this.mainViewModel.incomeTotalPrice}</div>
         </div>
         <div class="main__filter main__filter--expenditure main__filter--active">
           <div class="main__check-box main__check-box--expenditure main__check-box--active">
           <i class="wci wci-check"></i>
           </div>
-          <div>수입 ${this.mainViewModel.getExpenditureTotalPrice()}</div>
+          <div>수입 ${this.mainViewModel.expenditureTotalPrice}</div>
         </div>
       </div>
       <div class="main__cash-list"></div>
