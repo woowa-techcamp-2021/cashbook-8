@@ -38,3 +38,11 @@ export type TotalPrices = {
   totalExpenditure: number;
   totalIncome: number;
 }
+
+export type CashHistoryRequest = {
+  date: string;
+  categoryId: number;
+  content: string;
+  paymentId: number;
+  price: number;
+}
