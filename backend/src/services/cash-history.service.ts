@@ -11,7 +11,7 @@ import PaymentRepository from '../repositories/payment.repository';
 import CashHistoryCreateRequest from '../request/cash-history/cash-history-create.request';
 import CashHistoryUpdateRequest from '../request/cash-history/cash-history-update.request';
 import Builder from '../utils/builder';
-import { getDaysInMonth } from '../utils/date';
+import { getDaysInMonth, yyyyMMdd2Date } from '../utils/date';
 import { CashHistories } from '../enums/cash-history.enum';
 
 type GroupedCashHistory = {
@@ -82,7 +82,7 @@ class CashHistoryService {
 
   async createCashHistory (user: User, cashHistoryCreateRequest: CashHistoryCreateRequest) {
     const { id } = user;
-    const { price, content, categoryId, paymentId } = cashHistoryCreateRequest;
+    const { price, content, categoryId, paymentId, date } = cashHistoryCreateRequest;
     const category = await getCustomRepository(CategoryRepository).findOne(categoryId);
     const payment = await getCustomRepository(PaymentRepository).findOne(paymentId);
 
@@ -101,6 +101,7 @@ class CashHistoryService {
       .category(category)
       .payment(payment)
       .user(user)
+      .createdAt(yyyyMMdd2Date(date))
       .build();
 
     await getCustomRepository(CashHistoryRepository).insert(cashHistory);
@@ -108,7 +109,7 @@ class CashHistoryService {
 
   async updateCashHistory (user: User, cashHistoryId: number, cashHistoryUpdateRequest: CashHistoryUpdateRequest) {
     const { id } = user;
-    const { price, content, categoryId, paymentId } = cashHistoryUpdateRequest;
+    const { price, content, categoryId, paymentId, date } = cashHistoryUpdateRequest;
     const category = await getCustomRepository(CategoryRepository).findOne(categoryId);
     const payment = await getCustomRepository(PaymentRepository).findOne(paymentId);
 
@@ -135,6 +136,7 @@ class CashHistoryService {
       .type(category.type)
       .category(category)
       .payment(payment)
+      .createdAt(yyyyMMdd2Date(date))
       .build();
 
     await getCustomRepository(CashHistoryRepository).update(cashHistoryId, updateCashHistory);
