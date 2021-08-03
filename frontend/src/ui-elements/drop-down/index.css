@@ -1,0 +1,43 @@
+.drop-down__container {
+  position: relative;
+}
+
+.drop-down__container.display-none {
+  display: none;
+}
+
+.drop-down__panels {
+  position: absolute;
+  left: -25px;
+  top: 32px;
+  width: 148px;
+  background: var(--off-white);
+  border: 1px solid var(--line);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.drop-down__panel {
+  height: 56px;
+  padding: 0 24px;
+  cursor: pointer;
+}
+
+.drop-down__panel:hover {
+  background: var(--background);
+}
+
+.drop-down__panel-inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  border-bottom: solid 1px var(--line);
+}
+
+.drop-down__panel-inner:last-child {
+  /* TODO: 나중에 view에서 처리해줘야 할 듯 */
+  /* border: none; */
+}
