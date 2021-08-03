@@ -1,0 +1,75 @@
+.calendar-cell {
+  --side-size: calc(var(--inner-width) / 7);
+  width: var(--side-size);
+  height: var(--side-size);
+  position: relative;
+  border: 1px solid var(--line);
+}
+
+.calendar-cell > * {
+  pointer-events: none;
+}
+
+.calendar-cell--today .calendar-cell__date {
+  background-color: var(--primary1);
+  color: var(--off-white);
+}
+
+.calendar-cell__container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.calendar-cell__price-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.calendar-cell__price {
+  font-size: var(--bold-medium);
+}
+
+.calendar-cell__price--income {
+  color: var(--primary3);
+}
+
+.calendar-cell__price--income::before {
+  content: '+';
+}
+
+.calendar-cell__price--expenditure {
+  color: var(--error);
+}
+
+.calendar-cell__price--expenditure::before {
+  content: '-';
+}
+
+.calendar-cell__price--total {
+  color: var(--title-active);
+}
+
+.calendar-cell__date-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  color: var(--label);
+  font-size: var(--bold-medium);
+}
+
+.calendar-cell__date {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}

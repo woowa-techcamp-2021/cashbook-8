@@ -32,3 +32,9 @@ export type CashHistoriesResponse = {
     groupedCashHistories: CashHistoriesInDay[];
   }
 } & BaseResponse;
+
+export type TotalPrices = {
+  totalPrice: number;
+  totalExpenditure: number;
+  totalIncome: number;
+}
