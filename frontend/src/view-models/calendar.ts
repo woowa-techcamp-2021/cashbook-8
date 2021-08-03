@@ -24,7 +24,7 @@ class CalendarViewModel extends ViewModel {
       this.fetchCashHistories();
     });
 
-    pubsub.subscribe(actions.ON_CASH_HISTORY_CHANGE, () => {
+    pubsub.subscribe(actions.ON_CASH_HISTORIES_CHANGE, () => {
       this.view.build();
     });
   }
