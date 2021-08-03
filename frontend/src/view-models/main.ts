@@ -48,7 +48,7 @@ class MainViewModel extends ViewModel {
       return;
     }
 
-    const filtered = cashHistories?.cashHistories.groupedCashHistories.map((dailyCashHistory) => ({
+    const filtered = cashHistories.cashHistories.groupedCashHistories.map((dailyCashHistory) => ({
       ...dailyCashHistory,
       cashHistories: dailyCashHistory.cashHistories.filter(e => e.type === type)
     }));
@@ -72,7 +72,14 @@ class MainViewModel extends ViewModel {
       // 지출
       this.filterData(1);
     } else {
-      this.filteredCashHistoriesModel.cashHistories = null;
+      this.filteredCashHistoriesModel.cashHistories = {
+        message: '필터링 데이터입니다.',
+        cashHistories: {
+          totalIncome: 0,
+          totalExpenditure: 0,
+          groupedCashHistories: []
+        }
+      };
     }
   }
 
