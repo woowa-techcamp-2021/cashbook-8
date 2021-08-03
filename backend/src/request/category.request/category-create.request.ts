@@ -1,4 +1,5 @@
-import { IsNotEmpty, Length, Matches } from 'class-validator';
+import { IsEnum, IsNotEmpty, Length, Matches } from 'class-validator';
+import { CashHistories } from '../../enums/cash-history.enum';
 import BaseRequest from '../base.request';
 
 class CategoryCreateRequest extends BaseRequest {
@@ -9,10 +10,14 @@ class CategoryCreateRequest extends BaseRequest {
   @Matches(/^#(?:[0-9a-f]{3}){1,2}$/i)
   color: string;
 
-  constructor (categoryCreateReqeust: CategoryCreateRequest) {
+  @IsEnum(CashHistories)
+  type: CashHistories;
+
+  constructor (categoryCreateRequest: CategoryCreateRequest) {
     super();
-    this.name = categoryCreateReqeust.name;
-    this.color = categoryCreateReqeust.color;
+    this.name = categoryCreateRequest.name;
+    this.color = categoryCreateRequest.color;
+    this.type = categoryCreateRequest.type;
   }
 }
 export default CategoryCreateRequest;
