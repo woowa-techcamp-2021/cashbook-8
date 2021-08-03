@@ -34,7 +34,7 @@ class Router {
   private onStateChange () {
     const path = parsePath(location.pathname);
     if (!(path in this.routes)) {
-      this.routes[ROUTER_PATH.MAIN].build();
+      this.routes[ROUTER_PATH.NOT_FOUND].build();
       return;
     }
     this.routes[path].build();
