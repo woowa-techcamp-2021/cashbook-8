@@ -11,8 +11,7 @@ class CalendarCellUIElement extends UIElement {
 
   constructor ($target: HTMLElement, cashHistoriesInDay?: CashHistoriesInDay) {
     super($target, {
-      tag: 'td',
-      className: 'calendar-cell'
+      className: 'calendar__td calendar-cell'
     });
     this.cashHistoriesInDay = cashHistoriesInDay;
   }
