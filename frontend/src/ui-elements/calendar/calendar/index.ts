@@ -15,8 +15,33 @@ class CalendarUIElement extends UIElement {
     this.cashHistoriesInDays = cashHistoriesInDays;
   }
 
+  onCalendarCellClicked (e: Event): void {
+    $('.calendar-cell__detail.appear')?.classList.replace('appear', 'disappear');
+
+    const target = e.target as HTMLElement;
+    const { sequence } = target.dataset;
+    if (sequence === undefined) {
+      return;
+    }
+
+    const $detail = $(`.calendar-cell--${sequence} .calendar-cell__detail`);
+    $detail?.classList.toggle('disappear');
+    $detail?.classList.toggle('appear');
+  }
+
+  onDocumentClicked (e: Event): void {
+    const target = e.target as HTMLElement;
+    const { sequence } = target.dataset;
+    if (sequence !== undefined && $(`.calendar-cell--${sequence} .calendar-cell__detail.appear`)) {
+      return;
+    }
+
+    $('.calendar-cell__detail.appear')?.classList.replace('appear', 'disappear');
+  }
+
   protected addListener (): void {
-    // no event
+    document.addEventListener('click', this.onDocumentClicked);
+    $('.calendar__tbody')?.addEventListener('click', this.onCalendarCellClicked);
   }
 
   protected render (): void {
@@ -59,14 +84,15 @@ class CalendarUIElement extends UIElement {
     let cellCount = firstDayInMonth;
 
     let $tr = this.newTableRow();
+    let cellSequence = 0;
 
     // 비워있는 cell로 1일전까지 채움
     for (let i = 0; i < firstDayInMonth; i += 1) {
-      new CalendarCellUIElement($tr).build();
+      new CalendarCellUIElement($tr, cellSequence++).build();
     }
 
     this.cashHistoriesInDays.forEach((cashHistory) => {
-      new CalendarCellUIElement($tr, cashHistory).build();
+      new CalendarCellUIElement($tr, cellSequence++, cashHistory).build();
       cellCount += 1;
 
       if (cellCount % 7 === 0) {
@@ -77,7 +103,7 @@ class CalendarUIElement extends UIElement {
 
     if (cellCount % 7 !== 0) {
       for (let i = 0; i < 7 - cellCount % 7; i += 1) {
-        new CalendarCellUIElement($tr).build();
+        new CalendarCellUIElement($tr, cellSequence++).build();
       }
       this.appendRow($tr);
     }

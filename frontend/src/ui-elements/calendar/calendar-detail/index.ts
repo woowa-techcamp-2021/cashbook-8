@@ -19,15 +19,6 @@ class CalendarDetailUIElement extends UIElement {
     `;
   }
 
-  toggle (): void {
-    this.$element.classList.toggle('disappear');
-    this.$element.classList.toggle('appear');
-  }
-
-  disappear (): void {
-    this.$element.classList.replace('appear', 'disappear');
-  }
-
   protected addListener (): void {
     // no event
   }

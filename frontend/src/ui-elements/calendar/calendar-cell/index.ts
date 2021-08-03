@@ -10,10 +10,11 @@ class CalendarCellUIElement extends UIElement {
   private cashHistoriesInDay: CashHistoriesInDay | undefined;
   private calendarDetailUIElement: CalendarDetailUIElement | undefined;
 
-  constructor ($target: HTMLElement, cashHistoriesInDay?: CashHistoriesInDay) {
+  constructor ($target: HTMLElement, cellSequence: number, cashHistoriesInDay?: CashHistoriesInDay) {
     super($target, {
-      className: 'calendar__td calendar-cell'
+      className: `calendar__td calendar-cell calendar-cell--${cellSequence}`
     });
+    this.$element.dataset.sequence = cellSequence.toString();
     this.cashHistoriesInDay = cashHistoriesInDay;
   }
 
@@ -57,20 +58,15 @@ class CalendarCellUIElement extends UIElement {
     `;
   }
 
-  onDocumentClicked (e: Event): void {
-    const target = e.target as HTMLElement;
-    if (target !== this.$element) {
-      this.calendarDetailUIElement?.disappear();
-    }
-  }
+  // onDocumentClicked (e: Event): void {
+  //   const target = e.target as HTMLElement;
+  //   if (target !== this.$element) {
+  //     this.calendarDetailUIElement?.disappear();
+  //   }
+  // }
 
   protected addListener (): void {
-    if (this.calendarDetailUIElement !== undefined) {
-      document.addEventListener('click', this.onDocumentClicked.bind(this));
-
-      this.$element.addEventListener('click',
-        this.calendarDetailUIElement.toggle.bind(this.calendarDetailUIElement));
-    }
+    // no event
   }
 
   protected mount (): void {
