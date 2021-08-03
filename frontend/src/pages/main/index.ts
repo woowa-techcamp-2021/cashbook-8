@@ -8,14 +8,15 @@ class MainPage extends Page {
     const $headerView = $('.header-view');
     const $mainView = $('.main-view');
 
-    if ($headerView === null || $mainView === null) {
-      return;
+    if ($headerView !== null) {
+      const headerView = new HeaderView($headerView);
+      headerView.build();
     }
-    const headerView = new HeaderView($headerView);
-    const mainView = new MainView($mainView);
 
-    headerView.build();
-    mainView.build();
+    if ($mainView !== null) {
+      const mainView = new MainView($mainView);
+      mainView.build();
+    }
   }
 
   protected render ():void {
