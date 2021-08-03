@@ -45,9 +45,9 @@ class CalendarCellUIElement extends UIElement {
     this.$element.innerHTML = `
       <div class="calendar-cell__container">
         <div class="calendar-cell__price-wrapper">
-          <span class="calendar-cell__price calendar-cell__price--income">${formatNumber(income)}</span>
-          <span class="calendar-cell__price calendar-cell__price--expenditure">${formatNumber(expenditure)}</span>
-          <span class="calendar-cell__price calendar-cell__price--total">${formatNumber(income - expenditure)}</span>
+          ${income > 0 ? `<span class="calendar-cell__price calendar-cell__price--income">${formatNumber(income)}</span>` : ''}
+          ${expenditure > 0 ? `<span class="calendar-cell__price calendar-cell__price--expenditure">${formatNumber(expenditure)}</span>` : ''}
+          ${income > 0 && expenditure > 0 ? `<span class="calendar-cell__price calendar-cell__price--total">${formatNumber(income - expenditure)}</span>` : ''}
         </div>
 
         <div class="calendar-cell__date-wrapper">
