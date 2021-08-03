@@ -1,6 +1,7 @@
 import UIElement from '../../../core/ui-element';
 import { CashHistoriesInDay } from '../../../types/cash-history';
 import { isSameDate } from '../../../utils/date';
+import { formatNumber } from '../../../utils/formatter';
 import CalendarDetailUIElement from '../calendar-detail';
 
 import './index.css';
@@ -44,9 +45,9 @@ class CalendarCellUIElement extends UIElement {
     this.$element.innerHTML = `
       <div class="calendar-cell__container">
         <div class="calendar-cell__price-wrapper">
-          <span class="calendar-cell__price calendar-cell__price--income">${income}</span>
-          <span class="calendar-cell__price calendar-cell__price--expenditure">${expenditure}</span>
-          <span class="calendar-cell__price calendar-cell__price--total">${income - expenditure}</span>
+          <span class="calendar-cell__price calendar-cell__price--income">${formatNumber(income)}</span>
+          <span class="calendar-cell__price calendar-cell__price--expenditure">${formatNumber(expenditure)}</span>
+          <span class="calendar-cell__price calendar-cell__price--total">${formatNumber(income - expenditure)}</span>
         </div>
 
         <div class="calendar-cell__date-wrapper">

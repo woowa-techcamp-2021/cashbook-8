@@ -1,5 +1,6 @@
 import UIElement from '../../../core/ui-element';
 import { TotalPrices } from '../../../types/cash-history';
+import { formatNumber } from '../../../utils/formatter';
 
 import './index.css';
 
@@ -19,18 +20,18 @@ class CalendarTotalPriceUIElement extends UIElement {
     <div class="calendar-total-price__info-wrapper">
       <div class="calendar-total-price__content">
         <span class="calendar-total-price__label">총 수입</span>
-        <span class="calendar-total-price__price">${totalIncome}</span>
+        <span class="calendar-total-price__price">${formatNumber(totalIncome)}</span>
       </div>
 
       <div class="calendar-total-price__content">
         <span class="calendar-total-price__label">총 지출</span>
-        <span class="calendar-total-price__price">${totalExpenditure}</span>
+        <span class="calendar-total-price__price">${formatNumber(totalExpenditure)}</span>
       </div>
     </div>
 
     <div class="calendar-total-price__content">
       <span class="calendar-total-price__label">총계</span>
-      <span class="calendar-total-price__price">${totalPrice}</span>
+      <span class="calendar-total-price__price">${formatNumber(totalPrice)}</span>
     <div>
     `;
   }

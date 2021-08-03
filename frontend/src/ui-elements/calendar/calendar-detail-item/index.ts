@@ -1,6 +1,7 @@
 import UIElement from '../../../core/ui-element';
 import { CashHistories } from '../../../enums/cash-history.enum';
 import { CashHistory } from '../../../types/cash-history';
+import { formatNumber } from '../../../utils/formatter';
 
 import './index.css';
 
@@ -26,7 +27,7 @@ class CalendarDetailItemUIElement extends UIElement {
       </div>
 
       <span class="calendar-detail__price calendar-detail__price--${type === CashHistories.Income ? 'income' : 'expenditure'}">
-        ${price}
+        ${formatNumber(price)}
       </span>
     `;
   }
