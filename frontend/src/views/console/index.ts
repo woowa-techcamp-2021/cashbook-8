@@ -70,17 +70,20 @@ class ConsoleView extends View {
 
   protected render (): void {
     if (this.consoleViewModel.cashHistory.cashHistory === null) {
+      const INIT_NUM = 0;
+      const INIT_STR = '';
+
       this.consoleViewModel.cashHistory.cashHistory = {
-        id: 0,
-        price: 0,
-        content: '',
+        id: INIT_NUM,
+        price: INIT_NUM,
+        content: INIT_STR,
         type: CashHistories.Income,
-        category: { id: 0, name: '', color: '', userId: 0, type: CashHistories.Income },
-        payment: { id: 0, name: '', userId: 0 },
-        userId: 0,
-        categoryId: 0,
-        paymentId: 0,
-        createdAt: ''
+        category: { id: INIT_NUM, name: INIT_STR, color: INIT_STR, userId: INIT_NUM, type: CashHistories.Income },
+        payment: { id: INIT_NUM, name: INIT_STR, userId: INIT_NUM },
+        userId: INIT_NUM,
+        categoryId: INIT_NUM,
+        paymentId: INIT_NUM,
+        createdAt: INIT_STR
       };
     }
     const { id, category, content, payment, price } = this.consoleViewModel.cashHistory.cashHistory;
