@@ -2,6 +2,7 @@ import actions from '../constant/actions';
 import CashHistoriesModel from './cash-histories';
 import CashHistoryModel from './cash-history';
 import CategoriesModel from './categories';
+import CategoryExpenditureModel from './category-expenditure';
 import FocusDateModel from './focus-date';
 import PaymentsModel from './payments';
 
@@ -39,6 +40,12 @@ const models = {
   cashHistory: new CashHistoryModel({
     cashHistory: {
       action: actions.ON_CASH_HISTORY_CHANGE,
+      data: null
+    }
+  }).getProxy(),
+  categoryExpenditures: new CategoryExpenditureModel({
+    categoryExpenditures: {
+      action: actions.ON_CATEGORY_EXPENDITURE_CHANGE,
       data: null
     }
   }).getProxy()
