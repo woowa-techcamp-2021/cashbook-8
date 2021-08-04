@@ -1,5 +1,6 @@
 import { createQueryBuilder, EntityRepository, Repository } from 'typeorm';
 import CashHistory from '../entities/cash-history';
+import { CashHistories } from '../enums/cash-history.enum';
 
 @EntityRepository(CashHistory)
 class CashHistoryRepository extends Repository<CashHistory> {
@@ -25,6 +26,17 @@ class CashHistoryRepository extends Repository<CashHistory> {
         created_at: 'DESC'
       })
       .getMany();
+  }
+
+  getTotalCashesByCategoryAndDate (userId: number, year: number, month: number, categoryId: number): Promise<number[]> {
+    return createQueryBuilder(CashHistory)
+      .select('MONTH(created_at) as month, SUM(price) as price')
+      .where('user_id = :userId', { userId })
+      .andWhere('type = :type', { type: CashHistories.Expenditure.toString() })
+      .andWhere('category_id = :categoryId', { categoryId })
+      .andWhere('(YEAR(created_at) = :year AND MONTH(created_at) <= :month OR YEAR(created_at) = :lastYear AND MONTH(created_at) > :month)', { year, month, lastYear: year - 1 })
+      .groupBy('MONTH(created_at)')
+      .getRawMany();
   }
 }
 
