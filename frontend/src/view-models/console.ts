@@ -6,9 +6,9 @@ import models from '../models';
 import { CashHistoryData } from '../models/cash-history';
 import { CategoriesData } from '../models/categories';
 import { PaymentsData } from '../models/payments';
-import CategoryAPI from '../api/category';
-import PaymentAPI from '../api/payment';
-import CashHistoryAPI from '../api/cash-history';
+import categoryAPI from '../api/category';
+import paymentAPI from '../api/payment';
+import cashHistoryAPI from '../api/cash-history';
 import { CashHistoryRequest } from '../types/cash-history';
 import { FocusDateData } from '../models/focus-date';
 import { CashHistoriesData } from '../models/cash-histories';
@@ -48,7 +48,7 @@ class ConsoleViewModel extends ViewModel {
 
   async fetchCashHistories (): Promise<void> {
     const date = this.focusDateModel.focusDate;
-    const histories = await CashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
+    const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
     this.filteredCashHistoriesModel.cashHistories = histories;
   }
 
@@ -110,23 +110,23 @@ class ConsoleViewModel extends ViewModel {
   }
 
   private async fetchCategories () {
-    const categories = await CategoryAPI.fetchCategories();
+    const categories = await categoryAPI.fetchCategories();
     this.categoriesModel.categories = categories;
   }
 
   private async fetchPayments () {
-    const payments = await PaymentAPI.fetchPayments();
+    const payments = await paymentAPI.fetchPayments();
     this.paymentsModel.payments = payments;
   }
 
   async createCashHistory (cashHistoryRequest: CashHistoryRequest): Promise<void> {
-    await CashHistoryAPI.createCashHistory(cashHistoryRequest);
+    await cashHistoryAPI.createCashHistory(cashHistoryRequest);
     await new Promise((resolve) => setTimeout(resolve, 100));
     this.fetchCashHistories();
   }
 
   async updateCashHistory (id:number, cashHistoryRequest: CashHistoryRequest): Promise<void> {
-    await CashHistoryAPI.updateCashHistory(id, cashHistoryRequest);
+    await cashHistoryAPI.updateCashHistory(id, cashHistoryRequest);
     await new Promise((resolve) => setTimeout(resolve, 100));
     this.fetchCashHistories();
   }
