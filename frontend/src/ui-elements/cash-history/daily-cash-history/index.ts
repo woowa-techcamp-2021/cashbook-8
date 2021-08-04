@@ -2,7 +2,7 @@ import UIElement from '../../../core/ui-element';
 import { CashHistoriesInDay } from '../../../types/cash-history';
 import { EventListener } from '../../../types/dom';
 import { $ } from '../../../utils/selector';
-import CashRowUIElement from '../cash-row';
+import CashHistoryRowUIElement from '../cash-history-row';
 
 class DailyCashHistoryUIElement extends UIElement {
   private cashHistoriesInDay: CashHistoriesInDay;
@@ -34,7 +34,7 @@ class DailyCashHistoryUIElement extends UIElement {
       return;
     }
     this.cashHistoriesInDay.cashHistories.forEach(cashHistory => {
-      new CashRowUIElement($dailyCashHistoryRow, cashHistory).build();
+      new CashHistoryRowUIElement($dailyCashHistoryRow, cashHistory).build();
     });
   }
 }

@@ -6,7 +6,7 @@ import { $ } from '../../../utils/selector';
 
 import './index.css';
 
-class CashRowUIElement extends UIElement {
+class CashHistoryRowUIElement extends UIElement {
   private cashHistory: CashHistory;
   private onClick?: EventListener;
 
@@ -37,4 +37,4 @@ class CashRowUIElement extends UIElement {
   }
 }
 
-export default CashRowUIElement;
+export default CashHistoryRowUIElement;
