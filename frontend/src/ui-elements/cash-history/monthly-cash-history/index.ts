@@ -11,11 +11,9 @@ import './index.css';
 class MonthlyCashHistoryUIElement extends UIElement {
   private cashHistoriesInDays: CashHistoriesInDay[];
   private onClick?: EventListener;
-  static sequence = 0;
 
   constructor ($target: HTMLElement, cashHistoriesInDays: CashHistoriesInDay[], onClick?: EventListener) {
     super($target);
-    MonthlyCashHistoryUIElement.sequence += 1;
     this.cashHistoriesInDays = cashHistoriesInDays;
     this.onClick = onClick;
   }
