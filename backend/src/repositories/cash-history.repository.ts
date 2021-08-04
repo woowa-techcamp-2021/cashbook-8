@@ -28,7 +28,7 @@ class CashHistoryRepository extends Repository<CashHistory> {
       .getMany();
   }
 
-  getTotalCashesByCategoryAndDate (userId: number, year: number, month: number, categoryId: number): Promise<number[]> {
+  getTotalCashesByCategoryAndDate (userId: number, year: number, month: number, categoryId: number): Promise<{ month: number, price: number }[]> {
     return createQueryBuilder(CashHistory)
       .select('MONTH(created_at) as month, SUM(price) as price')
       .where('user_id = :userId', { userId })

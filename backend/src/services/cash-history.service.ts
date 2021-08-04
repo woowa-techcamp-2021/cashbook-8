@@ -80,12 +80,43 @@ class CashHistoryService {
     return cashHistories;
   }
 
-  async getMonthlyCategoryTotalCash (user: User, year: number, month: number, categoryId: number): Promise<number[]> {
+  async getMonthlyCategoryTotalCash (user: User, year: number, month: number, categoryId: number) {
     const { id } = user;
     const totalCashes = await getCustomRepository(CashHistoryRepository)
       .getTotalCashesByCategoryAndDate(id, year, month, categoryId);
 
     return totalCashes;
+  }
+
+  pushZeroPrice2Null (month: number, totalCashes: { month: number, price: number }[]) {
+    const formattedTotalCashes = [];
+    for (let i = 0; i < 12; i++) {
+      formattedTotalCashes.push({ month: 0, price: 0 });
+    }
+    const GAP = 12 - month;
+    totalCashes.forEach(totalCash => {
+      if (totalCash.month <= month) {
+        formattedTotalCashes[totalCash.month + GAP - 1] = {
+          month: totalCash.month,
+          price: totalCash.price
+        };
+      } else {
+        formattedTotalCashes[totalCash.month - month - 1] = {
+          month: totalCash.month,
+          price: totalCash.price
+        };
+      }
+    });
+    let i = month + 1;
+    formattedTotalCashes.forEach(totalCashes => {
+      let ii = i++ % 13;
+      if (ii === 0) {
+        ii++;
+        i++;
+      }
+      totalCashes.month = ii;
+    });
+    return formattedTotalCashes;
   }
 
   async createCashHistory (user: User, cashHistoryCreateRequest: CashHistoryCreateRequest) {

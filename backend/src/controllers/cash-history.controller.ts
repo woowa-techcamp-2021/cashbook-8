@@ -32,10 +32,11 @@ class CashHistoryController {
     const { year, month, categoryId } = monthlyCategoryTotalCashGetRequest;
 
     const totalCashes = await cashHistoryService.getMonthlyCategoryTotalCash(user, year, month, categoryId);
+    const formattedTotalCashes = cashHistoryService.pushZeroPrice2Null(month, totalCashes);
 
     res.status(200).json({
       message: '카테고리 소비 추이 조회에 성공했습니다',
-      totalCashes: totalCashes
+      totalCashes: formattedTotalCashes
     });
   }
 
