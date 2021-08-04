@@ -24,10 +24,9 @@ class ExpenditureInMonthView extends View {
       <div class="expenditure-in-month">
         ${expenditurePieChartInput.length <= 0
           ? '<div class="pie-chart-view--no-data">데이터가 없습니다</div>'
-          : '<div class="pie-chart-view"></div>'
+          : `<div class="pie-chart-view"></div>
+            <div class="grouped-expenditure">`
         }
-
-        <div class="grouped-expenditure">
         </div>
       </div>
     `;

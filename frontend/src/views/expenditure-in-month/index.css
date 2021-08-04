@@ -1,3 +1,15 @@
+.pie-chart-view--no-data {
+  width: 100%;
+  height: 425px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grouped-expenditure--no-data {
+  width: 100%;
+}
+
 .expenditure-in-month {
   padding: 30px;
   display: flex;
