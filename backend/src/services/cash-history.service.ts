@@ -80,6 +80,14 @@ class CashHistoryService {
     return cashHistories;
   }
 
+  async getMonthlyCategoryTotalCash (user: User, year: number, month: number, categoryId: number): Promise<number[]> {
+    const { id } = user;
+    const totalCashes = await getCustomRepository(CashHistoryRepository)
+      .getTotalCashesByCategoryAndDate(id, year, month, categoryId);
+
+    return totalCashes;
+  }
+
   async createCashHistory (user: User, cashHistoryCreateRequest: CashHistoryCreateRequest) {
     const { id } = user;
     const { price, content, categoryId, paymentId, date } = cashHistoryCreateRequest;
