@@ -1,6 +1,6 @@
 import View from '../../core/view';
-import DailyCashHistory from '../../ui-elements/cash-history/daily-cash-history';
-import { getDayString } from '../../utils/date';
+import MonthlyCashHistory from '../../ui-elements/cash-history/monthly-cash-history';
+import { formatNumber } from '../../utils/formatter';
 import { $ } from '../../utils/selector';
 import MainViewModel from '../../view-models/main';
 
@@ -18,11 +18,8 @@ class MainView extends View {
     this.isExpenditureChecked = true;
   }
 
-  onIncomeFilterClick (): void {
-    this.isIncomeChecked = !this.isIncomeChecked;
-    const $checkBox = $('.main__check-box--income');
-    const $filter = $('.main__filter');
-    if (!this.isIncomeChecked) {
+  setActiveClass ($checkBox: HTMLElement, $filter: HTMLElement, isChecked: boolean): void {
+    if (!isChecked) {
       if ($checkBox?.classList.contains('main__check-box--active')) {
         $checkBox.classList.remove('main__check-box--active');
         $filter?.classList.remove('main__filter--active');
@@ -31,17 +28,33 @@ class MainView extends View {
       $checkBox?.classList.add('main__check-box--active');
       $filter?.classList.add('main__filter--active');
     }
-    // console.log($checkBox, $filter);
+  }
+
+  onIncomeFilterClick (): void {
+    this.isIncomeChecked = !this.isIncomeChecked;
+    const $checkBox = $('.main__check-box--income');
+    if ($checkBox === null) {
+      return;
+    }
+    const $filter = $('.main__filter--income');
+    if ($filter === null) {
+      return;
+    }
+    this.setActiveClass($checkBox, $filter, this.isIncomeChecked);
     this.mainViewModel.filterButtonClick(this.isIncomeChecked, this.isExpenditureChecked);
   }
 
   onExpenditureFilterClick (): void {
     this.isExpenditureChecked = !this.isExpenditureChecked;
-    if (!this.isIncomeChecked) {
-      $('.main__check-box--expenditure')?.classList.remove('main__check-box--active');
-    } else {
-      $('.main__check-box--expenditure')?.classList.add('main__check-box--active');
+    const $checkBox = $('.main__check-box--expenditure');
+    if ($checkBox === null) {
+      return;
     }
+    const $filter = $('.main__filter--expenditure');
+    if ($filter === null) {
+      return;
+    }
+    this.setActiveClass($checkBox, $filter, this.isExpenditureChecked);
     this.mainViewModel.filterButtonClick(this.isIncomeChecked, this.isExpenditureChecked);
   }
 
@@ -58,41 +71,49 @@ class MainView extends View {
           <div class="main__check-box main__check-box--income main__check-box--active">
           <i class="wci wci-check"></i>
           </div>
-          <div>수입 ${this.mainViewModel.incomeTotalPrice}</div>
+          <div>수입 ${formatNumber(this.mainViewModel.incomeTotalPrice)}</div>
         </div>
         <div class="main__filter main__filter--expenditure main__filter--active">
           <div class="main__check-box main__check-box--expenditure main__check-box--active">
           <i class="wci wci-check"></i>
           </div>
-          <div>지출 ${this.mainViewModel.expenditureTotalPrice}</div>
+          <div>지출 ${formatNumber(this.mainViewModel.expenditureTotalPrice)}</div>
         </div>
       </div>
-      <div class="main__cash-list"></div>
+      <div class="main__cash-history-list"></div>
     `;
   }
 
   protected mount (): void {
-    const $mainCashList = $('.main__cash-list');
+    const $mainCashList = $('.main__cash-history-list');
     if ($mainCashList === null) {
       return;
     }
 
-    this.mainViewModel.cashHistories?.forEach(cashHistory => {
-      if (cashHistory.cashHistories.length === 0) {
-        return;
-      }
-      const $date = document.createElement('div');
-      $date.innerHTML = `
-        <div class="main__cash-list-header">
-          <div class="">${cashHistory.month}월 ${cashHistory.date}일</div>
-          <div class="main__cash-list-day">${getDayString(cashHistory.day)}</div>
-          <div class="main__cash-list-income">수입 ${cashHistory.income}</div>
-          <div class="main__cash-list-expenditure">지출 ${cashHistory.expenditure}</div>
-        </div>
-      `;
-      $mainCashList.appendChild($date);
-      new DailyCashHistory($mainCashList, cashHistory, this.mainViewModel.onCashHistoryClick.bind(this.mainViewModel)).build();
-    });
+    if (this.mainViewModel.cashHistories === undefined) {
+      return;
+    }
+    new MonthlyCashHistory($mainCashList, this.mainViewModel.cashHistories, this.mainViewModel.onCashHistoryClick.bind(this.mainViewModel)).build();
+
+    const $incomeCheckBox = $('.main__check-box--income');
+    if ($incomeCheckBox === null) {
+      return;
+    }
+    const $incomeFilter = $('.main__filter--income');
+    if ($incomeFilter === null) {
+      return;
+    }
+    this.setActiveClass($incomeCheckBox, $incomeFilter, this.isIncomeChecked);
+
+    const $expenditureCheckBox = $('.main__check-box--expenditure');
+    if ($expenditureCheckBox === null) {
+      return;
+    }
+    const $expenditureFilter = $('.main__filter--expenditure');
+    if ($expenditureFilter === null) {
+      return;
+    }
+    this.setActiveClass($expenditureCheckBox, $expenditureFilter, this.isExpenditureChecked);
   }
 }
 

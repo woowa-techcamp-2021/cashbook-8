@@ -1,11 +1,12 @@
 import UIElement from '../../../core/ui-element';
 import { CashHistory } from '../../../types/cash-history';
 import { EventListener } from '../../../types/dom';
+import { formatNumber } from '../../../utils/formatter';
 import { $ } from '../../../utils/selector';
 
 import './index.css';
 
-class CashRowUIElement extends UIElement {
+class CashHistoryRowUIElement extends UIElement {
   private cashHistory: CashHistory;
   private onClick?: EventListener;
 
@@ -26,7 +27,7 @@ class CashRowUIElement extends UIElement {
         <div data-id="${id}" class="cash-history__category" style="background-color: ${category.color}">${category.name}</div>
         <div data-id="${id}" class="cash-history__content">${content}</div>
         <div data-id="${id}" class="cash-history__payment">${payment.name}</div>
-        <div data-id="${id}" class="cash-history__price">${price}</div>
+        <div data-id="${id}" class="cash-history__price">${formatNumber(price)}</div>
       </div>
     `;
   }
@@ -36,4 +37,4 @@ class CashRowUIElement extends UIElement {
   }
 }
 
-export default CashRowUIElement;
+export default CashHistoryRowUIElement;
