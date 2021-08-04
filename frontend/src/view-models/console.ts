@@ -75,14 +75,14 @@ class ConsoleViewModel extends ViewModel {
     if (this.paymentsModel.payments === null) {
       return;
     }
-    this.paymentsModel.payments.payments.forEach(e => {
-      if (e.name === selectedPaymentModelName) {
+    this.paymentsModel.payments.payments.forEach(payment => {
+      if (payment.name === selectedPaymentModelName) {
         if (this.cashHistoryModel.cashHistory === null) {
           return;
         }
         this.cashHistoryModel.cashHistory = {
           ...this.cashHistoryModel.cashHistory,
-          payment: e
+          payment: payment
         };
       }
     });
