@@ -22,6 +22,10 @@
   cursor: pointer;
 }
 
+.expenditure-item > * {
+  pointer-events: none;
+}
+
 .expenditure-item:hover {
   background-color: var(--background);
 }

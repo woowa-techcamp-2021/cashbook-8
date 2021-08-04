@@ -1,5 +1,6 @@
 import UIElement from '../../../core/ui-element';
 import { formatNumber } from '../../../utils/formatter';
+import { $ } from '../../../utils/selector';
 import { ExpenditureGroupedByCategory } from '../../../view-models/expenditure-in-month';
 
 import './index.css';
@@ -9,12 +10,16 @@ class ExpenditureListUIElement extends UIElement {
   private totalExpenditure: number;
   private year: number;
   private month: number;
+  private onCategoryMouseEnter: EventListener;
+  private onCategoryMouseLeave: EventListener;
 
   constructor ($target: HTMLElement,
     expenditureGroupedByCategory: ExpenditureGroupedByCategory[],
     totalExpenditure: number,
     year: number,
-    month: number) {
+    month: number,
+    onCategoryMouseEnter: EventListener,
+    onCategoryMouseLeave: EventListener) {
     super($target, {
       className: 'expenditure-list'
     });
@@ -23,6 +28,8 @@ class ExpenditureListUIElement extends UIElement {
     this.totalExpenditure = totalExpenditure;
     this.year = year;
     this.month = month;
+    this.onCategoryMouseEnter = onCategoryMouseEnter;
+    this.onCategoryMouseLeave = onCategoryMouseLeave;
   }
 
   protected render (): void {
@@ -34,9 +41,9 @@ class ExpenditureListUIElement extends UIElement {
 
       
       <div class="expenditure-list-wrapper">
-        ${expenditureGroupedByCategory.map(({ category, rate, expenditure }) => {
+        ${expenditureGroupedByCategory.map(({ index, category, rate, expenditure }) => {
           return `
-            <div class="expenditure-item">
+            <div class="expenditure-item" data-index=${index}>
               <div class="expenditure-item__category" style="background-color: ${category.color}">
                 ${category.name}
               </div>
@@ -51,7 +58,8 @@ class ExpenditureListUIElement extends UIElement {
   }
 
   protected addListener (): void {
-    // no events
+    $('.expenditure-list-wrapper')?.addEventListener('mousemove', this.onCategoryMouseEnter);
+    $('.expenditure-list-wrapper')?.addEventListener('mouseleave', this.onCategoryMouseLeave);
   }
 
   protected mount (): void {

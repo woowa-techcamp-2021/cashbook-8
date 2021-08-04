@@ -15,6 +15,7 @@ import { PieChartInputData } from '../ui-elements/chart/pie-chart';
 import { formatNumber } from '../utils/formatter';
 
 export type ExpenditureGroupedByCategory = {
+  index: number;
   expenditure: number;
   rate: number;
   category: Category;
@@ -82,9 +83,10 @@ class ExpenditureInMonthViewModel extends ViewModel {
     }
 
     return this.expenditureGroupedByCategory.map((categoryExpenditure) => {
-      const { category, expenditure } = categoryExpenditure;
+      const { index, category, expenditure } = categoryExpenditure;
 
       return {
+        kye: index,
         name: category.name,
         color: category.color,
         value: expenditure,
@@ -112,12 +114,13 @@ class ExpenditureInMonthViewModel extends ViewModel {
       ];
     }, [] as CashHistory[]);
 
-    const cashHistoriesGroupedByCategory = categories.map((category) => {
+    const cashHistoriesGroupedByCategory = categories.map((category, index) => {
       const expenditure = totalCashHistories
         .filter((cashHistory) => cashHistory.categoryId === category.id)
         .reduce((sum, cashHistory) => sum + cashHistory.price, 0);
 
       return {
+        index,
         category,
         expenditure,
         rate: expenditure / totalExpenditure * 100

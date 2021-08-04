@@ -8,10 +8,25 @@ import './index.css';
 
 class ExpenditureInMonthView extends View {
   private expenditureInMonthViewModel: ExpenditureInMonthViewModel;
+  private pieChartUIElement?: PieChartUIElement;
 
   constructor ($target: HTMLElement) {
     super($target);
     this.expenditureInMonthViewModel = new ExpenditureInMonthViewModel(this);
+  }
+
+  private onCategoryMouseEnter = (e: Event) => {
+    const target = e.target as HTMLElement;
+    const { index } = target.dataset;
+    if (index === undefined) {
+      return;
+    }
+
+    this.pieChartUIElement?.emphasize(Number(index));
+  }
+
+  private onCategoryMouseLeave = () => {
+    this.pieChartUIElement?.cancelEmphasize();
   }
 
   protected addListener (): void {
@@ -35,7 +50,8 @@ class ExpenditureInMonthView extends View {
   protected mount (): void {
     const $pieChartView = $('.pie-chart-view');
     if ($pieChartView !== null) {
-      new PieChartUIElement($pieChartView, this.expenditureInMonthViewModel.expenditurePieChartInput, 420, 420).build();
+      this.pieChartUIElement = new PieChartUIElement($pieChartView, this.expenditureInMonthViewModel.expenditurePieChartInput, 420, 420);
+      this.pieChartUIElement.build();
     }
 
     const $groupedExpenditure = $('.grouped-expenditure');
@@ -44,7 +60,9 @@ class ExpenditureInMonthView extends View {
         this.expenditureInMonthViewModel.expenditureGroupedByCategory,
         this.expenditureInMonthViewModel.totalExpenditure,
         this.expenditureInMonthViewModel.focusedYear,
-        this.expenditureInMonthViewModel.focusedMonth
+        this.expenditureInMonthViewModel.focusedMonth,
+        this.onCategoryMouseEnter,
+        this.onCategoryMouseLeave
       ).build();
     }
   }

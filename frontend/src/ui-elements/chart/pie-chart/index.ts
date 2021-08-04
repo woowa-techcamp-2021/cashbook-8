@@ -67,6 +67,23 @@ class PieChartUIElement extends UIElement {
     this.drawWithAnimation(0);
   }
 
+  emphasize (index: number): void {
+    this.ctx?.clearRect(0, 0, this.width, this.height);
+    let currentDegree = 0;
+    for (let i = 0; i < index; i += 1) {
+      currentDegree += this.chartData[i].degree;
+    }
+
+    const focusDegree = (currentDegree + (currentDegree + this.chartData[index].degree)) / 2;
+
+    this.draw(360, focusDegree);
+  }
+
+  cancelEmphasize (): void {
+    this.ctx?.clearRect(0, 0, this.width, this.height);
+    this.draw(360);
+  }
+
   private formatChartData (data: PieChartInputData[]) {
     const total = data.reduce((sum, curr) => sum + curr.value, 0);
 
