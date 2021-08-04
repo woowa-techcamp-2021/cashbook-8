@@ -1,6 +1,7 @@
 import View from '../../core/view';
 import DailyCashHistory from '../../ui-elements/cash-history/daily-cash-history';
 import { getDayString } from '../../utils/date';
+import { formatNumber } from '../../utils/formatter';
 import { $ } from '../../utils/selector';
 import MainViewModel from '../../view-models/main';
 
@@ -58,13 +59,13 @@ class MainView extends View {
           <div class="main__check-box main__check-box--income main__check-box--active">
           <i class="wci wci-check"></i>
           </div>
-          <div>수입 ${this.mainViewModel.incomeTotalPrice}</div>
+          <div>수입 ${formatNumber(this.mainViewModel.incomeTotalPrice)}</div>
         </div>
         <div class="main__filter main__filter--expenditure main__filter--active">
           <div class="main__check-box main__check-box--expenditure main__check-box--active">
           <i class="wci wci-check"></i>
           </div>
-          <div>지출 ${this.mainViewModel.expenditureTotalPrice}</div>
+          <div>지출 ${formatNumber(this.mainViewModel.expenditureTotalPrice)}</div>
         </div>
       </div>
       <div class="main__cash-list"></div>
@@ -86,8 +87,8 @@ class MainView extends View {
         <div class="main__cash-list-header">
           <div class="">${cashHistory.month}월 ${cashHistory.date}일</div>
           <div class="main__cash-list-day">${getDayString(cashHistory.day)}</div>
-          <div class="main__cash-list-income">수입 ${cashHistory.income}</div>
-          <div class="main__cash-list-expenditure">지출 ${cashHistory.expenditure}</div>
+          <div class="main__cash-list-income">수입 ${formatNumber(cashHistory.income)}</div>
+          <div class="main__cash-list-expenditure">지출 ${formatNumber(cashHistory.expenditure)}</div>
         </div>
       `;
       $mainCashList.appendChild($date);
