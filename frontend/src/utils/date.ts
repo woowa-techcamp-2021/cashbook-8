@@ -12,7 +12,7 @@ export const getDayString = (day: number): string => {
   return dayString[day];
 };
 
-export const getConsoleDate = (Date: Date): string => {
+export const date2yyyyMMdd = (Date: Date): string => {
   const y = Date.getFullYear();
   const m = Date.getMonth() + 1;
   const d = Date.getDate();

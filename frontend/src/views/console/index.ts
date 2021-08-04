@@ -1,6 +1,6 @@
 import View from '../../core/view';
 import DropDownUIElement from '../../ui-elements/drop-down';
-import { getConsoleDate } from '../../utils/date';
+import { date2yyyyMMdd } from '../../utils/date';
 import { $ } from '../../utils/selector';
 import ConsoleViewModel from '../../view-models/console';
 import { CashHistories } from '../../enums/cash-history.enum';
@@ -29,7 +29,7 @@ class ConsoleView extends View {
     const { price, content, category, payment } = this.consoleViewModel.cashHistory.cashHistory;
     const { id } = this.consoleViewModel.cashHistory.cashHistory;
     const cashHistoryRequest = {
-      date: getConsoleDate(new Date()),
+      date: date2yyyyMMdd(new Date()),
       price,
       content,
       categoryId: category.id,
@@ -84,7 +84,7 @@ class ConsoleView extends View {
     <div class="console__container">
     <div class="console__column">
       <div class="console__title">일자</div>
-      <input class="console__input" placeholder="입력하세요" value="${getConsoleDate(new Date())}" />
+      <input class="console__input" placeholder="입력하세요" value="${date2yyyyMMdd(new Date())}" />
     </div>
     <div class="console__column">
       <div class="console__title">분류</div>
