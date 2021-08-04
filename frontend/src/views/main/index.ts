@@ -1,6 +1,5 @@
 import View from '../../core/view';
 import MonthlyCashHistory from '../../ui-elements/cash-history/monthly-cash-history';
-import { getDayString } from '../../utils/date';
 import { formatNumber } from '../../utils/formatter';
 import { $ } from '../../utils/selector';
 import MainViewModel from '../../view-models/main';
@@ -68,32 +67,20 @@ class MainView extends View {
           <div>지출 ${formatNumber(this.mainViewModel.expenditureTotalPrice)}</div>
         </div>
       </div>
-      <div class="main__cash-list"></div>
+      <div class="main__cash-history-list"></div>
     `;
   }
 
   protected mount (): void {
-    const $mainCashList = $('.main__cash-list');
+    const $mainCashList = $('.main__cash-history-list');
     if ($mainCashList === null) {
       return;
     }
 
-    this.mainViewModel.cashHistories?.forEach(cashHistory => {
-      if (cashHistory.cashHistories.length === 0) {
-        return;
-      }
-      const $date = document.createElement('div');
-      $date.innerHTML = `
-        <div class="main__cash-list-header">
-          <div class="">${cashHistory.month}월 ${cashHistory.date}일</div>
-          <div class="main__cash-list-day">${getDayString(cashHistory.day)}</div>
-          <div class="main__cash-list-income">수입 ${formatNumber(cashHistory.income)}</div>
-          <div class="main__cash-list-expenditure">지출 ${formatNumber(cashHistory.expenditure)}</div>
-        </div>
-      `;
-      $mainCashList.appendChild($date);
-      new MonthlyCashHistory($mainCashList, cashHistory, this.mainViewModel.onCashHistoryClick.bind(this.mainViewModel)).build();
-    });
+    if (this.mainViewModel.cashHistories === undefined) {
+      return;
+    }
+    new MonthlyCashHistory($mainCashList, this.mainViewModel.cashHistories, this.mainViewModel.onCashHistoryClick.bind(this.mainViewModel)).build();
   }
 }
 

@@ -1,18 +1,22 @@
 import UIElement from '../../../core/ui-element';
 import { CashHistoriesInDay } from '../../../types/cash-history';
 import { EventListener } from '../../../types/dom';
+import { getDayString } from '../../../utils/date';
+import { formatNumber } from '../../../utils/formatter';
 import { $ } from '../../../utils/selector';
 import CashHistoryRowUIElement from '../cash-history-row';
 
+import './index.css';
+
 class MonthlyCashHistoryUIElement extends UIElement {
-  private cashHistoriesInDay: CashHistoriesInDay;
+  private cashHistoriesInDays: CashHistoriesInDay[];
   private onClick?: EventListener;
   static sequence = 0;
 
-  constructor ($target: HTMLElement, cashHistoriesInDay: CashHistoriesInDay, onClick?: EventListener) {
+  constructor ($target: HTMLElement, cashHistoriesInDays: CashHistoriesInDay[], onClick?: EventListener) {
     super($target);
     MonthlyCashHistoryUIElement.sequence += 1;
-    this.cashHistoriesInDay = cashHistoriesInDay;
+    this.cashHistoriesInDays = cashHistoriesInDays;
     this.onClick = onClick;
   }
 
@@ -24,17 +28,36 @@ class MonthlyCashHistoryUIElement extends UIElement {
 
   protected render (): void {
     this.$element.innerHTML = `
-      <div class="daily-cash-history__row${MonthlyCashHistoryUIElement.sequence}"></div>
+      <div class="monthly-cash-history__container"></div>
     `;
   }
 
   protected mount (): void {
-    const $monthlyCashHistoryRow = $(`.daily-cash-history__row${MonthlyCashHistoryUIElement.sequence}`);
-    if ($monthlyCashHistoryRow === null) {
+    const $container = $('.monthly-cash-history__container');
+    if ($container === null) {
       return;
     }
-    this.cashHistoriesInDay.cashHistories.forEach(cashHistory => {
-      new CashHistoryRowUIElement($monthlyCashHistoryRow, cashHistory).build();
+    this.cashHistoriesInDays.forEach(cashHistoriesInDay => {
+      if (cashHistoriesInDay.cashHistories.length === 0) {
+        return;
+      }
+      const $date = document.createElement('div');
+      $date.innerHTML = `
+        <div class="monthly-cash-history__header">
+          <div class="">${cashHistoriesInDay.month}월 ${cashHistoriesInDay.date}일</div>
+          <div class="monthly-cash-history__day">${getDayString(cashHistoriesInDay.day)}</div>
+          <div class="monthly-cash-history__income">수입 ${formatNumber(cashHistoriesInDay.income)}</div>
+          <div class="monthly-cash-history__expenditure">지출 ${formatNumber(cashHistoriesInDay.expenditure)}</div>
+        </div>
+      `;
+      $container.appendChild($date);
+
+      const $dailyCashHistory = document.createElement('div');
+
+      cashHistoriesInDay.cashHistories.forEach(cashHistory => {
+        new CashHistoryRowUIElement($dailyCashHistory, cashHistory).build();
+      });
+      $container.appendChild($dailyCashHistory);
     });
   }
 }

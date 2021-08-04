@@ -49,27 +49,3 @@
 .main__filter--expenditure {
 
 }
-
-.main__cash-list-header {
-  width: var(--inner-width);
-  height: 80px;
-  margin: 0 auto;
-  padding-bottom: 20px;
-  display: flex;
-  align-items: flex-end;
-  font-size: var(--bold-medium);
-  color: var(--title-active);
-  border-bottom: solid 1px var(--line);
-}
-
-.main__cash-list-day {
-  margin-left: 8px;
-  flex-grow: 1;
-  color: var(--body);
-}
-
-.main__cash-list-income,
-.main__cash-list-expenditure {
-  margin-left: 8px;
-  color: var(--body);
-}
