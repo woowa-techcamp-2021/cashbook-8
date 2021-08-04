@@ -3,6 +3,7 @@ import InvalidDataError from '../errors/invalid-data.error';
 import CashHistoryCreateRequest from '../request/cash-history/cash-history-create.request';
 import CashHistoryFindRequest from '../request/cash-history/cash-history-find.request';
 import CashHistoryUpdateRequest from '../request/cash-history/cash-history-update.request';
+import MonthlyCategoryTotalCashGetRequest from '../request/cash-history/monthly-category-total-cash-get-request';
 import cashHistoryService from '../services/cash-history.service';
 import isNumberString from '../utils/validation/isNumberString';
 
@@ -20,6 +21,21 @@ class CashHistoryController {
     res.status(200).json({
       message: '가계 내역 조회에 성공했습니다',
       cashHistories: groupedCashHistories
+    });
+  }
+
+  async getMonthlyCategoryTotalCash (req: Request, res: Response) {
+    const { user, query } = req;
+
+    const monthlyCategoryTotalCashGetRequest = new MonthlyCategoryTotalCashGetRequest(query as unknown as MonthlyCategoryTotalCashGetRequest);
+    await monthlyCategoryTotalCashGetRequest.validate();
+    const { year, month, categoryId } = monthlyCategoryTotalCashGetRequest;
+
+    const totalCashes = await cashHistoryService.getMonthlyCategoryTotalCash(user, year, month, categoryId);
+
+    res.status(200).json({
+      message: '카테고리 소비 추이 조회에 성공했습니다',
+      totalCashes: totalCashes
     });
   }
 
