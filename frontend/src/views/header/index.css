@@ -20,6 +20,7 @@ header .wci {
 
 .header__logo {
   color: var(--off-white);
+  cursor: pointer;
 }
 
 .header__focus-date-container {

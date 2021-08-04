@@ -15,6 +15,10 @@ class HeaderView extends View {
     this.headerViewModel = new HeaderViewModel(this);
   }
 
+  onLogoClicked (): void {
+    this.headerViewModel.navigate(ROUTER_PATH.MAIN);
+  }
+
   onNavigatorClicked (e: Event): void {
     const target = e.target as HTMLElement;
     const { route } = target.dataset;
@@ -33,6 +37,8 @@ class HeaderView extends View {
       this.headerViewModel.onNextMonthClicked.bind(this.headerViewModel));
     $('.header__navigator')?.addEventListener('click',
       this.onNavigatorClicked.bind(this));
+    $('.header__logo')?.addEventListener('click',
+      this.onLogoClicked.bind(this));
   }
 
   protected render (): void {
