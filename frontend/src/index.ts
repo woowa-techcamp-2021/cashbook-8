@@ -6,5 +6,5 @@ import './assets/styles/common.css';
 
 const $root = $('#root');
 
-const router = new Router($root as HTMLElement);
-router.listen();
+Router.init($root as HTMLElement);
+Router.instance.listen();
