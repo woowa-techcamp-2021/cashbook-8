@@ -68,7 +68,6 @@ class CashHistoryService {
     const { id } = user;
     const cashHistories = await getCustomRepository(CashHistoryRepository)
       .findByUserId(id);
-
     return cashHistories;
   }
 
@@ -104,7 +103,7 @@ class CashHistoryService {
       .createdAt(yyyyMMdd2Date(date))
       .build();
 
-    await getCustomRepository(CashHistoryRepository).insert(cashHistory);
+    await getCustomRepository(CashHistoryRepository).save(cashHistory);
   }
 
   async updateCashHistory (user: User, cashHistoryId: number, cashHistoryUpdateRequest: CashHistoryUpdateRequest) {
