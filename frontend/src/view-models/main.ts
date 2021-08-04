@@ -8,12 +8,14 @@ import { FocusDateData } from '../models/focus-date';
 import { CashHistoriesInDay } from '../types/cash-history';
 import cashHistoryAPI from '../api/cash-history';
 import { CashHistoryData } from '../models/cash-history';
+import { CashHistories } from '../enums/cash-history.enum';
 
 class MainViewModel extends ViewModel {
   private focusDateModel: FocusDateData;
   private cashHistoriesModel: CashHistoriesData;
   private filteredCashHistoriesModel: CashHistoriesData;
   private cashHistoryModel: CashHistoryData;
+  private filterType: CashHistories | null;
 
   constructor (view: View) {
     super(view);
@@ -21,12 +23,18 @@ class MainViewModel extends ViewModel {
     this.cashHistoriesModel = models.cashHistories;
     this.filteredCashHistoriesModel = models.filteredCashHistories;
     this.cashHistoryModel = models.cashHistory;
+    this.filterType = null;
     this.fetchCashHistories();
   }
 
   protected subscribe (): void {
-    pubsub.subscribe(actions.ON_FOCUS_DATE_CHANGE, () => {
-      this.fetchCashHistories();
+    pubsub.subscribe(actions.ON_FOCUS_DATE_CHANGE, async () => {
+      await this.fetchCashHistories();
+
+      if (this.filterType === null) {
+        return;
+      }
+      this.filterData(this.filterType);
     });
 
     pubsub.subscribe(actions.ON_CASH_HISTORIES_CHANGE, () => {
@@ -55,9 +63,9 @@ class MainViewModel extends ViewModel {
       return;
     }
 
-    const filtered = cashHistories.cashHistories.groupedCashHistories.map((dailyCashHistory) => ({
-      ...dailyCashHistory,
-      cashHistories: dailyCashHistory.cashHistories.filter(e => e.type === type)
+    const filtered = cashHistories.cashHistories.groupedCashHistories.map((monthlyCashHistory) => ({
+      ...monthlyCashHistory,
+      cashHistories: monthlyCashHistory.cashHistories.filter(e => e.type === type)
     }));
 
     this.filteredCashHistoriesModel.cashHistories = {
@@ -73,14 +81,17 @@ class MainViewModel extends ViewModel {
     if (isIncomeChecked && isExpenditureChecked) {
       this.filteredCashHistoriesModel.cashHistories = this.cashHistoriesModel.cashHistories;
     } else if (isIncomeChecked) {
-      // 수입
-      this.filterData(0);
+      this.filterType = CashHistories.Income;
+      this.filterData(this.filterType);
     } else if (isExpenditureChecked) {
-      // 지출
-      this.filterData(1);
+      this.filterType = CashHistories.Expenditure;
+      this.filterData(this.filterType);
     } else {
+      if (this.filteredCashHistoriesModel.cashHistories === null) {
+        return;
+      }
       this.filteredCashHistoriesModel.cashHistories = {
-        message: '필터링 데이터입니다.',
+        ...this.filteredCashHistoriesModel.cashHistories,
         cashHistories: {
           totalIncome: 0,
           totalExpenditure: 0,
