@@ -52,7 +52,6 @@ class MainViewModel extends ViewModel {
 
   async fetchCashHistories (): Promise<void> {
     const date = this.focusDateModel.focusDate;
-    console.log(date.getMonth() + 1);
     const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
     this.cashHistoriesModel.cashHistories = histories;
     this.filteredCashHistoriesModel.cashHistories = histories;

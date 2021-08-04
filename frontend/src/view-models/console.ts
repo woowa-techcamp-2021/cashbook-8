@@ -106,7 +106,6 @@ class ConsoleViewModel extends ViewModel {
       ...this.cashHistoryModel.cashHistory,
       price: Number((e.target as HTMLInputElement).value)
     };
-    console.log(this.cashHistoryModel.cashHistory?.price);
   }
 
   private async fetchCategories () {
