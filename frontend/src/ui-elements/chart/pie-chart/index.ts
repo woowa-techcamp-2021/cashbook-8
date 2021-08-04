@@ -134,7 +134,7 @@ class PieChartUIElement extends UIElement {
 
         const measureTextWidth = ctx.measureText(data.name).width > ctx.measureText(data.value.toString()).width ? ctx.measureText(data.name).width : ctx.measureText(data.value.toString()).width;
 
-        const PADDING_VALUE = 50;
+        const PADDING_VALUE = 30;
         const TEXT_PADDING_VALUE = PADDING_VALUE + 5;
 
         const lineIncreaseX = x === 0 ? 0 : x < 0 ? -PADDING_VALUE : PADDING_VALUE;
@@ -149,6 +149,7 @@ class PieChartUIElement extends UIElement {
         ctx.strokeStyle = data.color;
         ctx.stroke();
         ctx.fillText(data.name, centerX + x + textIncreaseX, centerY - y + textIncreaseY);
+
         ctx.font = SUB_TITLE_FONT;
         ctx.fillText(data.label, centerX + x + textIncreaseX, centerY - y + textIncreaseY + 15);
         ctx.closePath();

@@ -1,2 +1,15 @@
-.pie-chart-view {
+.expenditure-in-month {
+  padding: 30px;
+  display: flex;
+  width: var(--inner-width);
+  position: relative;
+  top: -20px;
+  background-color: var(--off-white);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+.grouped-expenditure {
+  width: 100%;
 }

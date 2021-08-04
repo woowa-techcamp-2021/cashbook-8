@@ -14,7 +14,7 @@ import { Category } from '../types/category';
 import { PieChartInputData } from '../ui-elements/chart/pie-chart';
 import { formatNumber } from '../utils/formatter';
 
-type ExpenditureGroupedByCategory = {
+export type ExpenditureGroupedByCategory = {
   expenditure: number;
   rate: number;
   category: Category;
@@ -61,6 +61,18 @@ class ExpenditureInMonthViewModel extends ViewModel {
     pubsub.subscribe(actions.ON_CATEGORIES_CHANGE, () => {
       this.view.build();
     });
+  }
+
+  get focusedMonth (): number {
+    return this.focusDateModel.focusDate.getMonth() + 1;
+  }
+
+  get focusedYear (): number {
+    return this.focusDateModel.focusDate.getFullYear();
+  }
+
+  get totalExpenditure (): number {
+    return this.cashHistoriesModel.cashHistories?.cashHistories.totalExpenditure ?? 0;
   }
 
   get expenditurePieChartInput (): PieChartInputData[] {
