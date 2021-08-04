@@ -42,26 +42,30 @@ class ConsoleView extends View {
     }
   }
 
+  onCategorySelectClick (): void {
+    this.isCategoryDropDownVisible = !this.isCategoryDropDownVisible;
+    if (this.isCategoryDropDownVisible) {
+      this.categoryDropDownUIElement?.show();
+    } else {
+      this.categoryDropDownUIElement?.hide();
+    }
+  }
+
+  onPaymentSelectClick (): void {
+    this.isPaymentDropDownVisible = !this.isPaymentDropDownVisible;
+    if (this.isPaymentDropDownVisible) {
+      this.paymentDropDownUIElement?.show();
+    } else {
+      this.paymentDropDownUIElement?.hide();
+    }
+  }
+
   protected addListener (): void {
     $('.console__input--content')?.addEventListener('blur', this.consoleViewModel.onContentChange.bind(this.consoleViewModel));
     $('.console__input--price')?.addEventListener('blur', this.consoleViewModel.onPriceChange.bind(this.consoleViewModel));
     $('.console__button')?.addEventListener('click', this.onCreateClick.bind(this));
-    $('.console__select--category')?.addEventListener('click', () => {
-      this.isCategoryDropDownVisible = !this.isCategoryDropDownVisible;
-      if (this.isCategoryDropDownVisible) {
-        this.categoryDropDownUIElement?.show();
-      } else {
-        this.categoryDropDownUIElement?.hide();
-      }
-    });
-    $('.console__select--payment')?.addEventListener('click', () => {
-      this.isPaymentDropDownVisible = !this.isPaymentDropDownVisible;
-      if (this.isPaymentDropDownVisible) {
-        this.paymentDropDownUIElement?.show();
-      } else {
-        this.paymentDropDownUIElement?.hide();
-      }
-    });
+    $('.console__select--category')?.addEventListener('click', this.onCategorySelectClick.bind(this));
+    $('.console__select--payment')?.addEventListener('click', this.onPaymentSelectClick.bind(this));
   }
 
   protected render (): void {
