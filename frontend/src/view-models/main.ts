@@ -15,6 +15,7 @@ class MainViewModel extends ViewModel {
   private cashHistoriesModel: CashHistoriesData;
   private filteredCashHistoriesModel: CashHistoriesData;
   private cashHistoryModel: CashHistoryData;
+  private filterType: CashHistories | null;
 
   constructor (view: View) {
     super(view);
@@ -22,12 +23,18 @@ class MainViewModel extends ViewModel {
     this.cashHistoriesModel = models.cashHistories;
     this.filteredCashHistoriesModel = models.filteredCashHistories;
     this.cashHistoryModel = models.cashHistory;
+    this.filterType = null;
     this.fetchCashHistories();
   }
 
   protected subscribe (): void {
-    pubsub.subscribe(actions.ON_FOCUS_DATE_CHANGE, () => {
-      this.fetchCashHistories();
+    pubsub.subscribe(actions.ON_FOCUS_DATE_CHANGE, async () => {
+      await this.fetchCashHistories();
+
+      if (this.filterType === null) {
+        return;
+      }
+      this.filterData(this.filterType);
     });
 
     pubsub.subscribe(actions.ON_CASH_HISTORIES_CHANGE, () => {
@@ -45,6 +52,7 @@ class MainViewModel extends ViewModel {
 
   async fetchCashHistories (): Promise<void> {
     const date = this.focusDateModel.focusDate;
+    console.log(date.getMonth() + 1);
     const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
     this.cashHistoriesModel.cashHistories = histories;
     this.filteredCashHistoriesModel.cashHistories = histories;
@@ -74,9 +82,11 @@ class MainViewModel extends ViewModel {
     if (isIncomeChecked && isExpenditureChecked) {
       this.filteredCashHistoriesModel.cashHistories = this.cashHistoriesModel.cashHistories;
     } else if (isIncomeChecked) {
-      this.filterData(CashHistories.Income);
+      this.filterType = CashHistories.Income;
+      this.filterData(this.filterType);
     } else if (isExpenditureChecked) {
-      this.filterData(CashHistories.Expenditure);
+      this.filterType = CashHistories.Expenditure;
+      this.filterData(this.filterType);
     } else {
       if (this.filteredCashHistoriesModel.cashHistories === null) {
         return;
