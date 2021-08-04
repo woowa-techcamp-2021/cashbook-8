@@ -16,9 +16,7 @@ class CashRowUIElement extends UIElement {
   }
 
   protected addListener (): void {
-    if (this.onClick !== undefined) {
-      // this.$element.addEventListener('click', this.onClick);
-    }
+    // no event
   }
 
   protected render (): void {
