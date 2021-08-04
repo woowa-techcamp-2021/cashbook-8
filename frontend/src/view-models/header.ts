@@ -1,5 +1,6 @@
 import actions from '../constant/actions';
 import pubsub from '../core/pubsub';
+import Router from '../core/router';
 import View from '../core/view';
 import ViewModel from '../core/view-model';
 import models from '../models';
@@ -39,6 +40,10 @@ class HeaderViewModel extends ViewModel {
   onPreviousMonthClicked (): void {
     const { focusDate } = this.focusDateModel;
     this.focusDateModel.focusDate = new Date(focusDate.setMonth(focusDate.getMonth() - 1));
+  }
+
+  navigate (route: string): void {
+    Router.instance.push(route);
   }
 }
 

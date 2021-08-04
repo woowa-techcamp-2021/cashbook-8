@@ -14,6 +14,10 @@ class PubSub {
   publish (action: string) {
     this.actions[action].forEach((cb) => cb());
   }
+
+  clear () {
+    this.actions = { };
+  }
 }
 
 export default new PubSub();

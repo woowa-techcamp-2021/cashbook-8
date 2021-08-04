@@ -4,6 +4,11 @@ header {
   height: 194px;
 }
 
+header .wci {
+  color: var(--off-white);
+  font-size: var(--body-large);
+}
+
 .header__container {
   width: var(--inner-width);
   margin: 0 auto;
@@ -15,6 +20,7 @@ header {
 
 .header__logo {
   color: var(--off-white);
+  cursor: pointer;
 }
 
 .header__focus-date-container {
@@ -44,4 +50,13 @@ header {
 .header__button--next,
 .header__button--previous {
   cursor: pointer;
+}
+
+.header__navigator .wci {
+  color: var(--primary2);
+  cursor: pointer;
+}
+
+.header__navigator .wci.current-path {
+  color: var(--off-white);
 }
