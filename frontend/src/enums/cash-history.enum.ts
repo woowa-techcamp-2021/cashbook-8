@@ -1,4 +1,4 @@
 export enum CashHistories {
-  Income,
-  Expenditure
+  Income = 0,
+  Expenditure = 1
 }

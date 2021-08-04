@@ -64,7 +64,7 @@ class MainView extends View {
           <div class="main__check-box main__check-box--expenditure main__check-box--active">
           <i class="wci wci-check"></i>
           </div>
-          <div>수입 ${this.mainViewModel.expenditureTotalPrice}</div>
+          <div>지출 ${this.mainViewModel.expenditureTotalPrice}</div>
         </div>
       </div>
       <div class="main__cash-list"></div>
@@ -91,7 +91,7 @@ class MainView extends View {
         </div>
       `;
       $mainCashList.appendChild($date);
-      new DailyCashHistory($mainCashList, cashHistory).build();
+      new DailyCashHistory($mainCashList, cashHistory, this.mainViewModel.onCashHistoryClick.bind(this.mainViewModel)).build();
     });
   }
 }

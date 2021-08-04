@@ -1,13 +1,13 @@
 import { CategoriesResponse } from '../types/category';
 import { getAccessToken, getRequest } from './request';
 
-const API_URL = process.env.API_URL as string;
+// const API_URL = process.env.API_URL as string;
 
 class CategoryAPI {
   fetchCategories (): Promise<CategoriesResponse> {
     const token = getAccessToken();
 
-    return getRequest<CategoriesResponse>(API_URL, {
+    return getRequest<CategoriesResponse>('http://localhost:8080/api/category/all', {
       headers: {
         Authorization: token
       }

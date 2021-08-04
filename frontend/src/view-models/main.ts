@@ -7,17 +7,20 @@ import { CashHistoriesData } from '../models/cash-histories';
 import { FocusDateData } from '../models/focus-date';
 import { CashHistoriesInDay } from '../types/cash-history';
 import cashHistoryAPI from '../api/cash-history';
+import { CashHistoryData } from '../models/cash-history';
 
 class MainViewModel extends ViewModel {
   private focusDateModel: FocusDateData;
   private cashHistoriesModel: CashHistoriesData;
   private filteredCashHistoriesModel: CashHistoriesData;
+  private cashHistoryModel: CashHistoryData;
 
   constructor (view: View) {
     super(view);
     this.focusDateModel = models.focusDate;
     this.cashHistoriesModel = models.cashHistories;
     this.filteredCashHistoriesModel = models.filteredCashHistories;
+    this.cashHistoryModel = models.cashHistory;
     this.fetchCashHistories();
   }
 
@@ -26,11 +29,15 @@ class MainViewModel extends ViewModel {
       this.fetchCashHistories();
     });
 
-    pubsub.subscribe(actions.ON_CASH_HISTORY_CHANGE, () => {
+    pubsub.subscribe(actions.ON_CASH_HISTORIES_CHANGE, () => {
       this.view.build();
     });
 
-    pubsub.subscribe(actions.ON_FILTERED_CASH_HISTORY_CHANGE, () => {
+    pubsub.subscribe(actions.ON_FILTERED_CASH_HISTORIES_CHANGE, () => {
+      this.view.build();
+    });
+
+    pubsub.subscribe(actions.ON_CASH_HISTORY_CHANGE, () => {
       this.view.build();
     });
   }
@@ -83,6 +90,19 @@ class MainViewModel extends ViewModel {
     }
   }
 
+  onCashHistoryClick (e:Event): void {
+    const cashHistoryId = Number((e.target as HTMLElement).dataset.id);
+    if (cashHistoryId !== undefined) {
+      this.filteredCashHistoriesModel.cashHistories?.cashHistories.groupedCashHistories
+        .forEach(groupedCashHistory => groupedCashHistory.cashHistories
+          .forEach(cashHistory => {
+            if (cashHistory.id === cashHistoryId) {
+              this.cashHistoryModel.cashHistory = cashHistory;
+            }
+          }));
+    }
+  }
+
   get cashHistoryCount (): number {
     const cashHistories = this.filteredCashHistoriesModel.cashHistories;
 
@@ -100,7 +120,7 @@ class MainViewModel extends ViewModel {
   }
 
   get incomeTotalPrice (): number {
-    const cashHistories = this.cashHistoriesModel.cashHistories;
+    const { cashHistories } = this.cashHistoriesModel;
 
     if (cashHistories === null) {
       return 0;
@@ -110,13 +130,13 @@ class MainViewModel extends ViewModel {
   }
 
   get expenditureTotalPrice (): number {
-    const cashHistories = this.cashHistoriesModel.cashHistories;
+    const { cashHistories } = this.cashHistoriesModel;
 
     if (cashHistories === null) {
       return 0;
     }
 
-    return cashHistories.cashHistories.totalIncome;
+    return cashHistories.cashHistories.totalExpenditure;
   }
 }
 

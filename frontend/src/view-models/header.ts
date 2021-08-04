@@ -18,7 +18,7 @@ class HeaderViewModel extends ViewModel {
       this.view.build();
     });
 
-    pubsub.subscribe(actions.ON_CASH_HISTORY_CHANGE, () => {
+    pubsub.subscribe(actions.ON_CASH_HISTORIES_CHANGE, () => {
       this.view.build();
     });
   }
