@@ -4,6 +4,8 @@ import HeaderViewModel from '../../view-models/header';
 
 import './index.css';
 import '../../assets/icons/woowahan-cashbook-icons.css';
+import { ROUTER_PATH } from '../../core/router';
+import { parsePath } from '../../utils/path';
 
 class HeaderView extends View {
   private headerViewModel: HeaderViewModel;
@@ -13,14 +15,29 @@ class HeaderView extends View {
     this.headerViewModel = new HeaderViewModel(this);
   }
 
+  onNavigatorClicked (e: Event): void {
+    const target = e.target as HTMLElement;
+    const { route } = target.dataset;
+
+    if (route === undefined) {
+      return;
+    }
+
+    this.headerViewModel.navigate(route);
+  }
+
   protected addListener (): void {
     $('.header__button--previous')?.addEventListener('click',
       this.headerViewModel.onPreviousMonthClicked.bind(this.headerViewModel));
     $('.header__button--next')?.addEventListener('click',
       this.headerViewModel.onNextMonthClicked.bind(this.headerViewModel));
+    $('.header__navigator')?.addEventListener('click',
+      this.onNavigatorClicked.bind(this));
   }
 
   protected render (): void {
+    const path = parsePath(location.pathname);
+
     this.$target.innerHTML = `
       <header>
         <div class="header__container">
@@ -38,9 +55,12 @@ class HeaderView extends View {
           </div>
 
           <div class="header__navigator">
-            <i class="wci wci-file-text"></i>
-            <i class="wci wci-calendar"></i>
-            <i class="wci wci-chart"></i>
+            <i data-route="${ROUTER_PATH.MAIN}"
+              class="wci wci-file-text ${path === ROUTER_PATH.MAIN && 'current-path'}"></i>
+            <i data-route="${ROUTER_PATH.CALENDAR}"
+              class="wci wci-calendar ${path === ROUTER_PATH.CALENDAR && 'current-path'}"></i>
+            <i data-route="${ROUTER_PATH.CHART}"
+              class="wci wci-chart ${path === ROUTER_PATH.CHART && 'current-path'}"></i>
           </div>
         </div>
       </header>
