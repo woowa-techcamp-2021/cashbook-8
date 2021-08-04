@@ -37,7 +37,27 @@ const models = {
     }
   }).getProxy(),
   cashHistory: new CashHistoryModel({
-    cashHistory: {
+    id: {
+      action: actions.ON_CASH_HISTORY_CHANGE,
+      data: null
+    },
+    price: {
+      action: actions.ON_CASH_HISTORY_CHANGE,
+      data: null
+    },
+    content: {
+      action: actions.ON_CASH_HISTORY_CHANGE,
+      data: null
+    },
+    createdAt: {
+      action: actions.ON_CASH_HISTORY_CHANGE,
+      data: new Date()
+    },
+    categoryId: {
+      action: actions.ON_CASH_HISTORY_CHANGE,
+      data: null
+    },
+    paymentId: {
       action: actions.ON_CASH_HISTORY_CHANGE,
       data: null
     }

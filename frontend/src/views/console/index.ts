@@ -1,160 +1,155 @@
 import View from '../../core/view';
+import { CashHistories } from '../../enums/cash-history.enum';
 import DropDownUIElement from '../../ui-elements/drop-down';
-import { date2yyyyMMdd } from '../../utils/date';
 import { $ } from '../../utils/selector';
 import ConsoleViewModel from '../../view-models/console';
-import { CashHistories } from '../../enums/cash-history.enum';
 
 import './index.css';
-
 class ConsoleView extends View {
   private consoleViewModel: ConsoleViewModel;
-  private categoryDropDownUIElement?: DropDownUIElement;
-  private paymentDropDownUIElement?: DropDownUIElement;
-  private isCategoryDropDownVisible: boolean;
-  private isPaymentDropDownVisible: boolean;
+  categoryDropDown?: DropDownUIElement;
 
   constructor ($target: HTMLElement) {
     super($target);
     this.consoleViewModel = new ConsoleViewModel(this);
-    this.isCategoryDropDownVisible = false;
-    this.isPaymentDropDownVisible = false;
   }
 
-  onCreateClick (): void {
-    console.log(this.consoleViewModel);
-    if (this.consoleViewModel.cashHistory.cashHistory === null) {
-      return;
-    }
-    const { price, content, category, payment } = this.consoleViewModel.cashHistory.cashHistory;
-    const { id } = this.consoleViewModel.cashHistory.cashHistory;
-    const cashHistoryRequest = {
-      date: date2yyyyMMdd(new Date()),
-      price,
-      content,
-      categoryId: category.id,
-      paymentId: payment.id
-    };
-    if (id === 0) {
-      this.consoleViewModel.createCashHistory(cashHistoryRequest);
-    } else {
-      this.consoleViewModel.updateCashHistory(id, cashHistoryRequest);
-    }
+  onSubmitClicked (): void {
+    this.consoleViewModel.createOrUpdate();
   }
 
-  onCategorySelectClick (): void {
-    this.isCategoryDropDownVisible = !this.isCategoryDropDownVisible;
-    if (this.isCategoryDropDownVisible) {
-      this.categoryDropDownUIElement?.show();
-    } else {
-      this.categoryDropDownUIElement?.hide();
+  enableButton (): void {
+    $('.console__button')?.classList.add('console__button--active');
+  }
+
+  disableButton (): void {
+    $('.console__button')?.classList.remove('console__button--active');
+  }
+
+  private onTypeClicked (type: CashHistories): void {
+    const isChanged = this.consoleViewModel.changeCashHistoryType(type);
+    if (isChanged && this.categoryDropDown) {
+      this.categoryDropDown.selected = undefined;
+      this.categoryDropDown.items = this.consoleViewModel.categories.map(category => {
+        return {
+          value: category.id.toString(),
+          label: category.name
+        };
+      });
+      this.categoryDropDown.build();
     }
   }
 
-  onPaymentSelectClick (): void {
-    this.isPaymentDropDownVisible = !this.isPaymentDropDownVisible;
-    if (this.isPaymentDropDownVisible) {
-      this.paymentDropDownUIElement?.show();
-    } else {
-      this.paymentDropDownUIElement?.hide();
-    }
+  private onIncomeTypeClicked (): void {
+    $('.console__type--income')?.classList.add('selected');
+    $('.console__type--expenditure')?.classList.remove('selected');
+    this.onTypeClicked(CashHistories.Income);
+  }
+
+  private onExpenditureTypeClicked (): void {
+    $('.console__type--expenditure')?.classList.add('selected');
+    $('.console__type--income')?.classList.remove('selected');
+    this.onTypeClicked(CashHistories.Expenditure);
+  }
+
+  private onDateChanged (e: Event): void {
+    const { value } = e.target as HTMLInputElement;
+    this.consoleViewModel.changeDate(value);
+  }
+
+  private onContentChanged (e: Event): void {
+    const { value } = e.target as HTMLInputElement;
+    this.consoleViewModel.changeContent(value);
+  }
+
+  private onPriceChanged (e: Event): void {
+    const target = e.target as HTMLInputElement;
+    this.consoleViewModel.changePrice(target.value);
+    target.value = this.consoleViewModel.formattedPrice ?? '';
   }
 
   protected addListener (): void {
-    $('.console__input--content')?.addEventListener('blur', this.consoleViewModel.onContentChange.bind(this.consoleViewModel));
-    $('.console__input--price')?.addEventListener('blur', this.consoleViewModel.onPriceChange.bind(this.consoleViewModel));
-    $('.console__button')?.addEventListener('click', this.onCreateClick.bind(this));
-    $('.console__select--category')?.addEventListener('click', this.onCategorySelectClick.bind(this));
-    $('.console__select--payment')?.addEventListener('click', this.onPaymentSelectClick.bind(this));
+    $('.console__type--income')?.addEventListener('click', this.onIncomeTypeClicked.bind(this));
+    $('.console__type--expenditure')?.addEventListener('click', this.onExpenditureTypeClicked.bind(this));
+    $('.console__input--date')?.addEventListener('change', this.onDateChanged.bind(this));
+    $('.console__input--price')?.addEventListener('input', this.onPriceChanged.bind(this));
+    $('.console__input--content')?.addEventListener('input', this.onContentChanged.bind(this));
+    $('.console__button')?.addEventListener('click', this.onSubmitClicked.bind(this));
   }
 
   protected render (): void {
-    if (this.consoleViewModel.cashHistory.cashHistory === null) {
-      const INIT_NUM = 0;
-      const INIT_STR = '';
+    const { content, createdAt } = this.consoleViewModel.cashHistory;
+    const { cashHistoryType, formattedPrice } = this.consoleViewModel;
 
-      this.consoleViewModel.cashHistory.cashHistory = {
-        id: INIT_NUM,
-        price: INIT_NUM,
-        content: INIT_STR,
-        type: CashHistories.Income,
-        category: { id: INIT_NUM, name: INIT_STR, color: INIT_STR, userId: INIT_NUM, type: CashHistories.Income },
-        payment: { id: INIT_NUM, name: INIT_STR, userId: INIT_NUM },
-        userId: INIT_NUM,
-        categoryId: INIT_NUM,
-        paymentId: INIT_NUM,
-        createdAt: INIT_STR
-      };
-    }
-    const { id, category, content, payment, price } = this.consoleViewModel.cashHistory.cashHistory;
     this.$target.innerHTML = `
-    <div class="console__container">
-    <div class="console__column">
-      <div class="console__title">일자</div>
-      <input class="console__input" placeholder="입력하세요" value="${date2yyyyMMdd(new Date())}" />
-    </div>
-    <div class="console__column">
-      <div class="console__title">분류</div>
-      <div class="console__select-container">
-        <div class="console__select--category">${category.name || '선택하세요'}</div>
-        <div></div>
-        <i class="console__select-arrow wci wci-chevron-down"></i>
+    <div class="console">
+      <div class="console__column console__column--type">
+        <div class="console__type console__type--income ${cashHistoryType === CashHistories.Income && 'selected'}">수입</div>
+        <div class="console__type console__type--expenditure ${cashHistoryType === CashHistories.Expenditure && 'selected'}">지출</div>
       </div>
-    </div>
-    <div class="console__column wide">
-      <div class="console__title">내용</div>
-      <input class="console__input console__input--content" placeholder="입력하세요" value="${content}" />
-    </div>
-    <div class="console__column">
-      <div class="console__title">결제수단</div>
-      <div class="console__select-container">
-        <div class="console__select--payment">${payment.name || '선택하세요'}</div>
-        <i class="console__select-arrow wci wci-chevron-down"></i>
+
+      <div class="console__column console__column--date">
+        <div class="console__title">일자</div>
+        <input class="console__input console__input--date" type="date" placeholder="입력하세요" value="${createdAt}" />
       </div>
-    </div>
-    <div class="console__column no-border wide">
-      <div class="console__title">금액</div>
-      <div class="console__price-box">
-        <div class="console__type display-none">+</div>
-        <div class="console__type">-</div>
-        <input class="console__input console__input--price" placeholder="입력하세요" value="${price <= 0 ? '' : price}" />
-        <div class="console__text">원</div>
+
+      <div class="console__column console__column--category">
       </div>
-    </div>
-    <div class="console__button">
-      <i class="wci wci-check"></i>
-    </div>
-  </div>
-    `;
+
+      <div class="console__column console__column--content">
+        <div class="console__title">내용</div>
+        <input class="console__input console__input--content" placeholder="입력하세요" value="${content ?? ''}" />
+      </div>
+
+      <div class="console__column  console__column--payment">
+      </div>
+
+      <div class="console__column">
+        <div class="console__title">금액</div>
+        <div class="console__price-box">
+          <input class="console__input console__input--price" placeholder="입력하세요" value="${formattedPrice ?? ''}" />
+          <div class="console__unit-text">원</div>
+        </div>
+      </div>
+
+      <div class="console__column console__column--confirm">
+        <div class="console__button">
+          <i class="wci wci-check"></i>
+        </div>
+      </div>
+    </div>`;
   }
 
   protected mount (): void {
-    const $category = $('.console__select--category');
-    if ($category !== null) {
-      if (this.consoleViewModel.categories.categories === null) {
-        return;
-      }
-      this.categoryDropDownUIElement = new DropDownUIElement($category, this.consoleViewModel.categories.categories.categories.map(e => e.name), (e) => {
-        this.consoleViewModel.onCategorySelect(e);
-        this.categoryDropDownUIElement?.hide();
-        e.stopPropagation();
+    const $categoryConsoleColumn = $('.console__column--category');
+    if ($categoryConsoleColumn !== null) {
+      this.categoryDropDown = new DropDownUIElement($categoryConsoleColumn, {
+        initial: this.consoleViewModel.cashHistory.category?.id.toString(),
+        onChange: this.consoleViewModel.changeCategory.bind(this.consoleViewModel),
+        title: '분류',
+        items: this.consoleViewModel.categories.map((category) => {
+          return {
+            value: category.id.toString(),
+            label: category.name
+          };
+        }) ?? []
       });
-      this.categoryDropDownUIElement.build();
-      this.isCategoryDropDownVisible = false;
+      this.categoryDropDown.build();
     }
 
-    const $payment = $('.console__select--payment');
-    if ($payment !== null) {
-      if (this.consoleViewModel.payments.payments === null) {
-        return;
-      }
-      this.paymentDropDownUIElement = new DropDownUIElement($payment, this.consoleViewModel.payments.payments.payments.map(e => e.name), (e) => {
-        this.consoleViewModel.onPaymentSelect(e);
-        this.paymentDropDownUIElement?.hide();
-        e.stopPropagation();
-      });
-      this.paymentDropDownUIElement.build();
-      this.isPaymentDropDownVisible = false;
+    const $paymentConsoleColumn = $('.console__column--payment');
+    if ($paymentConsoleColumn !== null) {
+      new DropDownUIElement($paymentConsoleColumn, {
+        initial: this.consoleViewModel.cashHistory.payment?.id.toString(),
+        onChange: this.consoleViewModel.changePayment.bind(this.consoleViewModel),
+        title: '결제수단',
+        items: this.consoleViewModel.payments.map((payment) => {
+          return {
+            value: payment.id.toString(),
+            label: payment.name
+          };
+        }) ?? []
+      }).build();
     }
   }
 }

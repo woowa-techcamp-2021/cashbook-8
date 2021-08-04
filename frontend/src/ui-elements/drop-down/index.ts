@@ -1,5 +1,4 @@
 import UIElement from '../../core/ui-element';
-import { $ } from '../../utils/selector';
 
 import './index.css';
 
@@ -11,24 +10,36 @@ type DropDownItem = {
 type DropDownUIElementData = {
   title: string;
   items: DropDownItem[];
+  onChange?: (value?: string) => void;
+  initial?: string;
 }
 
 const DEFAULT_SELECTED_LABEL = '선택하세요';
 
 class DropDownUIElement extends UIElement {
-  private title: string;
-  private items: DropDownItem[];
-  private selected?: DropDownItem;
+  items: DropDownItem[];
+  title: string;
+  selected?: DropDownItem;
+  private $dropDownList?: HTMLElement;
+  private onDropDownClicked = this._onDropDownClicked.bind(this);
+  private onChange?: (value?: string) => void;
 
   constructor ($target: HTMLElement, {
     title,
-    items
+    items,
+    onChange,
+    initial
   }: DropDownUIElementData) {
     super($target, {
       className: 'drop-down'
     });
     this.title = title;
     this.items = items;
+    this.onChange = onChange;
+
+    if (initial !== undefined) {
+      this.selected = this.items.find((item) => item.value === initial);
+    }
   }
 
   protected render (): void {
@@ -38,49 +49,43 @@ class DropDownUIElement extends UIElement {
         <span class="drop-down__selected-label">${this.selected?.label ?? DEFAULT_SELECTED_LABEL}</span>
         <i class="wci wci-chevron-down"></i>
       </span>
-      <div class="drop-down__list">
-        ${this.items.map((item) => `
-          <div data-value=${item.value} class="drop-down__item">
-            <div class="drop-down__label">${item.label}</div>
-          </div>
-        `).join('')}
-      </div>
     `;
   }
 
   protected addListener (): void {
-    $('.drop-down')?.addEventListener('click', this.onDropDownClicked.bind(this));
+    this.$element.removeEventListener('click', this.onDropDownClicked);
+    this.$element.addEventListener('click', this.onDropDownClicked);
   }
 
   protected mount (): void {
-    // no mount
+    const $dropDownList = document.createElement('div');
+    $dropDownList.className = 'drop-down__list';
+    $dropDownList.innerHTML = `
+      ${this.items.map((item) => `
+        <div data-value=${item.value} class="drop-down__item">
+          <div class="drop-down__label">${item.label}</div>
+        </div>
+      `).join('')}
+    </div>`;
+    this.$element.appendChild($dropDownList);
+    this.$dropDownList = $dropDownList;
   }
 
-  onDropDownClicked (e: Event): void {
+  private _onDropDownClicked (e: Event): void {
     const target = e.target as HTMLElement;
     const { value } = target.dataset;
 
     if (value === undefined) {
-      console.log($('.drop-down__list')?.classList);
-      $('.drop-down__list')?.classList.toggle('appear');
+      this.$dropDownList?.classList.toggle('appear');
       return;
     }
 
     this.selected = this.items.find((item) => item.value === value);
-
-    $('.drop-down__list')?.classList.remove('appear');
-    const $selectedLabel = $('.drop-down__selected-label');
-    if ($selectedLabel !== null) {
-      $selectedLabel.innerText = this.selected?.label ?? DEFAULT_SELECTED_LABEL;
+    if (this.onChange !== undefined) {
+      this.onChange(this.selected?.value);
     }
-  }
 
-  show (): void {
-    this.$target.querySelector('.drop-down__container')?.classList.remove('display-none');
-  }
-
-  hide (): void {
-    this.$target.querySelector('.drop-down__container')?.classList.add('display-none');
+    this.build();
   }
 }
 
