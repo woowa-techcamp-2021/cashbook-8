@@ -6,6 +6,7 @@ import authMiddleware from '../../middlewares/auth.middleware';
 const cashHistoryRouter = Router();
 
 cashHistoryRouter.get('/', authMiddleware, wrapAsync(cashHistoryController.findCalendarCashHistories));
+cashHistoryRouter.get('/cashes', authMiddleware, wrapAsync(cashHistoryController.getMonthlyCategoryTotalCash));
 cashHistoryRouter.post('/', authMiddleware, wrapAsync(cashHistoryController.createCashHistory));
 cashHistoryRouter.put('/:id', authMiddleware, wrapAsync(cashHistoryController.updateCashHistory));
 cashHistoryRouter.delete('/:id', authMiddleware, wrapAsync(cashHistoryController.deleteCashHistory));
