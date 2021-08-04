@@ -8,6 +8,7 @@ import { FocusDateData } from '../models/focus-date';
 import { CashHistoriesInDay } from '../types/cash-history';
 import cashHistoryAPI from '../api/cash-history';
 import { CashHistoryData } from '../models/cash-history';
+import { CashHistories } from '../enums/cash-history.enum';
 
 class MainViewModel extends ViewModel {
   private focusDateModel: FocusDateData;
@@ -73,14 +74,15 @@ class MainViewModel extends ViewModel {
     if (isIncomeChecked && isExpenditureChecked) {
       this.filteredCashHistoriesModel.cashHistories = this.cashHistoriesModel.cashHistories;
     } else if (isIncomeChecked) {
-      // 수입
-      this.filterData(0);
+      this.filterData(CashHistories.Income);
     } else if (isExpenditureChecked) {
-      // 지출
-      this.filterData(1);
+      this.filterData(CashHistories.Expenditure);
     } else {
+      if (this.filteredCashHistoriesModel.cashHistories === null) {
+        return;
+      }
       this.filteredCashHistoriesModel.cashHistories = {
-        message: '필터링 데이터입니다.',
+        ...this.filteredCashHistoriesModel.cashHistories,
         cashHistories: {
           totalIncome: 0,
           totalExpenditure: 0,
