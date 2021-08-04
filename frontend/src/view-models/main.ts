@@ -93,11 +93,13 @@ class MainViewModel extends ViewModel {
   onCashHistoryClick (e:Event): void {
     const cashHistoryId = Number((e.target as HTMLElement).dataset.id);
     if (cashHistoryId !== undefined) {
-      this.filteredCashHistoriesModel.cashHistories?.cashHistories.groupedCashHistories.forEach(e => e.cashHistories.forEach(ee => {
-        if (ee.id === cashHistoryId) {
-          this.cashHistoryModel.cashHistory = ee;
-        }
-      }));
+      this.filteredCashHistoriesModel.cashHistories?.cashHistories.groupedCashHistories
+        .forEach(groupedCashHistory => groupedCashHistory.cashHistories
+          .forEach(cashHistory => {
+            if (cashHistory.id === cashHistoryId) {
+              this.cashHistoryModel.cashHistory = cashHistory;
+            }
+          }));
     }
   }
 
