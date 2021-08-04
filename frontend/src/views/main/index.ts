@@ -1,5 +1,5 @@
 import View from '../../core/view';
-import DailyCashHistory from '../../ui-elements/cash-history/daily-cash-history';
+import MonthlyCashHistory from '../../ui-elements/cash-history/monthly-cash-history';
 import { getDayString } from '../../utils/date';
 import { formatNumber } from '../../utils/formatter';
 import { $ } from '../../utils/selector';
@@ -92,7 +92,7 @@ class MainView extends View {
         </div>
       `;
       $mainCashList.appendChild($date);
-      new DailyCashHistory($mainCashList, cashHistory, this.mainViewModel.onCashHistoryClick.bind(this.mainViewModel)).build();
+      new MonthlyCashHistory($mainCashList, cashHistory, this.mainViewModel.onCashHistoryClick.bind(this.mainViewModel)).build();
     });
   }
 }

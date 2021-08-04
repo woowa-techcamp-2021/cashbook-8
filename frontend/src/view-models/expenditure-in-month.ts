@@ -107,10 +107,10 @@ class ExpenditureInMonthViewModel extends ViewModel {
     });
 
     const { totalExpenditure, groupedCashHistories } = cashHistories;
-    const totalCashHistories = groupedCashHistories.reduce((totalCashHistories, dailyCashHistory) => {
+    const totalCashHistories = groupedCashHistories.reduce((totalCashHistories, monthlyCashHistory) => {
       return [
         ...totalCashHistories,
-        ...dailyCashHistory.cashHistories
+        ...monthlyCashHistory.cashHistories
       ];
     }, [] as CashHistory[]);
 

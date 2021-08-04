@@ -56,9 +56,9 @@ class MainViewModel extends ViewModel {
       return;
     }
 
-    const filtered = cashHistories.cashHistories.groupedCashHistories.map((dailyCashHistory) => ({
-      ...dailyCashHistory,
-      cashHistories: dailyCashHistory.cashHistories.filter(e => e.type === type)
+    const filtered = cashHistories.cashHistories.groupedCashHistories.map((monthlyCashHistory) => ({
+      ...monthlyCashHistory,
+      cashHistories: monthlyCashHistory.cashHistories.filter(e => e.type === type)
     }));
 
     this.filteredCashHistoriesModel.cashHistories = {

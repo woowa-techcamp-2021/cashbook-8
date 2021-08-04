@@ -4,14 +4,14 @@ import { EventListener } from '../../../types/dom';
 import { $ } from '../../../utils/selector';
 import CashHistoryRowUIElement from '../cash-history-row';
 
-class DailyCashHistoryUIElement extends UIElement {
+class MonthlyCashHistoryUIElement extends UIElement {
   private cashHistoriesInDay: CashHistoriesInDay;
   private onClick?: EventListener;
   static sequence = 0;
 
   constructor ($target: HTMLElement, cashHistoriesInDay: CashHistoriesInDay, onClick?: EventListener) {
     super($target);
-    DailyCashHistoryUIElement.sequence += 1;
+    MonthlyCashHistoryUIElement.sequence += 1;
     this.cashHistoriesInDay = cashHistoriesInDay;
     this.onClick = onClick;
   }
@@ -24,19 +24,19 @@ class DailyCashHistoryUIElement extends UIElement {
 
   protected render (): void {
     this.$element.innerHTML = `
-      <div class="daily-cash-history__row${DailyCashHistoryUIElement.sequence}"></div>
+      <div class="daily-cash-history__row${MonthlyCashHistoryUIElement.sequence}"></div>
     `;
   }
 
   protected mount (): void {
-    const $dailyCashHistoryRow = $(`.daily-cash-history__row${DailyCashHistoryUIElement.sequence}`);
-    if ($dailyCashHistoryRow === null) {
+    const $monthlyCashHistoryRow = $(`.daily-cash-history__row${MonthlyCashHistoryUIElement.sequence}`);
+    if ($monthlyCashHistoryRow === null) {
       return;
     }
     this.cashHistoriesInDay.cashHistories.forEach(cashHistory => {
-      new CashHistoryRowUIElement($dailyCashHistoryRow, cashHistory).build();
+      new CashHistoryRowUIElement($monthlyCashHistoryRow, cashHistory).build();
     });
   }
 }
 
-export default DailyCashHistoryUIElement;
+export default MonthlyCashHistoryUIElement;
