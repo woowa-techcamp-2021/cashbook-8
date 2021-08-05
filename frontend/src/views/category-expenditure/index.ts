@@ -119,7 +119,7 @@ class CategoryExpenditureView extends View {
         .reduce((acc, curr) => Math.min(acc, curr.price), max);
 
       const yLabels = new Array(5).fill(0)
-        .map((_, i) => `<div>${formatNumber(min + (max / 4) * i)} ₩</div>`)
+        .map((_, i) => `<div>${formatNumber(Math.round(min + (max / 4) * i))} ₩</div>`)
         .reverse()
         .join('');
 
