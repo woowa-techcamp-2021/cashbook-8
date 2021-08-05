@@ -9,8 +9,8 @@ export type CashHistory = {
   content: string;
   type: CashHistories;
   createdAt: string;
-  category: Category;
-  payment: Payment;
+  category: Category | null;
+  payment: Payment | null;
   userId: number;
   categoryId: number
   paymentId: number;

@@ -1,6 +1,7 @@
 import View from '../../core/view';
 import { CashHistories } from '../../enums/cash-history.enum';
 import DropDownUIElement from '../../ui-elements/drop-down';
+import InputModal from '../../ui-elements/input-modal';
 import { $ } from '../../utils/selector';
 import ConsoleViewModel from '../../view-models/console';
 
@@ -8,6 +9,10 @@ import './index.css';
 class ConsoleView extends View {
   private consoleViewModel: ConsoleViewModel;
   categoryDropDown?: DropDownUIElement;
+  private createCategoryModal?: InputModal;
+  private createPaymentModal?: InputModal;
+  private deletePaymentModal?: InputModal;
+  private deleteCategoryModal?: InputModal;
 
   constructor ($target: HTMLElement) {
     super($target);
@@ -68,6 +73,26 @@ class ConsoleView extends View {
     target.value = this.consoleViewModel.formattedPrice ?? '';
   }
 
+  private openCreateCategoryModal () {
+    this.createCategoryModal?.open();
+  }
+
+  private openCreatePaymentModal () {
+    this.createPaymentModal?.open();
+  }
+
+  private openDeleteCategoryModal (id: string) {
+    const category = this.consoleViewModel.categories.find(category => category.id === Number(id));
+
+    this.deleteCategoryModal?.open(id, category?.name);
+  }
+
+  private openDeletePaymentModal (id: string) {
+    const payment = this.consoleViewModel.payments.find(payment => payment.id === Number(id));
+
+    this.deletePaymentModal?.open(id, payment?.name);
+  }
+
   protected addListener (): void {
     $('.console__type--income')?.addEventListener('click', this.onIncomeTypeClicked.bind(this));
     $('.console__type--expenditure')?.addEventListener('click', this.onExpenditureTypeClicked.bind(this));
@@ -124,6 +149,8 @@ class ConsoleView extends View {
     const $categoryConsoleColumn = $('.console__column--category');
     if ($categoryConsoleColumn !== null) {
       this.categoryDropDown = new DropDownUIElement($categoryConsoleColumn, {
+        onDeleteClicked: this.openDeleteCategoryModal.bind(this),
+        onCreateClicked: this.openCreateCategoryModal.bind(this),
         initial: this.consoleViewModel.cashHistory.category?.id.toString(),
         onChange: this.consoleViewModel.changeCategory.bind(this.consoleViewModel),
         title: '분류',
@@ -140,6 +167,8 @@ class ConsoleView extends View {
     const $paymentConsoleColumn = $('.console__column--payment');
     if ($paymentConsoleColumn !== null) {
       new DropDownUIElement($paymentConsoleColumn, {
+        onDeleteClicked: this.openDeletePaymentModal.bind(this),
+        onCreateClicked: this.openCreatePaymentModal.bind(this),
         initial: this.consoleViewModel.cashHistory.payment?.id.toString(),
         onChange: this.consoleViewModel.changePayment.bind(this.consoleViewModel),
         title: '결제수단',
@@ -151,6 +180,40 @@ class ConsoleView extends View {
         }) ?? []
       }).build();
     }
+
+    this.createCategoryModal = new InputModal(this.$target, {
+      title: '추가할 카테고리를 입력해주세요',
+      placeholder: '입력하세요',
+      confirm: this.consoleViewModel.createCategory.bind(this.consoleViewModel),
+      hasColorPickerInput: true
+    });
+    this.createCategoryModal.build();
+
+    this.createPaymentModal = new InputModal(this.$target, {
+      title: '추가할 결제수단을 입력해주세요',
+      placeholder: '입력하세요',
+      confirm: this.consoleViewModel.createPayment.bind(this.consoleViewModel),
+      hasColorPickerInput: false
+    });
+    this.createPaymentModal.build();
+
+    this.deleteCategoryModal = new InputModal(this.$target, {
+      title: '해당 카테고리를 삭제하시겠습니까?',
+      placeholder: '',
+      isDisabled: true,
+      confirm: this.consoleViewModel.deleteCategory.bind(this.consoleViewModel),
+      hasColorPickerInput: false
+    });
+    this.deleteCategoryModal.build();
+
+    this.deletePaymentModal = new InputModal(this.$target, {
+      title: '해당 결제수단을 삭제하시겠습니까?',
+      placeholder: '',
+      isDisabled: true,
+      confirm: this.consoleViewModel.deletePayment.bind(this.consoleViewModel),
+      hasColorPickerInput: false
+    });
+    this.deletePaymentModal.build();
   }
 }
 

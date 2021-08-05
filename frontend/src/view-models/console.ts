@@ -18,6 +18,7 @@ import { Category } from '../types/category';
 import { CashHistories } from '../enums/cash-history.enum';
 import { formatNumber } from '../utils/formatter';
 import ConsoleView from '../views/console';
+import toast from '../utils/toast/toast';
 
 type ConsoleCashHistory = {
   id: number | null;
@@ -99,6 +100,67 @@ class ConsoleViewModel extends ViewModel {
     this.paymentsModel.payments = payments;
   }
 
+  async createPayment (value: string): Promise<void> {
+    try {
+      await paymentAPI.createPayment(value);
+    } catch (error) {
+      switch (error.status) {
+        case 400:
+          toast.error('양식을 확인해주세요');
+          break;
+
+        case 409:
+          toast.error('같은 결제수단이 존재합니다');
+          break;
+
+        default:
+          toast.error('다시 시도해주세요');
+          break;
+      }
+    }
+
+    this.fetchPayments();
+  }
+
+  async createCategory (value: string, color?: string): Promise<void> {
+    if (color === undefined) {
+      toast.error('값을 확인해주세요');
+      return;
+    }
+
+    try {
+      await categoryAPI.createCategory(value, color, this.cashHistoryType);
+    } catch (error) {
+      switch (error.status) {
+        case 400:
+          toast.error('양식을 확인해주세요');
+          break;
+
+        case 409:
+          toast.error('같은 카테고리가 존재합니다');
+          break;
+
+        default:
+          toast.error('다시 시도해주세요');
+          break;
+      }
+    }
+
+    this.fetchCategories();
+  }
+
+  async deleteCategory (id: string): Promise<void> {
+    await categoryAPI.deleteCategory(Number(id));
+
+    this.fetchCategories();
+  }
+
+  async deletePayment (id: string): Promise<void> {
+    await paymentAPI.deletePayment(Number(id));
+
+    this.fetchPayments();
+  }
+
   createOrUpdate (): void {
     const { id, createdAt, content, paymentId, categoryId, price } = this.cashHistoryModel;
     if (!this.isValidated()) {
@@ -125,13 +187,11 @@ class ConsoleViewModel extends ViewModel {
 
   async createCashHistory (cashHistoryRequest: CashHistoryRequest): Promise<void> {
     await cashHistoryAPI.createCashHistory(cashHistoryRequest);
-    // await new Promise((resolve) => setTimeout(resolve, 100));
     this.fetchCashHistories();
   }
 
   async updateCashHistory (id:number, cashHistoryRequest: CashHistoryRequest): Promise<void> {
     await cashHistoryAPI.updateCashHistory(id, cashHistoryRequest);
-    // await new Promise((resolve) => setTimeout(resolve, 100));
     this.fetchCashHistories();
   }
 

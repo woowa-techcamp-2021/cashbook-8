@@ -1,3 +1,4 @@
+import colors from '../../../assets/styles/colors';
 import UIElement from '../../../core/ui-element';
 import { CashHistories } from '../../../enums/cash-history.enum';
 import { CashHistory } from '../../../types/cash-history';
@@ -20,8 +21,8 @@ class CalendarDetailItemUIElement extends UIElement {
     this.$element.innerHTML = `
       <div class="calendar-detail__info-wrapper">
         <div class="calendar-detail__category"
-          style="background-color: ${category.color};">
-          ${category.name}
+          style="background-color: ${category?.color ?? colors.primary};">
+          ${category?.name ?? '미분류'}
         </div>
         <span class="calendar-detail__content">${content}</span>
       </div>

@@ -25,7 +25,7 @@ class CategoryService {
     if (duplicatedCategory !== undefined) {
       throw new DuplicateCategoryError('해당 카테고리가 이미 존재합니다');
     }
-    await getCustomRepository(CategoryRepository).insert(newCategory);
+    await getCustomRepository(CategoryRepository).save(newCategory);
   }
 
   async deleteCategory (id: number, user: User): Promise<void> {
@@ -39,7 +39,7 @@ class CategoryService {
       throw new NotMyCategoryError('삭제 권한이 없습니다');
     }
 
-    await getCustomRepository(CategoryRepository).delete(id);
+    await getCustomRepository(CategoryRepository).delete(category.id);
   }
 }
 
