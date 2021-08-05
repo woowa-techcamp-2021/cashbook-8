@@ -10,8 +10,7 @@
 .color-picker__palette {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 45%;
+  margin-right: 16px;
 }
 
 .color-picker__color {
@@ -19,6 +18,7 @@
   height: 25px;
   border-radius: 8px;
   cursor: pointer;
+  margin-right: 4px;
 }
 
 .color-picker__input-wrapper {
@@ -29,11 +29,13 @@
 
 .color-picker__color-hex {
   background-color: var(--background);
-  width: 120px;
+  width: 70px;
   height: 30px;
   border: 1px solid var(--line);
   border-radius: 8px;
   outline: none;
+  font-size: var(--bold-medium);
+  padding: 0 8px;
 }
 
 .color-picker__current {
@@ -51,4 +53,5 @@
   margin-left: 10px;
   font-size: var(--bold-medium);
   font-weight: bold;
+  border: solid 1px var(--line);
 }

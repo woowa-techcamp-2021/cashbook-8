@@ -19,7 +19,7 @@ header .wci {
 }
 
 .header__logo {
-  width: 100%;
+
   flex-grow: 1;
   font-family: 'BMDOHYEON';
   color: var(--off-white);
@@ -105,7 +105,8 @@ header .wci {
 }
 
 .header__logo-wrapper {
-  margin-top: 16px;
+  width: 100px;
+  margin-top: 24px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -129,6 +130,8 @@ header .wci {
 }
 
 .header__profile {
+  padding-top: 6px;
+  margin-left: 4px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -142,6 +145,8 @@ header .wci {
   margin-top: 3px;
   padding: 2px 4px;
   border-radius: 3px;
+  font-weight: bold;
+  border: solid 1px var(--off-white);
 }
 
 .header__logout:hover {

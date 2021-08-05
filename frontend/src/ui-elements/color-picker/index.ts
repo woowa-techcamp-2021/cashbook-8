@@ -4,7 +4,7 @@ import { generateRandomColor } from '../../utils/color';
 
 import './index.css';
 
-const COLOR_COUNT = 5;
+const COLOR_COUNT = 7;
 
 class ColorPickerUIElement extends UIElement {
   private colors: string[] = [];
