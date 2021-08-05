@@ -57,7 +57,7 @@ class HeaderView extends View {
       <header>
         <div class="header__container">
           <div class="header__logo-wrapper">
-            <span class="header__logo">우아한 가계부</span>
+            <span class="header__logo">우아한 가계뿌</span>
             <div class="header__profile-container">
               <img src="${user?.avatarURL ?? ''}" />
               <div class="header__profile">
