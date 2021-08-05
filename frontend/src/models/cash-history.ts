@@ -1,12 +1,21 @@
 import Model, { ProxyModelDataForm } from '../core/proxy-model';
-import { CashHistory } from '../types/cash-history';
 
 export type CashHistoryData = {
-  cashHistory: CashHistory | null;
+  id: number | null;
+  price: number | null;
+  content: string | null;
+  createdAt: Date;
+  categoryId: number | null;
+  paymentId: number | null;
 }
 
 type InitialData = {
-  cashHistory: ProxyModelDataForm<CashHistory | null>;
+  id: ProxyModelDataForm<number | null>;
+  price: ProxyModelDataForm<number | null>;
+  content: ProxyModelDataForm<string | null>;
+  createdAt: ProxyModelDataForm<Date>;
+  categoryId: ProxyModelDataForm<number | null>;
+  paymentId: ProxyModelDataForm<number | null>;
 }
 
 class CashHistoryModel extends Model<InitialData> { }

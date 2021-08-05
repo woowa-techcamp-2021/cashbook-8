@@ -1,3 +1,4 @@
+import { CashHistories } from '../enums/cash-history.enum';
 import { BaseResponse } from './base-response';
 import { Category } from './category';
 import { Payment } from './payment';
@@ -6,10 +7,10 @@ export type CashHistory = {
   id: number;
   price: number;
   content: string;
-  type: number;
+  type: CashHistories;
   createdAt: string;
-  category: Category;
-  payment: Payment;
+  category: Category | null;
+  payment: Payment | null;
   userId: number;
   categoryId: number
   paymentId: number;

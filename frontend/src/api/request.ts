@@ -95,7 +95,7 @@ export const deleteRequest = async <T>(url: string, options: Options): Promise<T
   });
 
   const res = await fetch(requestURL, {
-    method: 'PUT',
+    method: 'DELETE',
     headers
   });
 

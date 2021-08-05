@@ -23,7 +23,7 @@ class PaymentService {
     if (duplicatedPayment !== undefined) {
       throw new DuplicatePaymentError('해당 결제수단이 이미 존재합니다');
     }
-    await getCustomRepository(PaymentRepository).insert(newPayment);
+    await getCustomRepository(PaymentRepository).save(newPayment);
   }
 
   async deletePayment (id: number, user: User): Promise<void> {

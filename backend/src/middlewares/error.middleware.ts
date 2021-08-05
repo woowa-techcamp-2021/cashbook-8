@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { TokenExpiredError } from 'jsonwebtoken';
 import DuplicateCategoryError from '../errors/duplicate-category.error';
+import DuplicatePaymentError from '../errors/duplicate-payment.error';
 import InvalidDataError from '../errors/invalid-data.error';
 import InvalidTokenError from '../errors/invalid-token.error';
 import NotMyCashHistoryError from '../errors/not-my-cash-history.error';
@@ -33,6 +34,10 @@ const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFu
         break;
 
       case DuplicateCategoryError:
+        responseError(res, 409, error.message);
+        break;
+
+      case DuplicatePaymentError:
         responseError(res, 409, error.message);
         break;
 
