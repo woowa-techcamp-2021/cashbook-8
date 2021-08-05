@@ -1,7 +1,7 @@
 import { $ } from '../selector';
 import './toast.css';
 
-const DISAPPEAR_MS = 50000;
+const DISAPPEAR_MS = 7000;
 
 type ToastTypeData = {
   title: string;
@@ -40,9 +40,9 @@ const toast = () => {
     timer && clearTimeout(timer);
 
     $toast.innerHTML = `
-      <div class="toast__content ${typeData.className}">
-        <h1>${typeData.title}</h1>
-        <span>${message}</span>
+      <div class="toast__content">
+        <div class="toast__title ${typeData.className}">${typeData.title}</div>
+        <div class="toast__message">${message}</div>
       </div>
     `;
     $toast.classList.add('appear');

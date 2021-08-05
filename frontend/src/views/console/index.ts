@@ -23,6 +23,14 @@ class ConsoleView extends View {
     this.consoleViewModel.createOrUpdate();
   }
 
+  closeCreateCategoryModal (): void {
+    this.createCategoryModal?.close();
+  }
+
+  closeCreatePaymentModal (): void {
+    this.createPaymentModal?.close();
+  }
+
   enableButton (): void {
     $('.console__button')?.classList.add('console__button--active');
   }
