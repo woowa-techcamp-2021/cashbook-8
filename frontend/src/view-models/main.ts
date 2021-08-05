@@ -57,7 +57,6 @@ class MainViewModel extends ViewModel {
 
     try {
       const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
-      histories.cashHistories.groupedCashHistories.reverse();
       this.cashHistoriesModel.cashHistories = histories;
     } catch (error) {
       const { status } = error;
@@ -77,7 +76,7 @@ class MainViewModel extends ViewModel {
     const filtered = cashHistories.cashHistories.groupedCashHistories.map((monthlyCashHistory) => ({
       ...monthlyCashHistory,
       cashHistories: monthlyCashHistory.cashHistories.filter(e => this.selectedFilter.includes(e.type))
-    }));
+    })).reverse();
 
     this.filteredCashHistoriesModel.cashHistories = {
       ...cashHistories,
