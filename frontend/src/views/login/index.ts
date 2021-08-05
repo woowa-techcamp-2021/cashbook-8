@@ -13,13 +13,12 @@ class LoginView extends View {
   constructor ($target: HTMLElement) {
     super($target);
     this.loginViewModel = new LoginViewModel(this);
-    this.createBackgroundBall();
   }
 
   createBackgroundBall (): void {
     const colors = ['var(--primary1)', 'var(--primary2)', 'var(--off-white)', '#817DCE', '#4CA1DE'];
 
-    const numBalls = 5;
+    const numBalls = 15;
     const balls = [];
 
     for (let i = 0; i < numBalls; i++) {
@@ -33,7 +32,7 @@ class LoginView extends View {
       ball.style.height = ball.style.width;
 
       balls.push(ball);
-      document.body.append(ball);
+      $('.login')?.append(ball);
     }
 
     balls.forEach((el, i) => {
@@ -82,6 +81,7 @@ class LoginView extends View {
         </div>
       </div>
     `;
+    this.createBackgroundBall();
   }
 
   protected mount (): void {
