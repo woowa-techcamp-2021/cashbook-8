@@ -1,3 +1,4 @@
+import dotenv from '../../config/dotenv';
 import { CashHistoriesResponse, CashHistoryRequest, CategoryExpenditureResponse } from '../types/cash-history';
 import { getAccessToken, getRequest, postRequest, putRequest } from './request';
 
@@ -5,7 +6,7 @@ class CashHistoryAPI {
   fetchCashHistories (year: number, month: number): Promise<CashHistoriesResponse> {
     const token = getAccessToken();
 
-    return getRequest<CashHistoriesResponse>('http://localhost:8080/api/cash-history', {
+    return getRequest<CashHistoriesResponse>(`${dotenv.API_URL}/cash-history`, {
       query: {
         year,
         month
@@ -19,7 +20,7 @@ class CashHistoryAPI {
   getTotalCashes (year: number, month: number, categoryId: number) {
     const token = getAccessToken();
 
-    return getRequest<CategoryExpenditureResponse>('http://localhost:8080/api/cash-history/cashes', {
+    return getRequest<CategoryExpenditureResponse>(`${dotenv.API_URL}/cash-history/cashes`, {
       query: {
         year,
         month,
@@ -34,7 +35,7 @@ class CashHistoryAPI {
   createCashHistory (cashHistoryRequest: CashHistoryRequest) {
     const token = getAccessToken();
 
-    postRequest<CashHistoryRequest>('http://localhost:8080/api/cash-history', {
+    postRequest<CashHistoryRequest>(`${dotenv.API_URL}/cash-history`, {
       body: cashHistoryRequest,
       headers: {
         Authorization: token,
@@ -46,7 +47,7 @@ class CashHistoryAPI {
   updateCashHistory (id: number, cashHistoryRequest: CashHistoryRequest) {
     const token = getAccessToken();
 
-    putRequest<CashHistoryRequest>(`http://localhost:8080/api/cash-history/${id}`, {
+    putRequest<CashHistoryRequest>(`${dotenv.API_URL}/cash-history/${id}`, {
       body: cashHistoryRequest,
       headers: {
         Authorization: token,

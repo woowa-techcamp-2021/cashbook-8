@@ -1,13 +1,12 @@
+import dotenv from '../../config/dotenv';
 import { PaymentsResponse } from '../types/payment';
 import { deleteRequest, getAccessToken, getRequest, postRequest } from './request';
-
-// const API_URL = process.env.API_URL as string;
 
 class PaymentAPI {
   fetchPayments (): Promise<PaymentsResponse> {
     const token = getAccessToken();
 
-    return getRequest<PaymentsResponse>('http://localhost:8080/api/payment/all', {
+    return getRequest<PaymentsResponse>(`${dotenv.API_URL}/payment/all`, {
       headers: {
         Authorization: token
       }
@@ -17,7 +16,7 @@ class PaymentAPI {
   createPayment (value: string): Promise<void> {
     const token = getAccessToken();
 
-    return postRequest('http://localhost:8080/api/payment', {
+    return postRequest(`${dotenv.API_URL}/payment`, {
       body: {
         name: value
       },
@@ -31,7 +30,7 @@ class PaymentAPI {
   deletePayment (id: number): Promise<void> {
     const token = getAccessToken();
 
-    return deleteRequest('http://localhost:8080/api/payment', {
+    return deleteRequest(`${dotenv.API_URL}/payment`, {
       param: id,
       headers: {
         Authorization: token
