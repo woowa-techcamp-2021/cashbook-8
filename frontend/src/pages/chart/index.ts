@@ -4,6 +4,8 @@ import CategoryExpenditureView from '../../views/category-expenditure';
 import ExpenditureInMonthView from '../../views/expenditure-in-month';
 import HeaderView from '../../views/header';
 
+import './index.css';
+
 class ChartPage extends Page {
   protected render (): void {
     this.$target.innerHTML = `

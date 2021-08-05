@@ -1,3 +1,7 @@
+.monthly-cash-history__container {
+  padding-bottom: 120px;
+}
+
 .monthly-cash-history__header {
   width: var(--inner-width);
   height: 80px;

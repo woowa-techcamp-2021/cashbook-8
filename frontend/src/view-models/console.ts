@@ -45,7 +45,7 @@ class ConsoleViewModel extends ViewModel {
     this.focusDateModel = models.focusDate;
     this.cashHistoriesModel = models.cashHistories;
 
-    this.initCashHistory();
+    this.setInitialDataInCashHistoryModel();
     this.fetchCategories();
     this.fetchPayments();
   }
@@ -56,6 +56,12 @@ class ConsoleViewModel extends ViewModel {
         (this.view as ConsoleView).enableButton();
       } else {
         (this.view as ConsoleView).disableButton();
+      }
+
+      if (this.isWriting()) {
+        (this.view as ConsoleView).showResetButton();
+      } else {
+        (this.view as ConsoleView).hiddenResetButton();
       }
     });
 
@@ -70,10 +76,34 @@ class ConsoleViewModel extends ViewModel {
     pubsub.subscribe(actions.ON_CASH_HISTORY_SET, () => {
       this._cashHistoryType = this.cashHistory.category?.type ?? CashHistories.Income;
       this.view.build();
+      if (this.isWriting()) {
+        (this.view as ConsoleView).showResetButton();
+      }
     });
   }
 
-  private initCashHistory () {
+  private isWriting (): boolean {
+    const { id, price, content, paymentId, categoryId } = this.cashHistoryModel;
+
+    if (
+      id !== null ||
+      price !== null ||
+      (content !== null && content.trim().length > 0) ||
+      paymentId !== null ||
+      categoryId !== null
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  initCashHistory (): void {
+    this.setInitialDataInCashHistoryModel();
+    pubsub.publish(actions.ON_CASH_HISTORY_SET);
+  }
+
+  private setInitialDataInCashHistoryModel (): void {
     this.cashHistoryModel.id = null;
     this.cashHistoryModel.price = null;
     this.cashHistoryModel.content = null;
@@ -225,7 +255,6 @@ class ConsoleViewModel extends ViewModel {
     }
 
     this.initCashHistory();
-    pubsub.publish(actions.ON_CASH_HISTORY_SET);
   }
 
   async createCashHistory (cashHistoryRequest: CashHistoryRequest): Promise<void> {

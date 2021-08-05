@@ -15,48 +15,136 @@ header .wci {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 60px;
+  padding-top: 28px;
 }
 
 .header__logo {
+  width: 100%;
+  flex-grow: 1;
+  font-family: 'BMDOHYEON';
   color: var(--off-white);
   cursor: pointer;
+  font-size: var(--display-small);
 }
 
 .header__focus-date-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-grow: 1;
 }
 
 .header__focus-date {
+  width: 120px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100px;
 }
 
 .header__focus-month {
+  font-family: 'BMDOHYEON';
   color: var(--off-white);
-  font-size: var(--body-large);
+  font-size: var(--display-large);
 }
 
 .header__focus-year {
+  font-family: 'BMDOHYEON';
   color: var(--off-white);
-  font-size: var(--body-medium);
+  font-size: var(--display-small);
 }
 
-.header__button--next,
-.header__button--previous {
+.header__button {
+  margin: 16px;
+  padding: 5px 8px;
   cursor: pointer;
+  transition: 0.1s ease-in;
+}
+
+.header__button:hover {
+  color: var(--primary3);
+  background-color: var(--off-white);
+  border-radius: 999px;
+  opacity: 0.9;
+}
+
+.header__button--next {
+  padding: 6px 7px 4px 9px;
+}
+
+.header__button--previous {
+  padding: 6px 9px 4px 7px;
+}
+
+.header__navigator {
+  width: 100px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .header__navigator .wci {
+  padding: 6px 8px 4px 8px;
   color: var(--primary2);
   cursor: pointer;
+  transition: 0.1s ease-in;
+}
+
+.header__navigator .wci:hover {
+  color: var(--primary3);
+  background-color: var(--off-white);
+  border-radius: 999px;
+  opacity: 0.9;
 }
 
 .header__navigator .wci.current-path {
   color: var(--off-white);
+  background-color: transparent;
+  opacity: 1;
+}
+
+.header__logo-wrapper {
+  margin-top: 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.header__profile-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  color: var(--off-white);
+  margin-top: 8px;
+}
+
+.header__profile-container img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.header__profile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.header__logout {
+  display: block;
+  font-size: var(--bold-small);
+  cursor: pointer;
+  margin-top: 3px;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.header__logout:hover {
+  background-color: var(--off-white);
+  color: var(--primary1);
 }
