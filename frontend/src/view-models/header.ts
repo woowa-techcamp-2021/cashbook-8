@@ -5,13 +5,19 @@ import View from '../core/view';
 import ViewModel from '../core/view-model';
 import models from '../models';
 import { FocusDateData } from '../models/focus-date';
+import userAPI from '../api/user';
+import { UserData } from '../models/user';
+import { User } from '../types/user';
 
 class HeaderViewModel extends ViewModel {
   private focusDateModel: FocusDateData;
+  private userModel: UserData;
 
   constructor (view: View) {
     super(view);
     this.focusDateModel = models.focusDate;
+    this.userModel = models.user;
+    this.fetchUser();
   }
 
   protected subscribe (): void {
@@ -22,6 +28,19 @@ class HeaderViewModel extends ViewModel {
     pubsub.subscribe(actions.ON_CASH_HISTORIES_CHANGE, () => {
       this.view.build();
     });
+
+    pubsub.subscribe(actions.ON_USER_CHANGE, () => {
+      this.view.build();
+    });
+  }
+
+  private async fetchUser () {
+    const user = await userAPI.fetchMyProfile();
+    this.userModel.user = user;
+  }
+
+  get user (): User | undefined {
+    return this.userModel.user?.user;
   }
 
   get focusedMonth (): number {
