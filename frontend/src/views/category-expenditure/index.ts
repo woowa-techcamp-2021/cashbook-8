@@ -7,10 +7,11 @@ import CategoryExpenditureViewModel from '../../view-models/category-expenditure
 
 import './index.css';
 
+const SVG_HEIGHT = 784;
+const SVG_WIDTH = 287;
+
 class CategoryExpenditureView extends View {
   private categoryExpenditureViewModel: CategoryExpenditureViewModel;
-  private SVG_HEIGHT = 784;
-  private SVG_WIDTH = 287;
   private SVG_LINE_STYLE = 'transform: scaleX(0.87) translateX(90px) scaleY(0.87) translateY(34px)';
 
   constructor ($target: HTMLElement) {
@@ -24,7 +25,7 @@ class CategoryExpenditureView extends View {
       return [];
     }
     const BASELINE_AMOUNT = 5;
-    const baselineInterval = this.SVG_WIDTH / (BASELINE_AMOUNT - 1);
+    const baselineInterval = SVG_WIDTH / (BASELINE_AMOUNT - 1);
 
     const $DOM = new Array(BASELINE_AMOUNT)
       .fill(0)
@@ -37,7 +38,7 @@ class CategoryExpenditureView extends View {
     const $baseline = getSVGElement('line', {
       x1: '0',
       y1: `${pos}`,
-      x2: `${this.SVG_HEIGHT}`,
+      x2: `${SVG_HEIGHT}`,
       y2: `${pos}`,
       stroke: 'var(--title-active)',
       'stroke-opacity': '.2',
@@ -52,13 +53,13 @@ class CategoryExpenditureView extends View {
       return [];
     }
     const maxMonth = 12;
-    const intervalX = this.SVG_HEIGHT / (maxMonth - 1);
+    const intervalX = SVG_HEIGHT / (maxMonth - 1);
     const max = Math.max(...data);
     return data.reduce((acc, curr, idx) => [
       ...acc,
       [
         idx * intervalX,
-        this.SVG_WIDTH - (curr / max) * this.SVG_WIDTH
+        SVG_WIDTH - (curr / max) * SVG_WIDTH
       ]
     ], [] as number[][]);
   }
@@ -136,7 +137,7 @@ class CategoryExpenditureView extends View {
     <div class='category-expenditure__container'>
       <div class='category-expenditure__y-labels-container'>
       </div>
-      <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${this.SVG_HEIGHT} ${this.SVG_WIDTH}'>
+      <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${SVG_HEIGHT} ${SVG_WIDTH}'>
         <defs>
         <linearGradient id="curvedLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%"   stop-color="var(--primary2)"/>
