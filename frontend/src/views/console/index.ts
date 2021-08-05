@@ -33,9 +33,11 @@ class ConsoleView extends View {
 
   showResetButton (): void {
     $('.console__reset')?.classList.remove('disappear');
+    $('.console__reset')?.classList.add('appear');
   }
 
   hiddenResetButton (): void {
+    $('.console__reset')?.classList.remove('appear');
     $('.console__reset')?.classList.add('disappear');
   }
 
