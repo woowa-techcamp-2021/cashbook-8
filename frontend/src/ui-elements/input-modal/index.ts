@@ -1,4 +1,5 @@
 import UIElement from '../../core/ui-element';
+import ColorPickerUIElement from '../color-picker';
 
 import './index.css';
 
@@ -21,7 +22,7 @@ class InputModal extends UIElement {
   private $confirmButton?: HTMLElement;
   private $cancelButton?: HTMLElement;
   private $input?: HTMLInputElement;
-  private $colorInput?: HTMLInputElement;
+  private colorPicker?: ColorPickerUIElement;
 
   constructor ($target: HTMLElement, {
     title,
@@ -45,7 +46,7 @@ class InputModal extends UIElement {
   }
 
   private onConfirmClicked () {
-    this.confirm(this.value ?? this.$input?.value ?? '', this.$colorInput?.value ?? '');
+    this.confirm(this.value ?? this.$input?.value ?? '', this.colorPicker?.value ?? '');
     this.close();
   }
 
@@ -84,10 +85,8 @@ class InputModal extends UIElement {
     $inputModal.appendChild(this.$input);
 
     if (this.hasColorPickerInput) {
-      this.$colorInput = document.createElement('input');
-      this.$colorInput.className = 'input-modal__input';
-      this.$colorInput.placeholder = '색상을 입력해주세요 (#ffffff)';
-      $inputModal.appendChild(this.$colorInput);
+      this.colorPicker = new ColorPickerUIElement($inputModal);
+      this.colorPicker.build();
     }
 
     const $buttonWrapper = document.createElement('div');

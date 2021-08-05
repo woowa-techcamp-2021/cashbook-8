@@ -31,7 +31,7 @@
   color: var(--title-active);
 }
 
-.input-modal input {
+.input-modal__input  {
   border: 1px solid var(--line);
   padding: 12px;
   border-radius: 8px;
