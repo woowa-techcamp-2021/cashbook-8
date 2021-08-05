@@ -127,6 +127,8 @@ header .wci {
   height: 30px;
   border-radius: 50%;
   margin-right: 5px;
+  background-color: var(--off-white);
+  border: 1px solid var(--off-white);
 }
 
 .header__profile {
