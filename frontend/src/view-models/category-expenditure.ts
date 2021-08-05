@@ -4,17 +4,14 @@ import View from '../core/view';
 import ViewModel from '../core/view-model';
 import models from '../models';
 import { CategoryExpenditureData } from '../models/category-expenditure';
-import { FocusDateData } from '../models/focus-date';
 import { totalCash } from '../types/cash-history';
 import CategoryExpenditureView from '../views/category-expenditure';
 
 class CategoryExpenditureViewModel extends ViewModel {
-  private focusDateModel: FocusDateData;
   private categoryExpendituresModel: CategoryExpenditureData;
 
   constructor (view: View) {
     super(view);
-    this.focusDateModel = models.focusDate;
     this.categoryExpendituresModel = models.categoryExpenditures;
   }
 
