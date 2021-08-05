@@ -31,6 +31,16 @@ class ConsoleView extends View {
     this.createPaymentModal?.close();
   }
 
+  showResetButton (): void {
+    $('.console__reset')?.classList.remove('disappear');
+    $('.console__reset')?.classList.add('appear');
+  }
+
+  hiddenResetButton (): void {
+    $('.console__reset')?.classList.remove('appear');
+    $('.console__reset')?.classList.add('disappear');
+  }
+
   enableButton (): void {
     $('.console__button')?.classList.add('console__button--active');
   }
@@ -101,6 +111,11 @@ class ConsoleView extends View {
     this.deletePaymentModal?.open(id, payment?.name);
   }
 
+  private onResetClicked () {
+    this.consoleViewModel.initCashHistory();
+    this.hiddenResetButton();
+  }
+
   protected addListener (): void {
     $('.console__type--income')?.addEventListener('click', this.onIncomeTypeClicked.bind(this));
     $('.console__type--expenditure')?.addEventListener('click', this.onExpenditureTypeClicked.bind(this));
@@ -108,6 +123,7 @@ class ConsoleView extends View {
     $('.console__input--price')?.addEventListener('input', this.onPriceChanged.bind(this));
     $('.console__input--content')?.addEventListener('input', this.onContentChanged.bind(this));
     $('.console__button')?.addEventListener('click', this.onSubmitClicked.bind(this));
+    $('.console__reset')?.addEventListener('click', this.onResetClicked.bind(this));
   }
 
   protected render (): void {
@@ -115,42 +131,49 @@ class ConsoleView extends View {
     const { cashHistoryType, formattedPrice } = this.consoleViewModel;
 
     this.$target.innerHTML = `
-    <div class="console">
-      <div class="console__column console__column--type">
-        <div class="console__type console__type--income ${cashHistoryType === CashHistories.Income && 'selected'}">수입</div>
-        <div class="console__type console__type--expenditure ${cashHistoryType === CashHistories.Expenditure && 'selected'}">지출</div>
-      </div>
+    <div class="console-wrapper">
+      <div class="console">
+        <div class="console__column console__column--type">
+          <div class="console__type console__type--income ${cashHistoryType === CashHistories.Income && 'selected'}">수입</div>
+          <div class="console__type console__type--expenditure ${cashHistoryType === CashHistories.Expenditure && 'selected'}">지출</div>
+        </div>
 
-      <div class="console__column console__column--date">
-        <div class="console__title">일자</div>
-        <input class="console__input console__input--date" type="date" placeholder="입력하세요" value="${createdAt}" />
-      </div>
+        <div class="console__column console__column--date">
+          <div class="console__title">일자</div>
+          <input class="console__input console__input--date" type="date" placeholder="입력하세요" value="${createdAt}" />
+        </div>
 
-      <div class="console__column console__column--category">
-      </div>
+        <div class="console__column console__column--category">
+        </div>
 
-      <div class="console__column console__column--content">
-        <div class="console__title">내용</div>
-        <input class="console__input console__input--content" placeholder="입력하세요" value="${content ?? ''}" />
-      </div>
+        <div class="console__column console__column--content">
+          <div class="console__title">내용</div>
+          <input class="console__input console__input--content" placeholder="입력하세요" value="${content ?? ''}" />
+        </div>
 
-      <div class="console__column  console__column--payment">
-      </div>
+        <div class="console__column  console__column--payment">
+        </div>
 
-      <div class="console__column">
-        <div class="console__title">금액</div>
-        <div class="console__price-box">
-          <input class="console__input console__input--price" placeholder="입력하세요" value="${formattedPrice ?? ''}" />
-          <div class="console__unit-text">원</div>
+        <div class="console__column">
+          <div class="console__title">금액</div>
+          <div class="console__price-box">
+            <input class="console__input console__input--price" placeholder="입력하세요" value="${formattedPrice ?? ''}" />
+            <div class="console__unit-text">원</div>
+          </div>
+        </div>
+
+        <div class="console__column console__column--confirm">
+          <div class="console__button">
+            <i class="wci wci-check"></i>
+          </div>
         </div>
       </div>
 
-      <div class="console__column console__column--confirm">
-        <div class="console__button">
-          <i class="wci wci-check"></i>
-        </div>
+      <div class="console__reset disappear">
+        <i class="wci wci-close"></i>
       </div>
-    </div>`;
+    </div>
+    `;
   }
 
   protected mount (): void {
