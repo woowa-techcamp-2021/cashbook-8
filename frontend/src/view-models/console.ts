@@ -128,6 +128,8 @@ class ConsoleViewModel extends ViewModel {
     try {
       await paymentAPI.createPayment(value);
       toast.success('결제수단을 추가했습니다');
+      (this.view as ConsoleView).closeCreatePaymentModal();
+      this.fetchPayments();
     } catch (error) {
       switch (error.status) {
         case 400:
@@ -143,8 +145,6 @@ class ConsoleViewModel extends ViewModel {
           break;
       }
     }
-
-    this.fetchPayments();
   }
 
   async createCategory (value: string, color?: string): Promise<void> {
@@ -156,7 +156,10 @@ class ConsoleViewModel extends ViewModel {
     try {
       await categoryAPI.createCategory(value, color, this.cashHistoryType);
       toast.success('카테고리를 추가했습니다');
+      (this.view as ConsoleView).closeCreateCategoryModal();
+      this.fetchCategories();
     } catch (error) {
+      console.log('pass');
       switch (error.status) {
         case 400:
           toast.error('양식을 확인해주세요');
@@ -171,8 +174,6 @@ class ConsoleViewModel extends ViewModel {
           break;
       }
     }
-
-    this.fetchCategories();
   }
 
   async deleteCategory (id: string): Promise<void> {
