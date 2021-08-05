@@ -12,6 +12,7 @@ class ExpenditureListUIElement extends UIElement {
   private month: number;
   private onCategoryMouseEnter: EventListener;
   private onCategoryMouseLeave: EventListener;
+  private onCategoryClicked: EventListener;
 
   constructor ($target: HTMLElement,
     expenditureGroupedByCategory: ExpenditureGroupedByCategory[],
@@ -19,7 +20,8 @@ class ExpenditureListUIElement extends UIElement {
     year: number,
     month: number,
     onCategoryMouseEnter: EventListener,
-    onCategoryMouseLeave: EventListener) {
+    onCategoryMouseLeave: EventListener,
+    onCategoryClicked: EventListener) {
     super($target, {
       className: 'expenditure-list'
     });
@@ -30,6 +32,7 @@ class ExpenditureListUIElement extends UIElement {
     this.month = month;
     this.onCategoryMouseEnter = onCategoryMouseEnter;
     this.onCategoryMouseLeave = onCategoryMouseLeave;
+    this.onCategoryClicked = onCategoryClicked;
   }
 
   protected render (): void {
@@ -60,6 +63,7 @@ class ExpenditureListUIElement extends UIElement {
   protected addListener (): void {
     $('.expenditure-list-wrapper')?.addEventListener('mousemove', this.onCategoryMouseEnter);
     $('.expenditure-list-wrapper')?.addEventListener('mouseleave', this.onCategoryMouseLeave);
+    $('.expenditure-list-wrapper')?.addEventListener('click', this.onCategoryClicked);
   }
 
   protected mount (): void {
