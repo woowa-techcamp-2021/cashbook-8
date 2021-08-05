@@ -66,7 +66,6 @@ class CategoryExpenditureView extends View {
 
   getPathLAttribute (data: number[]): string {
     const coords = this.getCoordinates(data);
-    console.log(coords);
 
     const drawn = coords.reduce((acc, curr, idx) => {
       const isFirstPoint = idx === 0;

@@ -17,14 +17,14 @@ export const ROUTER_PATH = {
 
 class Router {
   private routes: { [key: string]: Page };
-  private static _router: Router;
+  static _router: Router;
 
   static init ($root: HTMLElement): void {
-    this._router = new Router($root);
+    Router._router = new Router($root);
   }
 
   static get instance (): Router {
-    return this._router;
+    return Router._router;
   }
 
   private constructor ($root: HTMLElement) {
@@ -35,14 +35,13 @@ class Router {
       [ROUTER_PATH.CHART]: new ChartPage($root),
       [ROUTER_PATH.NOT_FOUND]: new NotfoundPage($root)
     };
-    this.onStateChange();
   }
 
   listen (): void {
     window.addEventListener('popstate', this.onStateChange.bind(this));
   }
 
-  private onStateChange () {
+  onStateChange (): void {
     const path = parsePath(location.pathname);
     pubsub.clear();
     if (!(path in this.routes)) {
@@ -53,7 +52,6 @@ class Router {
   }
 
   push (path: string): void {
-    // todo: 필요 시 state 추가
     history.pushState({ }, '', `/${path}`);
     this.onStateChange();
   }
