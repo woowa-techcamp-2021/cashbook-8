@@ -1,5 +1,6 @@
 import cashHistoryAPI from '../api/cash-history';
 import categoryAPI from '../api/category';
+import colors from '../assets/styles/colors';
 import actions from '../constant/actions';
 import pubsub from '../core/pubsub';
 import View from '../core/view';
@@ -19,7 +20,7 @@ export type ExpenditureGroupedByCategory = {
   index: number;
   expenditure: number;
   rate: number;
-  category: Category;
+  category: Category | null;
 }
 
 class ExpenditureInMonthViewModel extends ViewModel {
@@ -99,8 +100,8 @@ class ExpenditureInMonthViewModel extends ViewModel {
 
       return {
         kye: index,
-        name: category.name,
-        color: category.color,
+        name: category?.name ?? '미분류',
+        color: category?.color ?? colors.primary,
         value: expenditure,
         label: formatNumber(expenditure)
       };
@@ -126,7 +127,7 @@ class ExpenditureInMonthViewModel extends ViewModel {
       ];
     }, [] as CashHistory[]);
 
-    const cashHistoriesGroupedByCategory = categories.map((category, index) => {
+    const cashHistoriesGroupedByCategory: ExpenditureGroupedByCategory[] = categories.map((category, index) => {
       const expenditure = totalCashHistories
         .filter((cashHistory) => cashHistory.categoryId === category.id)
         .reduce((sum, cashHistory) => sum + cashHistory.price, 0);
@@ -139,7 +140,22 @@ class ExpenditureInMonthViewModel extends ViewModel {
       };
     });
 
+    // 미분류 처리
+    const etcExpenditure = totalCashHistories
+      .filter((cashHistory) => cashHistory.category === null && cashHistory.type === CashHistories.Expenditure)
+      .reduce((sum, cashHistory) => sum + cashHistory.price, 0);
+
+    cashHistoriesGroupedByCategory.push({
+      index: 0,
+      category: null,
+      expenditure: etcExpenditure,
+      rate: etcExpenditure / totalExpenditure * 100
+    });
+
     cashHistoriesGroupedByCategory.sort((a, b) => b.expenditure - a.expenditure);
+    cashHistoriesGroupedByCategory.forEach((cashHistory, index) => {
+      cashHistory.index = index;
+    });
 
     return cashHistoriesGroupedByCategory;
   }

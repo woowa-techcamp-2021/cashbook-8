@@ -23,6 +23,10 @@ class ExpenditureInMonthView extends View {
     }
 
     const category = this.expenditureInMonthViewModel.expenditureGroupedByCategory[Number(index)];
+    if (category?.category?.id === undefined) {
+      return;
+    }
+
     this.expenditureInMonthViewModel.fetchCategoryExpenditures(category.category.id);
   }
 
