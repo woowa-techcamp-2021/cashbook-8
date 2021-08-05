@@ -57,8 +57,8 @@ class MainViewModel extends ViewModel {
 
     try {
       const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
+      histories.cashHistories.groupedCashHistories.reverse();
       this.cashHistoriesModel.cashHistories = histories;
-      this.filteredCashHistoriesModel.cashHistories = histories;
     } catch (error) {
       const { status } = error;
 
