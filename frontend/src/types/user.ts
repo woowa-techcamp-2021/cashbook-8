@@ -9,3 +9,7 @@ export type User = {
 export type UserResponse = {
   user: User;
 } & BaseResponse;
+
+export type GuestLoginResponse = {
+  accessToken: string;
+} & BaseResponse;

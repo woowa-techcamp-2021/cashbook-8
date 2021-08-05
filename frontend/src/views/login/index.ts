@@ -60,6 +60,7 @@ class LoginView extends View {
 
   protected addListener (): void {
     $('.login__button--github')?.addEventListener('click', this.loginViewModel.onGithubLoginClicked);
+    $('.login__button--guest')?.addEventListener('click', this.loginViewModel.onGuestLoginClicked);
   }
 
   protected render (): void {

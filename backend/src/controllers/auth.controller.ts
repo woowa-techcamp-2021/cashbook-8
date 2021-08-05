@@ -15,6 +15,16 @@ class AuthController {
     res.cookie('accessToken', accessToken);
     res.redirect(dotenv.CLIENT_URL);
   }
+
+  async guestLogin (req: Request, res: Response) {
+    const guest = await userService.findGuestUser();
+    const accessToken = await jwtService.generate(guest);
+
+    res.status(200).json({
+      message: '게스트 로그인 성공',
+      accessToken
+    });
+  }
 }
 
 export default new AuthController();
