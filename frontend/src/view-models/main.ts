@@ -108,7 +108,13 @@ class MainViewModel extends ViewModel {
         .forEach(groupedCashHistory => groupedCashHistory.cashHistories
           .forEach(cashHistory => {
             if (cashHistory.id === cashHistoryId) {
-              this.cashHistoryModel.cashHistory = cashHistory;
+              this.cashHistoryModel.id = cashHistory.id;
+              this.cashHistoryModel.categoryId = cashHistory.categoryId;
+              this.cashHistoryModel.paymentId = cashHistory.paymentId;
+              this.cashHistoryModel.content = cashHistory.content;
+              this.cashHistoryModel.price = cashHistory.price;
+              this.cashHistoryModel.createdAt = new Date(cashHistory.createdAt);
+              pubsub.publish(actions.ON_CASH_HISTORY_SET);
             }
           }));
     }

@@ -1,0 +1,54 @@
+.input-modal-wrapper.disappear {
+  visibility: hidden;
+}
+
+.input-modal-wrapper {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.input-modal {
+  position: absolute;
+  --modal-width: 400px;
+  --modal-height: 200px;
+  position: absolute;
+  left: calc(50% - (calc(var(--modal-width) / 2)));
+  top: calc(50% - (calc(var(--modal-height) / 2)));
+  width: var(--modal-width);
+  min-height: var(--modal-height);
+  background-color: var(--off-white);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 36px;
+}
+
+.input-modal h1 {
+  color: var(--title-active);
+}
+
+.input-modal input {
+  border: 1px solid var(--line);
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--background);
+  margin-top: 20px;
+  outline: none;
+  color: var(--body);
+}
+
+.input-modal input::-webkit-input-placeholder {
+  color: var(--placeholder);
+}
+
+.input-modal__button-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+  justify-content: space-between;
+}

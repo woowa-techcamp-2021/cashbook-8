@@ -12,6 +12,22 @@ import cashHistoryAPI from '../api/cash-history';
 import { CashHistoryRequest } from '../types/cash-history';
 import { FocusDateData } from '../models/focus-date';
 import { CashHistoriesData } from '../models/cash-histories';
+import { date2DatePickerFormat, date2yyyyMMdd } from '../utils/date';
+import { Payment } from '../types/payment';
+import { Category } from '../types/category';
+import { CashHistories } from '../enums/cash-history.enum';
+import { formatNumber } from '../utils/formatter';
+import ConsoleView from '../views/console';
+import toast from '../utils/toast/toast';
+
+type ConsoleCashHistory = {
+  id: number | null;
+  payment: Payment | null;
+  category: Category | null;
+  content: string | null;
+  price: number | null;
+  createdAt: string;
+}
 
 class ConsoleViewModel extends ViewModel {
   private cashHistoryModel: CashHistoryData;
@@ -19,6 +35,7 @@ class ConsoleViewModel extends ViewModel {
   private paymentsModel: PaymentsData;
   private focusDateModel: FocusDateData;
   private filteredCashHistoriesModel: CashHistoriesData;
+  private _cashHistoryType: CashHistories = CashHistories.Income;
 
   constructor (view: View) {
     super(view);
@@ -28,13 +45,18 @@ class ConsoleViewModel extends ViewModel {
     this.focusDateModel = models.focusDate;
     this.filteredCashHistoriesModel = models.filteredCashHistories;
 
+    this.initCashHistory();
     this.fetchCategories();
     this.fetchPayments();
   }
 
   protected subscribe (): void {
     pubsub.subscribe(actions.ON_CASH_HISTORY_CHANGE, () => {
-      this.view.build();
+      if (this.isValidated()) {
+        (this.view as ConsoleView).enableButton();
+      } else {
+        (this.view as ConsoleView).disableButton();
+      }
     });
 
     pubsub.subscribe(actions.ON_CATEGORIES_CHANGE, () => {
@@ -44,68 +66,28 @@ class ConsoleViewModel extends ViewModel {
     pubsub.subscribe(actions.ON_PAYMENTS_CHANGE, () => {
       this.view.build();
     });
+
+    pubsub.subscribe(actions.ON_CASH_HISTORY_SET, () => {
+      this._cashHistoryType = this.cashHistory.category?.type ?? CashHistories.Income;
+      this.view.build();
+    });
   }
 
-  async fetchCashHistories (): Promise<void> {
+  private initCashHistory () {
+    this.cashHistoryModel.id = null;
+    this.cashHistoryModel.price = null;
+    this.cashHistoryModel.content = null;
+    this.cashHistoryModel.createdAt = new Date();
+    this.cashHistoryModel.categoryId = null;
+    this.cashHistoryModel.paymentId = null;
+
+    this._cashHistoryType = CashHistories.Income;
+  }
+
+  private async fetchCashHistories (): Promise<void> {
     const date = this.focusDateModel.focusDate;
     const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
     this.filteredCashHistoriesModel.cashHistories = histories;
-  }
-
-  onCategorySelect (e: Event): void {
-    const selectedCategoryModelName = (e.target as HTMLElement).dataset.name;
-    if (this.categoriesModel.categories === null) {
-      return;
-    }
-    this.categoriesModel.categories.categories.forEach(e => {
-      if (e.name === selectedCategoryModelName) {
-        if (this.cashHistoryModel.cashHistory === null) {
-          return;
-        }
-        this.cashHistoryModel.cashHistory = {
-          ...this.cashHistoryModel.cashHistory,
-          category: e
-        };
-      }
-    });
-  }
-
-  onPaymentSelect (e: Event): void {
-    const selectedPaymentModelName = (e.target as HTMLElement).dataset.name;
-    if (this.paymentsModel.payments === null) {
-      return;
-    }
-    this.paymentsModel.payments.payments.forEach(payment => {
-      if (payment.name === selectedPaymentModelName) {
-        if (this.cashHistoryModel.cashHistory === null) {
-          return;
-        }
-        this.cashHistoryModel.cashHistory = {
-          ...this.cashHistoryModel.cashHistory,
-          payment: payment
-        };
-      }
-    });
-  }
-
-  onContentChange (e: Event): void {
-    if (this.cashHistoryModel.cashHistory === null) {
-      return;
-    }
-    this.cashHistoryModel.cashHistory = {
-      ...this.cashHistoryModel.cashHistory,
-      content: (e.target as HTMLInputElement).value
-    };
-  }
-
-  onPriceChange (e: Event): void {
-    if (this.cashHistoryModel.cashHistory === null) {
-      return;
-    }
-    this.cashHistoryModel.cashHistory = {
-      ...this.cashHistoryModel.cashHistory,
-      price: Number((e.target as HTMLInputElement).value)
-    };
   }
 
   private async fetchCategories () {
@@ -118,32 +100,180 @@ class ConsoleViewModel extends ViewModel {
     this.paymentsModel.payments = payments;
   }
 
+  async createPayment (value: string): Promise<void> {
+    try {
+      await paymentAPI.createPayment(value);
+    } catch (error) {
+      switch (error.status) {
+        case 400:
+          toast.error('양식을 확인해주세요');
+          break;
+
+        case 409:
+          toast.error('같은 결제수단이 존재합니다');
+          break;
+
+        default:
+          toast.error('다시 시도해주세요');
+          break;
+      }
+    }
+
+    this.fetchPayments();
+  }
+
+  async createCategory (value: string, color?: string): Promise<void> {
+    if (color === undefined) {
+      toast.error('값을 확인해주세요');
+      return;
+    }
+
+    try {
+      await categoryAPI.createCategory(value, color, this.cashHistoryType);
+    } catch (error) {
+      switch (error.status) {
+        case 400:
+          toast.error('양식을 확인해주세요');
+          break;
+
+        case 409:
+          toast.error('같은 카테고리가 존재합니다');
+          break;
+
+        default:
+          toast.error('다시 시도해주세요');
+          break;
+      }
+    }
+
+    this.fetchCategories();
+  }
+
+  async deleteCategory (id: string): Promise<void> {
+    await categoryAPI.deleteCategory(Number(id));
+
+    this.fetchCategories();
+  }
+
+  async deletePayment (id: string): Promise<void> {
+    await paymentAPI.deletePayment(Number(id));
+
+    this.fetchPayments();
+  }
+
+  createOrUpdate (): void {
+    const { id, createdAt, content, paymentId, categoryId, price } = this.cashHistoryModel;
+    if (!this.isValidated()) {
+      return;
+    }
+
+    const cashHistory = {
+      date: date2yyyyMMdd(createdAt),
+      content,
+      paymentId,
+      categoryId,
+      price
+    } as CashHistoryRequest;
+
+    if (id === null) {
+      this.createCashHistory(cashHistory);
+    } else {
+      this.updateCashHistory(id, cashHistory);
+    }
+
+    this.initCashHistory();
+    pubsub.publish(actions.ON_CASH_HISTORY_SET);
+  }
+
   async createCashHistory (cashHistoryRequest: CashHistoryRequest): Promise<void> {
     await cashHistoryAPI.createCashHistory(cashHistoryRequest);
-    await new Promise((resolve) => setTimeout(resolve, 100));
     this.fetchCashHistories();
   }
 
   async updateCashHistory (id:number, cashHistoryRequest: CashHistoryRequest): Promise<void> {
     await cashHistoryAPI.updateCashHistory(id, cashHistoryRequest);
-    await new Promise((resolve) => setTimeout(resolve, 100));
     this.fetchCashHistories();
   }
 
-  get cashHistory (): CashHistoryData {
-    return this.cashHistoryModel;
+  get cashHistoryType (): CashHistories {
+    return this._cashHistoryType;
   }
 
-  set cashHistory (cashHistory: CashHistoryData) {
-    this.cashHistoryModel = cashHistory;
+  get cashHistory (): ConsoleCashHistory {
+    const { id, paymentId, categoryId, content, price, createdAt } = this.cashHistoryModel;
+    const payment = this.payments.find((payment) => payment.id === paymentId) ?? null;
+    const category = this.categoriesModel.categories?.categories
+      ?.find((category) => category.id === categoryId) ?? null;
+
+    return {
+      id,
+      payment,
+      category,
+      content,
+      price,
+      createdAt: date2DatePickerFormat(createdAt)
+    };
   }
 
-  get categories (): CategoriesData {
-    return this.categoriesModel;
+  get payments (): Payment[] | [] {
+    return this.paymentsModel.payments?.payments ?? [];
   }
 
-  get payments (): PaymentsData {
-    return this.paymentsModel;
+  get categories (): Category[] | [] {
+    return this.categoriesModel.categories?.categories
+      .filter(category => category.type === this.cashHistoryType) ?? [];
+  }
+
+  changeDate (date: string): void {
+    this.cashHistoryModel.createdAt = new Date(date);
+  }
+
+  changeContent (content: string): void {
+    this.cashHistoryModel.content = content;
+  }
+
+  changeCategory (categoryId?: string): void {
+    this.cashHistoryModel.categoryId = categoryId !== undefined ? Number(categoryId) : null;
+  }
+
+  changePayment (paymentId?: string): void {
+    this.cashHistoryModel.paymentId = paymentId !== undefined ? Number(paymentId) : null;
+  }
+
+  changePrice (price: string): void {
+    const numberPrice = Number(price.replace(/,/gi, ''));
+    this.cashHistoryModel.price = isNaN(numberPrice) || price === '' ? null : numberPrice;
+  }
+
+  changeCashHistoryType (type: CashHistories): boolean {
+    if (type === this.cashHistoryType) {
+      return false;
+    }
+
+    this._cashHistoryType = type;
+    return true;
+  }
+
+  get formattedPrice (): string | null {
+    const { price } = this.cashHistory;
+
+    return price === null ? null : formatNumber(price);
+  }
+
+  isValidated (): boolean {
+    const { price, content, paymentId, categoryId } = this.cashHistoryModel;
+    if (
+      price === null ||
+      isNaN(Number(price)) ||
+      content === null ||
+      content.trim().length <= 0 ||
+      paymentId === null ||
+      categoryId === null
+    ) {
+      return false;
+    }
+
+    return true;
   }
 }
 

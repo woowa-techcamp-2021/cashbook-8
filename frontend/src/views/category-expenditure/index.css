@@ -9,6 +9,10 @@
   padding: 32px;
 }
 
+.category-expenditure__container.disappear {
+  visibility: hidden;
+}
+
 .category-expenditure__y-labels-container {
   position: absolute;
   top: 0;

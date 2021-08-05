@@ -8,6 +8,7 @@ import { CashHistories } from '../enums/cash-history.enum';
 import models from '../models';
 import { CashHistoriesData } from '../models/cash-histories';
 import { CategoriesData } from '../models/categories';
+import { CategoryExpenditureData } from '../models/category-expenditure';
 import { FocusDateData } from '../models/focus-date';
 import { CashHistory } from '../types/cash-history';
 import { Category } from '../types/category';
@@ -25,12 +26,14 @@ class ExpenditureInMonthViewModel extends ViewModel {
   private cashHistoriesModel: CashHistoriesData;
   private focusDateModel: FocusDateData;
   private categoriesModel: CategoriesData;
+  private categoryExpendituresModel: CategoryExpenditureData;
 
   constructor (view: View) {
     super(view);
     this.cashHistoriesModel = models.cashHistories;
     this.focusDateModel = models.focusDate;
     this.categoriesModel = models.categories;
+    this.categoryExpendituresModel = models.categoryExpenditures;
 
     this.fetchCashHistories();
     this.fetchCategories();
@@ -48,6 +51,15 @@ class ExpenditureInMonthViewModel extends ViewModel {
 
     const cashHistories = await cashHistoryAPI.fetchCashHistories(year, month);
     this.cashHistoriesModel.cashHistories = cashHistories;
+  }
+
+  async fetchCategoryExpenditures (categoryId: number): Promise<void> {
+    const { focusDate } = this.focusDateModel;
+    const year = focusDate.getFullYear();
+    const month = focusDate.getMonth() + 1;
+
+    const totalCashes = await cashHistoryAPI.getTotalCashes(year, month, categoryId);
+    this.categoryExpendituresModel.categoryExpenditures = totalCashes;
   }
 
   protected subscribe (): void {

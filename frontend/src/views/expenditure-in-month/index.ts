@@ -15,6 +15,17 @@ class ExpenditureInMonthView extends View {
     this.expenditureInMonthViewModel = new ExpenditureInMonthViewModel(this);
   }
 
+  private onCategoryClicked = (e: Event) => {
+    const target = e.target as HTMLElement;
+    const { index } = target.dataset;
+    if (index === undefined) {
+      return;
+    }
+
+    const category = this.expenditureInMonthViewModel.expenditureGroupedByCategory[Number(index)];
+    this.expenditureInMonthViewModel.fetchCategoryExpenditures(category.category.id);
+  }
+
   private onCategoryMouseEnter = (e: Event) => {
     const target = e.target as HTMLElement;
     const { index } = target.dataset;
@@ -62,7 +73,8 @@ class ExpenditureInMonthView extends View {
         this.expenditureInMonthViewModel.focusedYear,
         this.expenditureInMonthViewModel.focusedMonth,
         this.onCategoryMouseEnter,
-        this.onCategoryMouseLeave
+        this.onCategoryMouseLeave,
+        this.onCategoryClicked
       ).build();
     }
   }
