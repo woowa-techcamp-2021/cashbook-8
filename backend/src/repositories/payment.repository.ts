@@ -9,11 +9,10 @@ class PaymentRepository extends Repository<Payment> {
       .getMany();
   }
 
-  findByName (name: string): Promise<Payment | undefined> {
+  findByUserAndName (userId: number, name: string): Promise<Payment | undefined> {
     return createQueryBuilder(Payment)
-      .where({
-        name
-      })
+      .where('user_id = :userId', { userId })
+      .andWhere('name = :name', { name })
       .getOne();
   }
 }
