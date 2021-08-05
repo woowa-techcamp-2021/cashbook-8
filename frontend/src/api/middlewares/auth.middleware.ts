@@ -2,7 +2,7 @@ import Router from '../../core/router';
 
 const authMiddleware = async <T>(request: () => Promise<T>): Promise<T> => {
   try {
-    return request();
+    return await request();
   } catch (error) {
     const { status } = error;
 
