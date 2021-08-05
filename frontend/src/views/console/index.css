@@ -92,13 +92,13 @@
 }
 
 .console__column--date input {
-  cursor: pointer;
   width: 100%;
   font-family: 'Noto Sans KR', sans-serif;
 }
 
 .console__column--date input::-webkit-calendar-picker-indicator{
   margin-left: -15px;
+  cursor: pointer;
 }
 
 .console__column--content {
@@ -144,6 +144,7 @@
   color: var(--primary1);
   font-size: var(--body-regular);
   padding-top: 4px;
+  cursor: pointer;
 }
 
 .console__button--active {
