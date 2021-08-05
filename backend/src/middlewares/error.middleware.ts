@@ -4,6 +4,7 @@ import DuplicateCategoryError from '../errors/duplicate-category.error';
 import DuplicatePaymentError from '../errors/duplicate-payment.error';
 import InvalidDataError from '../errors/invalid-data.error';
 import InvalidTokenError from '../errors/invalid-token.error';
+import NotfoundUserError from '../errors/not-found-user.error';
 import NotMyCashHistoryError from '../errors/not-my-cash-history.error';
 import NotMyCategoryError from '../errors/not-my-category.error';
 import NotMyPaymentError from '../errors/not-my-payment.error';
@@ -58,6 +59,10 @@ const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFu
         break;
 
       case NotfoundCategoryError:
+        responseError(res, 404, error.message);
+        break;
+
+      case NotfoundUserError:
         responseError(res, 404, error.message);
         break;
 

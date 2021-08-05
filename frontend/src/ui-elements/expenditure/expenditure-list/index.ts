@@ -40,7 +40,7 @@ class ExpenditureListUIElement extends UIElement {
     const { expenditureGroupedByCategory, totalExpenditure, year, month } = this;
     this.$element.innerHTML = `
       <div class="expenditure-list__title">
-        ${year}년 ${month}월, ${formatNumber(totalExpenditure)}
+        ${year}년 ${month}월 지출 금액 ${formatNumber(totalExpenditure)}
       </div>
 
       

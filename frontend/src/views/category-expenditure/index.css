@@ -13,13 +13,19 @@
   visibility: hidden;
 }
 
+.category-expenditure__title {
+  margin-bottom: 32px;
+  color: var(--title-active);
+  font-size: var(--body-large);
+}
+
 .category-expenditure__y-labels-container {
   position: absolute;
-  top: 0;
+  top: 32px;
   left: 0;
-  padding-top: 55px;
+  padding-top: 82px;
   width: 96px;
-  height: 322px;
+  height: 347px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;

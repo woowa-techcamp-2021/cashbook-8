@@ -45,6 +45,15 @@
   color: var(--primary3);
 }
 
+.main__filter--active.main__filter--expenditure {
+  color: var(--error);
+}
+
+.main__check-box--expenditure.main__check-box--active {
+  background: var(--error);
+  border: 2px solid var(--error);
+}
+
 .main__filter--income,
 .main__filter--expenditure {
 
