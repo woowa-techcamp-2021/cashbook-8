@@ -1,4 +1,4 @@
-import { CashHistoriesResponse, CashHistoryRequest } from '../types/cash-history';
+import { CashHistoriesResponse, CashHistoryRequest, CategoryExpenditureResponse } from '../types/cash-history';
 import { getAccessToken, getRequest, postRequest, putRequest } from './request';
 
 class CashHistoryAPI {
@@ -9,6 +9,21 @@ class CashHistoryAPI {
       query: {
         year,
         month
+      },
+      headers: {
+        Authorization: token
+      }
+    });
+  }
+
+  getTotalCashes (year: number, month: number, categoryId: number) {
+    const token = getAccessToken();
+
+    return getRequest<CategoryExpenditureResponse>('http://localhost:8080/api/cash-history/cashes', {
+      query: {
+        year,
+        month,
+        categoryId
       },
       headers: {
         Authorization: token
