@@ -47,3 +47,12 @@ export type CashHistoryRequest = {
   paymentId: number;
   price: number;
 }
+
+export type totalCash = {
+  month: number;
+  price: number;
+}
+
+export type CategoryExpenditureResponse = {
+  totalCashes: totalCash[]
+} & BaseResponse;

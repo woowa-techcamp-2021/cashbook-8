@@ -97,12 +97,12 @@ class CashHistoryService {
       if (totalCash.month <= month) {
         formattedTotalCashes[totalCash.month + GAP - 1] = {
           month: totalCash.month,
-          price: totalCash.price
+          price: Number(totalCash.price)
         };
       } else {
         formattedTotalCashes[totalCash.month - month - 1] = {
           month: totalCash.month,
-          price: totalCash.price
+          price: Number(totalCash.price)
         };
       }
     });

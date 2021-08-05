@@ -1,5 +1,6 @@
 import Page from '../../core/page';
 import { $ } from '../../utils/selector';
+import CategoryExpenditureView from '../../views/category-expenditure';
 import ExpenditureInMonthView from '../../views/expenditure-in-month';
 import HeaderView from '../../views/header';
 
@@ -9,6 +10,7 @@ class ChartPage extends Page {
       <div class="chart-page">
         <div class="header-container"></div>
         <div class="expenditure-in-month-container"></div>
+        <div class="chart-page__category-expenditure-container"></div>
       </div>
     `;
   }
@@ -24,6 +26,12 @@ class ChartPage extends Page {
     if ($expenditureInMonthContainer !== null) {
       const expenditureInMonthView = new ExpenditureInMonthView($expenditureInMonthContainer);
       expenditureInMonthView.build();
+    }
+
+    const $categoryExpenditureContainer = $('.chart-page__category-expenditure-container');
+    if ($categoryExpenditureContainer !== null) {
+      const categoryExpenditureView = new CategoryExpenditureView($categoryExpenditureContainer);
+      categoryExpenditureView.build();
     }
   }
 }
