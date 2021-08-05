@@ -9,11 +9,10 @@ class CategoryRepository extends Repository<Category> {
       .getMany();
   }
 
-  findByName (name: string): Promise<Category | undefined> {
+  findByUserAndName (userId: number, name: string): Promise<Category | undefined> {
     return createQueryBuilder(Category)
-      .where({
-        name
-      })
+      .where('user_id = :userId', { userId })
+      .andWhere('name = :name', { name })
       .getOne();
   }
 }

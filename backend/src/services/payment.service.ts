@@ -19,7 +19,7 @@ class PaymentService {
       .user(user)
       .build();
 
-    const duplicatedPayment = await getCustomRepository(PaymentRepository).findByName(newPayment.name);
+    const duplicatedPayment = await getCustomRepository(PaymentRepository).findByUserAndName(user.id, newPayment.name);
     if (duplicatedPayment !== undefined) {
       throw new DuplicatePaymentError('해당 결제수단이 이미 존재합니다');
     }

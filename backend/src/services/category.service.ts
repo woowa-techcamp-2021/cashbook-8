@@ -21,7 +21,7 @@ class CategoryService {
       .user(user)
       .build();
 
-    const duplicatedCategory = await getCustomRepository(CategoryRepository).findByName(newCategory.name);
+    const duplicatedCategory = await getCustomRepository(CategoryRepository).findByUserAndName(user.id, newCategory.name);
     if (duplicatedCategory !== undefined) {
       throw new DuplicateCategoryError('해당 카테고리가 이미 존재합니다');
     }
