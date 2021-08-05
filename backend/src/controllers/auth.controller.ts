@@ -15,6 +15,14 @@ class AuthController {
     res.cookie('accessToken', accessToken);
     res.redirect(dotenv.CLIENT_URL);
   }
+
+  async guestLogin (req: Request, res: Response) {
+    const guest = await userService.findGuestUser();
+    const accessToken = await jwtService.generate(guest);
+
+    res.cookie('accessToken', accessToken);
+    res.redirect(dotenv.CLIENT_URL);
+  }
 }
 
 export default new AuthController();

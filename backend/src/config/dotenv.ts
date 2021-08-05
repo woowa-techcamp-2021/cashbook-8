@@ -23,5 +23,6 @@ export default {
   GITHUB_CLIENT_SECRETS: loadEnv('GITHUB_CLIENT_SECRETS'),
   JWT_SECRET: loadEnv('JWT_SECRET'),
   JWT_EXPIRES_IN: loadEnv('JWT_EXPIRES_IN'),
-  CLIENT_URL: loadEnv('CLIENT_URL')
+  CLIENT_URL: loadEnv('CLIENT_URL'),
+  GUEST_ID: loadEnv('GUEST_ID')
 };
