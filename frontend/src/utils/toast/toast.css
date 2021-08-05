@@ -1,8 +1,9 @@
 #toast {
-  visibility: hidden;
+  opacity: 0;
+  transition: 0.4s ease-out;
   position: fixed;
   top: 40px;
-  right: 40px;
+  right: -300px;
   width: 300px;
   height: 65px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
@@ -10,30 +11,38 @@
   display: flex;
   align-items: center;
   border-radius: 8px;
+  color: var(--body);
 }
 
 #toast.appear {
-  visibility: visible;
+  opacity: 1;
+  top: 40px;
+  right: 40px;
 }
 
-#toast .toast__content {
-  padding: 0 12px;
+.toast__content {
+  padding: 8px 16px;
 }
 
-#toast h1 {
-  font-size: var(--body-medium);
+.toast__title {
+  font-size: var(--body-regular);
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
-#toast .info h1 {
+.toast__title.info {
   color: var(--primary1);
 }
 
-#toast .success h1 {
+.toast__title.success {
   color: var(--primary3);
 }
 
-#toast .error h1 {
+.toast__title.error {
   color: var(--error);
+}
+
+.toast__message {
+  font-size: var(--body-regular);
+
 }
