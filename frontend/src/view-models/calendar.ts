@@ -7,6 +7,7 @@ import models from '../models';
 import { CashHistoriesData } from '../models/cash-histories';
 import { FocusDateData } from '../models/focus-date';
 import { CashHistoriesInDay, TotalPrices } from '../types/cash-history';
+import toast from '../utils/toast/toast';
 
 class CalendarViewModel extends ViewModel {
   private cashHistoriesModel: CashHistoriesData;
@@ -34,8 +35,16 @@ class CalendarViewModel extends ViewModel {
     const year = focusDate.getFullYear();
     const month = focusDate.getMonth() + 1;
 
-    const cashHistories = await cashHistoryAPI.fetchCashHistories(year, month);
-    this.cashHistoriesModel.cashHistories = cashHistories;
+    try {
+      const cashHistories = await cashHistoryAPI.fetchCashHistories(year, month);
+      this.cashHistoriesModel.cashHistories = cashHistories;
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   get monthlyCashHistories (): CashHistoriesInDay[] | undefined {

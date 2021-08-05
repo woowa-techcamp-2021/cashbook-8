@@ -9,6 +9,7 @@ import { CashHistoriesInDay } from '../types/cash-history';
 import cashHistoryAPI from '../api/cash-history';
 import { CashHistoryData } from '../models/cash-history';
 import { CashHistories } from '../enums/cash-history.enum';
+import toast from '../utils/toast/toast';
 
 class MainViewModel extends ViewModel {
   private focusDateModel: FocusDateData;
@@ -52,9 +53,18 @@ class MainViewModel extends ViewModel {
 
   async fetchCashHistories (): Promise<void> {
     const date = this.focusDateModel.focusDate;
-    const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
-    this.cashHistoriesModel.cashHistories = histories;
-    this.filteredCashHistoriesModel.cashHistories = histories;
+
+    try {
+      const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
+      this.cashHistoriesModel.cashHistories = histories;
+      this.filteredCashHistoriesModel.cashHistories = histories;
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   filterData (type: number): void {

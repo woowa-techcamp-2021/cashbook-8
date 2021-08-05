@@ -1,3 +1,4 @@
+import colors from '../../../assets/styles/colors';
 import UIElement from '../../../core/ui-element';
 import { formatNumber } from '../../../utils/formatter';
 import { $ } from '../../../utils/selector';
@@ -47,8 +48,8 @@ class ExpenditureListUIElement extends UIElement {
         ${expenditureGroupedByCategory.map(({ index, category, rate, expenditure }) => {
           return `
             <div class="expenditure-item" data-index=${index}>
-              <div class="expenditure-item__category" style="background-color: ${category.color}">
-                ${category.name}
+              <div class="expenditure-item__category" style="background-color: ${category?.color ?? colors.primary}">
+                ${category?.name ?? '미분류'}
               </div>
 
               <div class="expenditure-item__statistic">
