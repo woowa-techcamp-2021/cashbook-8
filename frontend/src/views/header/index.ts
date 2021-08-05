@@ -52,12 +52,12 @@ class HeaderView extends View {
           </div>
 
           <div class="header__focus-date-container">
-            <i class="wci wci-chevron-left header__button--previous"></i>
+            <i class="wci wci-chevron-left header__button header__button--previous"></i>
             <div class="header__focus-date">
               <div class="header__focus-month">${this.headerViewModel.focusedMonth}월</div>
               <div class="header__focus-year">${this.headerViewModel.focusedYear}</div>
             </div>
-            <i class="wci wci-chevron-right header__button--next"></i>
+            <i class="wci wci-chevron-right header__button header__button--next"></i>
           </div>
 
           <div class="header__navigator">
