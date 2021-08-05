@@ -4,8 +4,9 @@ import HeaderViewModel from '../../view-models/header';
 
 import './index.css';
 import '../../assets/icons/woowahan-cashbook-icons.css';
-import { ROUTER_PATH } from '../../core/router';
+import Router, { ROUTER_PATH } from '../../core/router';
 import { parsePath } from '../../utils/path';
+import cookie from '../../utils/cookie';
 
 class HeaderView extends View {
   private headerViewModel: HeaderViewModel;
@@ -30,6 +31,11 @@ class HeaderView extends View {
     this.headerViewModel.navigate(route);
   }
 
+  private onLogoutClicked (): void {
+    cookie.remove('accessToken');
+    Router.instance.push('login');
+  }
+
   protected addListener (): void {
     $('.header__button--previous')?.addEventListener('click',
       this.headerViewModel.onPreviousMonthClicked.bind(this.headerViewModel));
@@ -39,16 +45,26 @@ class HeaderView extends View {
       this.onNavigatorClicked.bind(this));
     $('.header__logo')?.addEventListener('click',
       this.onLogoClicked.bind(this));
+    $('.header__logout')?.addEventListener('click',
+      this.onLogoutClicked.bind(this));
   }
 
   protected render (): void {
     const path = parsePath(location.pathname);
+    const { user } = this.headerViewModel;
 
     this.$target.innerHTML = `
       <header>
         <div class="header__container">
-          <div class="header__logo">
-            우아한 가계부
+          <div class="header__logo-wrapper">
+            <span class="header__logo">우아한 가계부</span>
+            <div class="header__profile-container">
+              <img src="${user?.avatarURL ?? ''}" />
+              <div class="header__profile">
+                <span>${user?.name ?? ''}님, 반갑습니다</span>
+                <span class="header__logout">로그아웃</span>
+              </div>
+            </div>
           </div>
 
           <div class="header__focus-date-container">

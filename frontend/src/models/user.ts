@@ -1,11 +1,12 @@
 import Model, { ProxyModelDataForm } from '../core/proxy-model';
+import { UserResponse } from '../types/user';
 
 export type UserData = {
-  user: UserData | null;
+  user: UserResponse | null;
 }
 
 type InitialData = {
-  user: ProxyModelDataForm<UserData | null>;
+  user: ProxyModelDataForm<UserResponse | null>;
 }
 
 class UserModel extends Model<InitialData> { }

@@ -75,7 +75,7 @@ const models = {
       action: actions.ON_USER_CHANGE,
       data: null
     }
-  })
+  }).getProxy()
 };
 
 export default models;
