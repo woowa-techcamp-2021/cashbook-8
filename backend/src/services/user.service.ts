@@ -23,7 +23,7 @@ class UserService {
   }
 
   async findGuestUser (): Promise<User> {
-    const guest = await getCustomRepository(UserRepository).findOne(dotenv.GUEST_ID);
+    const guest = await getCustomRepository(UserRepository).findOne(Number(dotenv.GUEST_ID));
     if (guest === undefined) {
       throw new NotfoundUserError('게스트 유저가 없습니다');
     }

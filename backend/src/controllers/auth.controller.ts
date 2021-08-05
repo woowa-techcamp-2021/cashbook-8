@@ -20,8 +20,10 @@ class AuthController {
     const guest = await userService.findGuestUser();
     const accessToken = await jwtService.generate(guest);
 
-    res.cookie('accessToken', accessToken);
-    res.redirect(dotenv.CLIENT_URL);
+    res.status(200).json({
+      message: '게스트 로그인 성공',
+      accessToken
+    });
   }
 }
 

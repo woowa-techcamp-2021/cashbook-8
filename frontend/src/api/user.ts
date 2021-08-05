@@ -1,5 +1,5 @@
 import dotenv from '../../config/dotenv';
-import { UserResponse } from '../types/user';
+import { GuestLoginResponse, UserResponse } from '../types/user';
 import authMiddleware from './middlewares/auth.middleware';
 import { getAccessToken, getRequest } from './request';
 
@@ -13,6 +13,12 @@ class UserAPI {
           Authorization: token
         }
       });
+    });
+  }
+
+  guestLogin (): Promise<GuestLoginResponse> {
+    return authMiddleware<GuestLoginResponse>(() => {
+      return getRequest(`${dotenv.API_URL}/auth/login/guest`, { });
     });
   }
 }
