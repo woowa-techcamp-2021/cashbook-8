@@ -132,9 +132,13 @@ class CategoryExpenditureView extends View {
     // no event
   }
 
+  show (): void {
+    $('.category-expenditure__container')?.classList.remove('disappear');
+  }
+
   protected render (): void {
     this.$target.innerHTML = `
-    <div class='category-expenditure__container'>
+    <div class='category-expenditure__container disappear'>
       <div class='category-expenditure__y-labels-container'>
       </div>
       <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${SVG_HEIGHT} ${SVG_WIDTH}'>
