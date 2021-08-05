@@ -138,6 +138,7 @@ class CategoryExpenditureView extends View {
   protected render (): void {
     this.$target.innerHTML = `
     <div class='category-expenditure__container disappear'>
+      <div class="category-expenditure__title">카테고리 소비 추이</div>
       <div class='category-expenditure__y-labels-container'>
       </div>
       <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${SVG_HEIGHT} ${SVG_WIDTH}'>

@@ -4,14 +4,12 @@
 
 .expenditure-list__title {
   color: var(--title-active);
-  font-weight: bold;
   font-size: var(--body-large);
-  text-align: center;
 }
 
 .expenditure-list-wrapper {
   width: 100%;
-  margin-top: 40px;
+  margin-top: 22px;
 }
 
 .expenditure-item {
