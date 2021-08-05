@@ -9,7 +9,8 @@ class User {
   name!: string;
 
   @Column({
-    name: 'avatar_url'
+    name: 'avatar_url',
+    length: 1000
   })
   avatarURL!: string;
 
