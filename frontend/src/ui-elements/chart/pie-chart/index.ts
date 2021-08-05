@@ -40,7 +40,7 @@ class PieChartUIElement extends UIElement {
     this.height = height;
     this.centerX = this.width / 2;
     this.centerY = this.height / 2;
-    this.radius = this.width * 0.3;
+    this.radius = this.width * 0.25;
     console.log(chartInputData);
     this.chartData = this.formatChartData(chartInputData);
   }
