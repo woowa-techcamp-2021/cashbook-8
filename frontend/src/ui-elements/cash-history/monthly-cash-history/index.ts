@@ -40,12 +40,14 @@ class MonthlyCashHistoryUIElement extends UIElement {
         return;
       }
       const $date = document.createElement('div');
+      const { date, day, income, expenditure } = cashHistoriesInDay;
+
       $date.innerHTML = `
         <div class="monthly-cash-history__header">
-          <div class="">${cashHistoriesInDay.month}월 ${cashHistoriesInDay.date}일</div>
-          <div class="monthly-cash-history__day">${getDayString(cashHistoriesInDay.day)}</div>
-          <div class="monthly-cash-history__income">수입 ${formatNumber(cashHistoriesInDay.income)}</div>
-          <div class="monthly-cash-history__expenditure">지출 ${formatNumber(cashHistoriesInDay.expenditure)}</div>
+          <div class="">${cashHistoriesInDay.month}월 ${date}일</div>
+          <div class="monthly-cash-history__day">${getDayString(day)}</div>
+          ${income > 0 ? `<div class="monthly-cash-history__income">수입 ${formatNumber(income)}</div>` : ''}
+          ${expenditure > 0 ? `<div class="monthly-cash-history__expenditure">지출 ${formatNumber(expenditure)}</div>` : ''}
         </div>
       `;
       $container.appendChild($date);
