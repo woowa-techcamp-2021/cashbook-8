@@ -1,0 +1,62 @@
+header {
+  width: 100vw;
+  background-color: var(--primary1);
+  height: 194px;
+}
+
+header .wci {
+  color: var(--off-white);
+  font-size: var(--body-large);
+}
+
+.header__container {
+  width: var(--inner-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 60px;
+}
+
+.header__logo {
+  color: var(--off-white);
+  cursor: pointer;
+}
+
+.header__focus-date-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__focus-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+}
+
+.header__focus-month {
+  color: var(--off-white);
+  font-size: var(--body-large);
+}
+
+.header__focus-year {
+  color: var(--off-white);
+  font-size: var(--body-medium);
+}
+
+.header__button--next,
+.header__button--previous {
+  cursor: pointer;
+}
+
+.header__navigator .wci {
+  color: var(--primary2);
+  cursor: pointer;
+}
+
+.header__navigator .wci.current-path {
+  color: var(--off-white);
+}

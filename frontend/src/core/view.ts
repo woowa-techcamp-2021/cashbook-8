@@ -1,14 +1,13 @@
 import CommonElement from './common-element';
 
 abstract class View extends CommonElement {
-  protected addListener () {}
-
-  build () {
+  build (): void {
     this.render();
     this.mount();
     this.addListener();
   }
 
+  protected abstract addListener (): void;
   protected abstract render(): void;
 }
 

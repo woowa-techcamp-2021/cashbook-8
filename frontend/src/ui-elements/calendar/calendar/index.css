@@ -1,0 +1,53 @@
+.calendar {
+  --calendar-radius: 8px;
+  --side-size: calc(var(--inner-width) / 7);
+}
+
+.calendar__thead {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
+  background-color: var(--off-white);
+  border-radius: var(--calendar-radius);
+  padding: 12px 0;
+  border: 1px solid var(--line);
+}
+
+.calendar__trow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar__td--thead {
+  width: var(--side-size);
+  text-align: center;
+}
+
+.calendar__tbody {
+  margin-top: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: var(--calendar-radius);
+}
+
+.calendar__tbody .calendar__trow:first-child .calendar__td:first-child {
+  border-top-left-radius: var(--calendar-radius);
+}
+
+.calendar__tbody .calendar__trow:first-child .calendar__td:last-child {
+  border-top-right-radius: var(--calendar-radius);
+}
+
+.calendar__tbody .calendar__trow:last-child .calendar__td:first-child {
+  border-bottom-left-radius: var(--calendar-radius);
+}
+
+.calendar__tbody .calendar__trow:last-child .calendar__td:last-child {
+  border-bottom-right-radius: var(--calendar-radius);
+}
+
+.calendar__tbody .calendar__trow:last-child .calendar__td {
+  border-bottom: 1px solid var(--line);
+}
+
+.calendar__tbody .calendar__trow .calendar__td:last-child {
+  border-right: 1px solid var(--line);
+}

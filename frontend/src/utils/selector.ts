@@ -1,2 +1,2 @@
-export const $ = (identifier: string) => document.querySelector(identifier) as HTMLElement;
-export const $$ = (identifier: string) => document.querySelectorAll(identifier);
+export const $ = (identifier: string): HTMLElement | null => document.querySelector(identifier);
+export const $$ = (identifier: string): NodeList => document.querySelectorAll(identifier);

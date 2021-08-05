@@ -1,5 +1,6 @@
 import actions from '../constant/actions';
 import pubsub from '../core/pubsub';
+import Router from '../core/router';
 import View from '../core/view';
 import ViewModel from '../core/view-model';
 import models from '../models';
@@ -13,25 +14,36 @@ class HeaderViewModel extends ViewModel {
     this.focusDateModel = models.focusDate;
   }
 
-  protected subscribe () {
+  protected subscribe (): void {
     pubsub.subscribe(actions.ON_FOCUS_DATE_CHANGE, () => {
+      this.view.build();
+    });
+
+    pubsub.subscribe(actions.ON_CASH_HISTORIES_CHANGE, () => {
       this.view.build();
     });
   }
 
-  get formatTime () {
-    const time = this.focusDateModel.focusDate;
-
-    return time.toString();
+  get focusedMonth (): number {
+    return this.focusDateModel.focusDate.getMonth() + 1;
   }
 
-  onNextMonthClicked () {
-    console.log(this);
-    this.focusDateModel.focusDate = new Date(2021, 9, 27);
+  get focusedYear (): number {
+    return this.focusDateModel.focusDate.getFullYear();
   }
 
-  onPreviousMonthClicked () {
-    this.focusDateModel.focusDate = new Date(2021, 7, 27);
+  onNextMonthClicked (): void {
+    const { focusDate } = this.focusDateModel;
+    this.focusDateModel.focusDate = new Date(focusDate.setMonth(focusDate.getMonth() + 1));
+  }
+
+  onPreviousMonthClicked (): void {
+    const { focusDate } = this.focusDateModel;
+    this.focusDateModel.focusDate = new Date(focusDate.setMonth(focusDate.getMonth() - 1));
+  }
+
+  navigate (route: string): void {
+    Router.instance.push(route);
   }
 }
 

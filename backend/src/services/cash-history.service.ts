@@ -11,7 +11,8 @@ import PaymentRepository from '../repositories/payment.repository';
 import CashHistoryCreateRequest from '../request/cash-history/cash-history-create.request';
 import CashHistoryUpdateRequest from '../request/cash-history/cash-history-update.request';
 import Builder from '../utils/builder';
-import { getDaysInMonth } from '../utils/date';
+import { getDaysInMonth, yyyyMMdd2Date } from '../utils/date';
+import { CashHistories } from '../enums/cash-history.enum';
 
 type GroupedCashHistory = {
   year: number,
@@ -19,6 +20,8 @@ type GroupedCashHistory = {
   date: number,
   day: number,
   cashHistories: CashHistory[],
+  income: number;
+  expenditure: number;
 }
 
 class CashHistoryService {
@@ -34,16 +37,31 @@ class CashHistoryService {
         month,
         date,
         day,
-        cashHistories: []
+        cashHistories: [],
+        income: 0,
+        expenditure: 0
       });
     }
 
+    let totalIncome = 0;
+    let totalExpenditure = 0;
     cashHistories.forEach((cashHistory) => {
       const date = cashHistory.createdAt.getDate();
-      groupedCashHistories[date].cashHistories.push(cashHistory);
+      groupedCashHistories[date - 1].cashHistories.push(cashHistory);
+      if (cashHistory.type === CashHistories.Income) {
+        totalIncome += cashHistory.price;
+        groupedCashHistories[date - 1].income += cashHistory.price;
+      } else {
+        totalExpenditure += cashHistory.price;
+        groupedCashHistories[date - 1].expenditure += cashHistory.price;
+      }
     });
 
-    return groupedCashHistories;
+    return {
+      totalIncome,
+      totalExpenditure,
+      groupedCashHistories
+    };
   }
 
   async findCashHistories (user: User): Promise<CashHistory[]> {
@@ -62,9 +80,48 @@ class CashHistoryService {
     return cashHistories;
   }
 
+  async getMonthlyCategoryTotalCash (user: User, year: number, month: number, categoryId: number) {
+    const { id } = user;
+    const totalCashes = await getCustomRepository(CashHistoryRepository)
+      .getTotalCashesByCategoryAndDate(id, year, month, categoryId);
+
+    return totalCashes;
+  }
+
+  pushZeroPrice2Null (month: number, totalCashes: { month: number, price: number }[]) {
+    const formattedTotalCashes = [];
+    for (let i = 0; i < 12; i++) {
+      formattedTotalCashes.push({ month: 0, price: 0 });
+    }
+    const GAP = 12 - month;
+    totalCashes.forEach(totalCash => {
+      if (totalCash.month <= month) {
+        formattedTotalCashes[totalCash.month + GAP - 1] = {
+          month: totalCash.month,
+          price: Number(totalCash.price)
+        };
+      } else {
+        formattedTotalCashes[totalCash.month - month - 1] = {
+          month: totalCash.month,
+          price: Number(totalCash.price)
+        };
+      }
+    });
+    let i = month + 1;
+    formattedTotalCashes.forEach(totalCashes => {
+      let ii = i++ % 13;
+      if (ii === 0) {
+        ii++;
+        i++;
+      }
+      totalCashes.month = ii;
+    });
+    return formattedTotalCashes;
+  }
+
   async createCashHistory (user: User, cashHistoryCreateRequest: CashHistoryCreateRequest) {
     const { id } = user;
-    const { price, type, categoryId, paymentId } = cashHistoryCreateRequest;
+    const { price, content, categoryId, paymentId, date } = cashHistoryCreateRequest;
     const category = await getCustomRepository(CategoryRepository).findOne(categoryId);
     const payment = await getCustomRepository(PaymentRepository).findOne(paymentId);
 
@@ -78,10 +135,12 @@ class CashHistoryService {
 
     const cashHistory = Builder<CashHistory>()
       .price(price)
-      .type(type)
+      .content(content)
+      .type(category.type)
       .category(category)
       .payment(payment)
       .user(user)
+      .createdAt(yyyyMMdd2Date(date))
       .build();
 
     await getCustomRepository(CashHistoryRepository).insert(cashHistory);
@@ -89,7 +148,7 @@ class CashHistoryService {
 
   async updateCashHistory (user: User, cashHistoryId: number, cashHistoryUpdateRequest: CashHistoryUpdateRequest) {
     const { id } = user;
-    const { price, type, categoryId, paymentId } = cashHistoryUpdateRequest;
+    const { price, content, categoryId, paymentId, date } = cashHistoryUpdateRequest;
     const category = await getCustomRepository(CategoryRepository).findOne(categoryId);
     const payment = await getCustomRepository(PaymentRepository).findOne(paymentId);
 
@@ -112,9 +171,11 @@ class CashHistoryService {
 
     const updateCashHistory = Builder<CashHistory>()
       .price(price)
-      .type(type)
+      .content(content)
+      .type(category.type)
       .category(category)
       .payment(payment)
+      .createdAt(yyyyMMdd2Date(date))
       .build();
 
     await getCustomRepository(CashHistoryRepository).update(cashHistoryId, updateCashHistory);

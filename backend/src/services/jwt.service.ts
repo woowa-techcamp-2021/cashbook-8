@@ -4,7 +4,6 @@ import dotenv from '../config/dotenv';
 
 class JwtService {
   generate (user: User) {
-    console.log(user);
     const token = jwt.sign({ ...user }, dotenv.JWT_SECRET, {
       expiresIn: dotenv.JWT_EXPIRES_IN
     });

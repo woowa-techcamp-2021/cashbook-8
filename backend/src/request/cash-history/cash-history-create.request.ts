@@ -1,16 +1,13 @@
-import { IsEnum, IsInt } from 'class-validator';
-import { CashHistories } from '../../enums/cash-history.enum';
+import { IsInt, IsNotEmpty, Length, Matches } from 'class-validator';
 import BaseRequest from '../base.request';
 
 class CashHistoryCreateRequest extends BaseRequest {
   @IsInt()
   price: number;
 
-  @IsEnum([
-    CashHistories.Income,
-    CashHistories.Expenditure
-  ])
-  type: CashHistories;
+  @IsNotEmpty()
+  @Length(1, 50)
+  content: string;
 
   @IsInt()
   categoryId: number;
@@ -18,12 +15,17 @@ class CashHistoryCreateRequest extends BaseRequest {
   @IsInt()
   paymentId: number;
 
+  // yyyyMMdd
+  @Matches(/^([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))$/)
+  date!: string;
+
   constructor (cashHistoryCreateRequest: CashHistoryCreateRequest) {
     super();
     this.price = cashHistoryCreateRequest.price;
-    this.type = cashHistoryCreateRequest.type;
+    this.content = cashHistoryCreateRequest.content;
     this.categoryId = cashHistoryCreateRequest.categoryId;
     this.paymentId = cashHistoryCreateRequest.paymentId;
+    this.date = cashHistoryCreateRequest.date;
   }
 }
 

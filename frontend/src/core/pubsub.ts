@@ -1,7 +1,9 @@
-class PubSub {
-  private actions: { [key: string]: Function[] } = { };
+type CallbackFunctions = () => void;
 
-  subscribe (action: string, callback: Function) {
+class PubSub {
+  private actions: { [key: string]: CallbackFunctions[] } = { };
+
+  subscribe (action: string, callback: CallbackFunctions) {
     if (!(action in this.actions)) {
       this.actions[action] = [];
     }
@@ -11,6 +13,10 @@ class PubSub {
 
   publish (action: string) {
     this.actions[action].forEach((cb) => cb());
+  }
+
+  clear () {
+    this.actions = { };
   }
 }
 

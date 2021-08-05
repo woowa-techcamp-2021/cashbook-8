@@ -8,7 +8,9 @@ class ViewModel {
     this.subscribe();
   }
 
-  protected subscribe () { }
+  protected subscribe (): void {
+    // Model 구독
+  }
 }
 
 export default ViewModel;
