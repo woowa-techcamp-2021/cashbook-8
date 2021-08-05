@@ -22,6 +22,12 @@ class ColorPickerUIElement extends UIElement {
     return this.$colorInput?.value;
   }
 
+  clear (): void {
+    if (this.$colorInput !== undefined) {
+      this.$colorInput.value = '';
+    }
+  }
+
   private assignColors () {
     this.colors = [];
 

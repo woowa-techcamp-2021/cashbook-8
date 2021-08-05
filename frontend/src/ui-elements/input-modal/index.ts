@@ -47,17 +47,23 @@ class InputModal extends UIElement {
 
   private onConfirmClicked () {
     this.confirm(this.value ?? this.$input?.value ?? '', this.colorPicker?.value ?? '');
-    this.close();
   }
 
   open (value?: string, label?: string): void {
     this.$element.classList.remove('disappear');
+    this.$element.classList.add('appear');
     this.value = value;
     label && this.$input?.setAttribute('value', label);
   }
 
   close (): void {
+    this.$element.classList.remove('appear');
     this.$element.classList.add('disappear');
+    if (this.$input !== undefined) {
+      this.$input.value = '';
+    }
+
+    this.colorPicker?.clear();
   }
 
   private onCancelClicked () {
