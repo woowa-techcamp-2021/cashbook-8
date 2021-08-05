@@ -16,7 +16,7 @@ class MainViewModel extends ViewModel {
   private cashHistoriesModel: CashHistoriesData;
   private filteredCashHistoriesModel: CashHistoriesData;
   private cashHistoryModel: CashHistoryData;
-  private filterType: CashHistories | null;
+  private selectedFilter: CashHistories[] = [CashHistories.Income, CashHistories.Expenditure];
 
   constructor (view: View) {
     super(view);
@@ -24,30 +24,31 @@ class MainViewModel extends ViewModel {
     this.cashHistoriesModel = models.cashHistories;
     this.filteredCashHistoriesModel = models.filteredCashHistories;
     this.cashHistoryModel = models.cashHistory;
-    this.filterType = null;
     this.fetchCashHistories();
   }
 
   protected subscribe (): void {
-    pubsub.subscribe(actions.ON_FOCUS_DATE_CHANGE, async () => {
-      await this.fetchCashHistories();
-
-      if (this.filterType === null) {
-        return;
-      }
-      this.filterData(this.filterType);
+    pubsub.subscribe(actions.ON_FOCUS_DATE_CHANGE, () => {
+      this.fetchCashHistories()
+        .then(() => {
+          this.applyFilter();
+        });
     });
 
     pubsub.subscribe(actions.ON_CASH_HISTORIES_CHANGE, () => {
-      this.view.build();
+      this.applyFilter();
     });
 
     pubsub.subscribe(actions.ON_FILTERED_CASH_HISTORIES_CHANGE, () => {
       this.view.build();
     });
 
-    pubsub.subscribe(actions.ON_CASH_HISTORY_CHANGE, () => {
-      this.view.build();
+    pubsub.subscribe(actions.ON_CATEGORIES_CHANGE, () => {
+      this.fetchCashHistories();
+    });
+
+    pubsub.subscribe(actions.ON_PAYMENTS_CHANGE, () => {
+      this.fetchCashHistories();
     });
   }
 
@@ -56,8 +57,8 @@ class MainViewModel extends ViewModel {
 
     try {
       const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
+      histories.cashHistories.groupedCashHistories.reverse();
       this.cashHistoriesModel.cashHistories = histories;
-      this.filteredCashHistoriesModel.cashHistories = histories;
     } catch (error) {
       const { status } = error;
 
@@ -67,7 +68,7 @@ class MainViewModel extends ViewModel {
     }
   }
 
-  filterData (type: number): void {
+  applyFilter (): void {
     const { cashHistories } = this.cashHistoriesModel;
     if (cashHistories === null) {
       return;
@@ -75,7 +76,7 @@ class MainViewModel extends ViewModel {
 
     const filtered = cashHistories.cashHistories.groupedCashHistories.map((monthlyCashHistory) => ({
       ...monthlyCashHistory,
-      cashHistories: monthlyCashHistory.cashHistories.filter(e => e.type === type)
+      cashHistories: monthlyCashHistory.cashHistories.filter(e => this.selectedFilter.includes(e.type))
     }));
 
     this.filteredCashHistoriesModel.cashHistories = {
@@ -88,27 +89,17 @@ class MainViewModel extends ViewModel {
   }
 
   filterButtonClick (isIncomeChecked: boolean, isExpenditureChecked: boolean): void {
-    if (isIncomeChecked && isExpenditureChecked) {
-      this.filteredCashHistoriesModel.cashHistories = this.cashHistoriesModel.cashHistories;
-    } else if (isIncomeChecked) {
-      this.filterType = CashHistories.Income;
-      this.filterData(this.filterType);
-    } else if (isExpenditureChecked) {
-      this.filterType = CashHistories.Expenditure;
-      this.filterData(this.filterType);
-    } else {
-      if (this.filteredCashHistoriesModel.cashHistories === null) {
-        return;
-      }
-      this.filteredCashHistoriesModel.cashHistories = {
-        ...this.filteredCashHistoriesModel.cashHistories,
-        cashHistories: {
-          totalIncome: 0,
-          totalExpenditure: 0,
-          groupedCashHistories: []
-        }
-      };
+    this.selectedFilter = [];
+
+    if (isIncomeChecked) {
+      this.selectedFilter.push(CashHistories.Income);
     }
+
+    if (isExpenditureChecked) {
+      this.selectedFilter.push(CashHistories.Expenditure);
+    }
+
+    this.applyFilter();
   }
 
   onCashHistoryClick (e:Event): void {
