@@ -34,7 +34,7 @@ class ConsoleViewModel extends ViewModel {
   private categoriesModel: CategoriesData;
   private paymentsModel: PaymentsData;
   private focusDateModel: FocusDateData;
-  private filteredCashHistoriesModel: CashHistoriesData;
+  private cashHistoriesModel: CashHistoriesData;
   private _cashHistoryType: CashHistories = CashHistories.Income;
 
   constructor (view: View) {
@@ -43,7 +43,7 @@ class ConsoleViewModel extends ViewModel {
     this.categoriesModel = models.categories;
     this.paymentsModel = models.payments;
     this.focusDateModel = models.focusDate;
-    this.filteredCashHistoriesModel = models.filteredCashHistories;
+    this.cashHistoriesModel = models.cashHistories;
 
     this.initCashHistory();
     this.fetchCategories();
@@ -88,7 +88,7 @@ class ConsoleViewModel extends ViewModel {
     const date = this.focusDateModel.focusDate;
     try {
       const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
-      this.filteredCashHistoriesModel.cashHistories = histories;
+      this.cashHistoriesModel.cashHistories = histories;
     } catch (error) {
       const { status } = error;
 
