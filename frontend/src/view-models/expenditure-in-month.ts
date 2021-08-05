@@ -15,6 +15,7 @@ import { CashHistory } from '../types/cash-history';
 import { Category } from '../types/category';
 import { PieChartInputData } from '../ui-elements/chart/pie-chart';
 import { formatNumber } from '../utils/formatter';
+import toast from '../utils/toast/toast';
 
 export type ExpenditureGroupedByCategory = {
   index: number;
@@ -41,8 +42,16 @@ class ExpenditureInMonthViewModel extends ViewModel {
   }
 
   private async fetchCategories () {
-    const categories = await categoryAPI.fetchCategories();
-    this.categoriesModel.categories = categories;
+    try {
+      const categories = await categoryAPI.fetchCategories();
+      this.categoriesModel.categories = categories;
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   private async fetchCashHistories () {
@@ -50,8 +59,16 @@ class ExpenditureInMonthViewModel extends ViewModel {
     const year = focusDate.getFullYear();
     const month = focusDate.getMonth() + 1;
 
-    const cashHistories = await cashHistoryAPI.fetchCashHistories(year, month);
-    this.cashHistoriesModel.cashHistories = cashHistories;
+    try {
+      const cashHistories = await cashHistoryAPI.fetchCashHistories(year, month);
+      this.cashHistoriesModel.cashHistories = cashHistories;
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   async fetchCategoryExpenditures (categoryId: number): Promise<void> {
@@ -59,8 +76,16 @@ class ExpenditureInMonthViewModel extends ViewModel {
     const year = focusDate.getFullYear();
     const month = focusDate.getMonth() + 1;
 
-    const totalCashes = await cashHistoryAPI.getTotalCashes(year, month, categoryId);
-    this.categoryExpendituresModel.categoryExpenditures = totalCashes;
+    try {
+      const totalCashes = await cashHistoryAPI.getTotalCashes(year, month, categoryId);
+      this.categoryExpendituresModel.categoryExpenditures = totalCashes;
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   protected subscribe (): void {

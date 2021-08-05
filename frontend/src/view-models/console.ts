@@ -86,18 +86,42 @@ class ConsoleViewModel extends ViewModel {
 
   private async fetchCashHistories (): Promise<void> {
     const date = this.focusDateModel.focusDate;
-    const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
-    this.filteredCashHistoriesModel.cashHistories = histories;
+    try {
+      const histories = await cashHistoryAPI.fetchCashHistories(date.getFullYear(), date.getMonth() + 1);
+      this.filteredCashHistoriesModel.cashHistories = histories;
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   private async fetchCategories () {
-    const categories = await categoryAPI.fetchCategories();
-    this.categoriesModel.categories = categories;
+    try {
+      const categories = await categoryAPI.fetchCategories();
+      this.categoriesModel.categories = categories;
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   private async fetchPayments () {
-    const payments = await paymentAPI.fetchPayments();
-    this.paymentsModel.payments = payments;
+    try {
+      const payments = await paymentAPI.fetchPayments();
+      this.paymentsModel.payments = payments;
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   async createPayment (value: string): Promise<void> {
@@ -150,15 +174,31 @@ class ConsoleViewModel extends ViewModel {
   }
 
   async deleteCategory (id: string): Promise<void> {
-    await categoryAPI.deleteCategory(Number(id));
+    try {
+      await categoryAPI.deleteCategory(Number(id));
 
-    this.fetchCategories();
+      this.fetchCategories();
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   async deletePayment (id: string): Promise<void> {
-    await paymentAPI.deletePayment(Number(id));
+    try {
+      await paymentAPI.deletePayment(Number(id));
 
-    this.fetchPayments();
+      this.fetchPayments();
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   createOrUpdate (): void {
@@ -186,13 +226,37 @@ class ConsoleViewModel extends ViewModel {
   }
 
   async createCashHistory (cashHistoryRequest: CashHistoryRequest): Promise<void> {
-    await cashHistoryAPI.createCashHistory(cashHistoryRequest);
-    this.fetchCashHistories();
+    try {
+      await cashHistoryAPI.createCashHistory(cashHistoryRequest);
+      this.fetchCashHistories();
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 400) {
+        toast.error('양식을 확인해주세요');
+      } else if (status === 404) {
+        toast.error('새로고침 후 시도해주세요');
+      } else if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   async updateCashHistory (id:number, cashHistoryRequest: CashHistoryRequest): Promise<void> {
-    await cashHistoryAPI.updateCashHistory(id, cashHistoryRequest);
-    this.fetchCashHistories();
+    try {
+      await cashHistoryAPI.updateCashHistory(id, cashHistoryRequest);
+      this.fetchCashHistories();
+    } catch (error) {
+      const { status } = error;
+
+      if (status === 400) {
+        toast.error('양식을 확인해주세요');
+      } else if (status === 404) {
+        toast.error('새로고침 후 시도해주세요');
+      } else if (status === 500) {
+        toast.error('다시 시도해주세요');
+      }
+    }
   }
 
   get cashHistoryType (): CashHistories {

@@ -7,4 +7,5 @@ import './assets/styles/common.css';
 const $root = $('#root');
 
 Router.init($root as HTMLElement);
+Router.instance.onStateChange();
 Router.instance.listen();
