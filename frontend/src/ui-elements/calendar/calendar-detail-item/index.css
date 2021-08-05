@@ -21,11 +21,20 @@
 }
 
 .calendar-detail__content {
+  display: block;
   margin-left: 5px;
+  width: 100px;
+  overflow: hidden;
 }
 
 .calendar-detail__price {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 60px;
   font-weight: bold;
+  width: 100px;
+  overflow: hidden;
 }
 
 .calendar-detail__price--income {
