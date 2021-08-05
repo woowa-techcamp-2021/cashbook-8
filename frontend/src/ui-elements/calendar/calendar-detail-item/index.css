@@ -14,6 +14,7 @@
 }
 
 .calendar-detail__category {
+  flex-shrink: 0;
   padding: 2px 8px;
   color: var(--off-white);
   font-weight: bold;

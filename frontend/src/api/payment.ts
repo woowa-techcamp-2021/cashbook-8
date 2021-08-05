@@ -4,8 +4,8 @@ import authMiddleware from './middlewares/auth.middleware';
 import { deleteRequest, getAccessToken, getRequest, postRequest } from './request';
 
 class PaymentAPI {
-  fetchPayments (): Promise<PaymentsResponse> {
-    return authMiddleware<PaymentsResponse>(() => {
+  async fetchPayments (): Promise<PaymentsResponse> {
+    return await authMiddleware<PaymentsResponse>(() => {
       const token = getAccessToken();
 
       return getRequest<PaymentsResponse>(`${dotenv.API_URL}/payment/all`, {
@@ -16,8 +16,8 @@ class PaymentAPI {
     });
   }
 
-  createPayment (value: string): Promise<void> {
-    return authMiddleware(() => {
+  async createPayment (value: string): Promise<void> {
+    return await authMiddleware(() => {
       const token = getAccessToken();
 
       return postRequest(`${dotenv.API_URL}/payment`, {
@@ -32,8 +32,8 @@ class PaymentAPI {
     });
   }
 
-  deletePayment (id: number): Promise<void> {
-    return authMiddleware(() => {
+  async deletePayment (id: number): Promise<void> {
+    return await authMiddleware(() => {
       const token = getAccessToken();
 
       return authMiddleware(() => deleteRequest(`${dotenv.API_URL}/payment`, {

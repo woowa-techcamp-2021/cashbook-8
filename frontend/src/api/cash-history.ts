@@ -4,8 +4,8 @@ import authMiddleware from './middlewares/auth.middleware';
 import { getAccessToken, getRequest, postRequest, putRequest } from './request';
 
 class CashHistoryAPI {
-  fetchCashHistories (year: number, month: number): Promise<CashHistoriesResponse> {
-    return authMiddleware(() => {
+  async fetchCashHistories (year: number, month: number): Promise<CashHistoriesResponse> {
+    return await authMiddleware(() => {
       const token = getAccessToken();
 
       return getRequest<CashHistoriesResponse>(`${dotenv.API_URL}/cash-history`, {
@@ -20,8 +20,8 @@ class CashHistoryAPI {
     });
   }
 
-  getTotalCashes (year: number, month: number, categoryId: number) {
-    return authMiddleware(() => {
+  async getTotalCashes (year: number, month: number, categoryId: number) {
+    return await authMiddleware(() => {
       const token = getAccessToken();
 
       return getRequest<CategoryExpenditureResponse>(`${dotenv.API_URL}/cash-history/cashes`, {
@@ -37,8 +37,8 @@ class CashHistoryAPI {
     });
   }
 
-  createCashHistory (cashHistoryRequest: CashHistoryRequest) {
-    return authMiddleware(() => {
+  async createCashHistory (cashHistoryRequest: CashHistoryRequest) {
+    return await authMiddleware(() => {
       const token = getAccessToken();
 
       return postRequest<CashHistoryRequest>(`${dotenv.API_URL}/cash-history`, {
@@ -51,8 +51,8 @@ class CashHistoryAPI {
     });
   }
 
-  updateCashHistory (id: number, cashHistoryRequest: CashHistoryRequest) {
-    authMiddleware(() => {
+  async updateCashHistory (id: number, cashHistoryRequest: CashHistoryRequest) {
+    await authMiddleware(() => {
       const token = getAccessToken();
 
       return putRequest<CashHistoryRequest>(`${dotenv.API_URL}/cash-history/${id}`, {
