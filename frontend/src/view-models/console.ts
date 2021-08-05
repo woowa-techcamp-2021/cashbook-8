@@ -127,6 +127,7 @@ class ConsoleViewModel extends ViewModel {
   async createPayment (value: string): Promise<void> {
     try {
       await paymentAPI.createPayment(value);
+      toast.success('결제수단을 추가했습니다');
     } catch (error) {
       switch (error.status) {
         case 400:
@@ -154,6 +155,7 @@ class ConsoleViewModel extends ViewModel {
 
     try {
       await categoryAPI.createCategory(value, color, this.cashHistoryType);
+      toast.success('카테고리를 추가했습니다');
     } catch (error) {
       switch (error.status) {
         case 400:
@@ -176,8 +178,8 @@ class ConsoleViewModel extends ViewModel {
   async deleteCategory (id: string): Promise<void> {
     try {
       await categoryAPI.deleteCategory(Number(id));
-
       this.fetchCategories();
+      toast.success('카테고리를 삭제했습니다');
     } catch (error) {
       const { status } = error;
 
@@ -190,8 +192,8 @@ class ConsoleViewModel extends ViewModel {
   async deletePayment (id: string): Promise<void> {
     try {
       await paymentAPI.deletePayment(Number(id));
-
       this.fetchPayments();
+      toast.success('결제수단을 삭제했습니다');
     } catch (error) {
       const { status } = error;
 
@@ -229,6 +231,7 @@ class ConsoleViewModel extends ViewModel {
     try {
       await cashHistoryAPI.createCashHistory(cashHistoryRequest);
       this.fetchCashHistories();
+      toast.success('결제 내역을 추가했습니다');
     } catch (error) {
       const { status } = error;
 
@@ -246,6 +249,7 @@ class ConsoleViewModel extends ViewModel {
     try {
       await cashHistoryAPI.updateCashHistory(id, cashHistoryRequest);
       this.fetchCashHistories();
+      toast.success('결제 내역을 수정했습니다');
     } catch (error) {
       const { status } = error;
 
