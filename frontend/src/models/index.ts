@@ -5,6 +5,7 @@ import CategoriesModel from './categories';
 import CategoryExpenditureModel from './category-expenditure';
 import FocusDateModel from './focus-date';
 import PaymentsModel from './payments';
+import UserModel from './user';
 
 const models = {
   focusDate: new FocusDateModel({
@@ -68,7 +69,13 @@ const models = {
       action: actions.ON_CATEGORY_EXPENDITURE_CHANGE,
       data: null
     }
-  }).getProxy()
+  }).getProxy(),
+  user: new UserModel({
+    user: {
+      action: actions.ON_USER_CHANGE,
+      data: null
+    }
+  })
 };
 
 export default models;
