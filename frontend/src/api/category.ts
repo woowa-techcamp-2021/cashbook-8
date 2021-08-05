@@ -5,8 +5,8 @@ import authMiddleware from './middlewares/auth.middleware';
 import { deleteRequest, getAccessToken, getRequest, postRequest } from './request';
 
 class CategoryAPI {
-  fetchCategories (): Promise<CategoriesResponse> {
-    return authMiddleware<CategoriesResponse>(() => {
+  async fetchCategories (): Promise<CategoriesResponse> {
+    return await authMiddleware<CategoriesResponse>(() => {
       const token = getAccessToken();
 
       return getRequest<CategoriesResponse>(`${dotenv.API_URL}/category/all`, {
@@ -17,8 +17,8 @@ class CategoryAPI {
     });
   }
 
-  createCategory (value: string, color: string, type: CashHistories): Promise<void> {
-    return authMiddleware<void>(() => {
+  async createCategory (value: string, color: string, type: CashHistories): Promise<void> {
+    return await authMiddleware<void>(() => {
       const token = getAccessToken();
 
       return postRequest(`${dotenv.API_URL}/category`, {
@@ -35,8 +35,8 @@ class CategoryAPI {
     });
   }
 
-  deleteCategory (id: number): Promise<void> {
-    return authMiddleware<void>(() => {
+  async deleteCategory (id: number): Promise<void> {
+    return await authMiddleware<void>(() => {
       const token = getAccessToken();
 
       return deleteRequest(`${dotenv.API_URL}/category`, {
