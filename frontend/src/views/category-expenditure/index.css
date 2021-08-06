@@ -12,6 +12,7 @@
   border-radius: 10px;
   padding: 32px;
 }
+
 .category-expenditure__title {
   margin-bottom: 32px;
   color: var(--title-active);

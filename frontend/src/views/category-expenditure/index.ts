@@ -133,7 +133,16 @@ class CategoryExpenditureView extends View {
   }
 
   show (): void {
-    $('.category-expenditure')?.classList.remove('disappear');
+    const $categoryExpenditure = $('.category-expenditure');
+    if ($categoryExpenditure !== null) {
+      $categoryExpenditure.classList.remove('disappear');
+      const { top } = $categoryExpenditure.getBoundingClientRect();
+
+      window.scrollTo({
+        top,
+        behavior: 'smooth'
+      });
+    }
   }
 
   protected render (): void {
