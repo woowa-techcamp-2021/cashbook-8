@@ -7,7 +7,7 @@
 
 ## 프로젝트
 - [사용하기](http://3.35.14.21)
-- [1차 데모 영상](https://youtu.be/sv0FY0sQWJg), [2차 데모 영상](https://youtu.be/sv0FY0sQWJg)
+- [1차 데모 영상](https://youtu.be/zenB_ALETQ0), [2차 데모 영상](https://youtu.be/sv0FY0sQWJg)
 - [실행 방법](https://github.com/woowa-techcamp-2021/cashbook-8/wiki/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%A4%ED%96%89)
 - [Backend 구조](https://github.com/woowa-techcamp-2021/cashbook-8/wiki/%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B5%AC%EC%A1%B0)
 - [Frontend 구조](https://github.com/woowa-techcamp-2021/cashbook-8/wiki/%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EA%B5%AC%EC%A1%B0)
