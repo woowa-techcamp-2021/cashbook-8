@@ -48,11 +48,11 @@ export type CashHistoryRequest = {
   price: number;
 }
 
-export type totalCash = {
+export type TotalCash = {
   month: number;
   price: number;
 }
 
 export type CategoryExpenditureResponse = {
-  totalCashes: totalCash[]
+  totalCashes: TotalCash[]
 } & BaseResponse;

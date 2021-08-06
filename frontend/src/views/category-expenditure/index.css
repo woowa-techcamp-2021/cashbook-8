@@ -1,3 +1,7 @@
+.category-expenditure.disappear {
+  visibility: hidden;
+}
+
 .category-expenditure__container {
   position: relative;
   width: var(--inner-width);
@@ -8,11 +12,6 @@
   border-radius: 10px;
   padding: 32px;
 }
-
-.category-expenditure__container.disappear {
-  visibility: hidden;
-}
-
 .category-expenditure__title {
   margin-bottom: 32px;
   color: var(--title-active);
