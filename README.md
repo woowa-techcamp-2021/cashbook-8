@@ -48,8 +48,7 @@
 ![Aug-06-2021 04-11-11](https://user-images.githubusercontent.com/40158029/128444018-14d87cf3-001c-457a-a574-e528168c315a.gif)
 
 ### Calendar Popup
-<img width="736" alt="스크린샷 2021-08-06 오전 10 56 21" src="https://user-images.githubusercontent.com/40158029/128444215-618b7251-c179-4653-9cdf-0600cee6ffcf.png">
-
+![Aug-06-2021 11-11-14](https://user-images.githubusercontent.com/40158029/128445396-5fd423da-384a-4271-9294-445d0cb33325.gif)
 
 ### Pie Chart
 ![Aug-06-2021 04-00-14](https://user-images.githubusercontent.com/40158029/128444316-de3bf80e-dbe5-4c9f-89f8-5b25e91141d3.gif)
