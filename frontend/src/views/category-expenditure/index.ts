@@ -1,5 +1,6 @@
 import View from '../../core/view';
-import { totalCash } from '../../types/cash-history';
+import { TotalCash } from '../../types/cash-history';
+import MonthlyCashHistoryUIElement from '../../ui-elements/cash-history/monthly-cash-history';
 import { formatNumber } from '../../utils/formatter';
 import { $ } from '../../utils/selector';
 import { getSVGElement } from '../../utils/svg';
@@ -99,7 +100,7 @@ class CategoryExpenditureView extends View {
     return $curvedLine;
   }
 
-  drawXLabels (totalCashes: totalCash[]): void {
+  drawXLabels (totalCashes: TotalCash[]): void {
     const $monthDelimiter = $('.category-expenditure__x-labels-container');
     if ($monthDelimiter !== null) {
       const xLabels = totalCashes
@@ -110,7 +111,7 @@ class CategoryExpenditureView extends View {
     }
   }
 
-  drawYLabels (totalCashes: totalCash[]): void {
+  drawYLabels (totalCashes: TotalCash[]): void {
     const $expenseDelimiter = $('.category-expenditure__y-labels-container');
     if ($expenseDelimiter !== null) {
       const max = totalCashes
@@ -132,24 +133,35 @@ class CategoryExpenditureView extends View {
   }
 
   show (): void {
-    $('.category-expenditure__container')?.classList.remove('disappear');
+    const $categoryExpenditure = $('.category-expenditure');
+    if ($categoryExpenditure !== null) {
+      $categoryExpenditure.classList.remove('disappear');
+      const { top } = $categoryExpenditure.getBoundingClientRect();
+
+      window.scrollTo({
+        top,
+        behavior: 'smooth'
+      });
+    }
   }
 
   protected render (): void {
     this.$target.innerHTML = `
-    <div class='category-expenditure__container disappear'>
-      <div class="category-expenditure__title">카테고리 소비 추이</div>
-      <div class='category-expenditure__y-labels-container'>
-      </div>
-      <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${SVG_HEIGHT} ${SVG_WIDTH}'>
-        <defs>
-        <linearGradient id="curvedLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%"   stop-color="var(--primary2)"/>
-          <stop offset="100%" stop-color="var(--primary3)"/>
-        </linearGradient>
-        </defs>
-      </svg>
-      <div class='category-expenditure__x-labels-container'>
+    <div class="category-expenditure disappear">
+      <div class='category-expenditure__container'>
+        <div class="category-expenditure__title">카테고리 소비 추이</div>
+        <div class='category-expenditure__y-labels-container'>
+        </div>
+        <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${SVG_HEIGHT} ${SVG_WIDTH}'>
+          <defs>
+          <linearGradient id="curvedLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="var(--primary2)"/>
+            <stop offset="100%" stop-color="var(--primary3)"/>
+          </linearGradient>
+          </defs>
+        </svg>
+        <div class='category-expenditure__x-labels-container'>
+        </div>
       </div>
     </div>
   `;
@@ -176,6 +188,11 @@ class CategoryExpenditureView extends View {
 
     this.drawYLabels(totalCashes);
     this.drawXLabels(totalCashes);
+
+    const $categoryExpenditure = $('.category-expenditure');
+    if ($categoryExpenditure !== null) {
+      new MonthlyCashHistoryUIElement($categoryExpenditure, this.categoryExpenditureViewModel.cashHistories).build();
+    }
   }
 }
 

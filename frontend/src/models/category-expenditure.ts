@@ -3,10 +3,12 @@ import { CashHistoriesResponse, CategoryExpenditureResponse } from '../types/cas
 
 export type CategoryExpenditureData = {
   categoryExpenditures: CategoryExpenditureResponse | null;
+  categoryId: number | null;
 }
 
 type InitialData = {
   categoryExpenditures: ProxyModelDataForm<CashHistoriesResponse | null>;
+  categoryId: ProxyModelDataForm<number | null>;
 }
 
 class CategoryExpenditureModel extends Model<InitialData> { }
