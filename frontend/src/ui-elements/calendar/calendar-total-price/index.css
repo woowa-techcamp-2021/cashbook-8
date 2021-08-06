@@ -1,0 +1,22 @@
+.calendar-total-price {
+  position: relative;
+  top: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calendar-total-price__info-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-total-price__content {
+  margin: 0 8px;
+}
+
+.calendar-total-price__label {
+  margin-left: 8px;
+}

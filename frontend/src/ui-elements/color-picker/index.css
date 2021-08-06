@@ -1,0 +1,57 @@
+.color-picker {
+  width: 100%;
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.color-picker__palette {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.color-picker__color {
+  width: 25px;
+  height: 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.color-picker__input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-picker__color-hex {
+  background-color: var(--background);
+  width: 70px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  outline: none;
+  font-size: var(--bold-medium);
+  padding: 0 8px;
+}
+
+.color-picker__current {
+  width: 25px;
+  height: 25px;
+  border-radius: 8px;
+}
+
+.color-picker__refresh {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  font-size: var(--bold-medium);
+  font-weight: bold;
+  border: solid 1px var(--line);
+}

@@ -1,0 +1,79 @@
+@keyframes fade-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  80% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.calendar-cell__detail {
+  pointer-events: visiblePainted !important;
+  --height: calc(var(--side-size) + 20px);
+  z-index: 2;
+  position: absolute;
+  height: var(--height);
+  top: -10px;
+  left: calc(var(--side-size) + 10px);
+  width: 250px;
+  border-radius: 8px;
+  color: var(--primary1);
+  padding: 10px;
+  transform-origin: left;
+  transition: 0.2s all;
+  border: 1px solid var(--line);
+  background-color: var(--off-white);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-cell__detail.disappear {
+  visibility: hidden;
+  animation: fade-out 0.2s ease-out;
+}
+
+.calendar-cell__detail.appear {
+  visibility: visible;
+  animation: fade-in 0.2s ease-out;
+}
+
+.calendar-detail__arrow {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
+  top: calc(var(--height) / 2 - 10px);
+  left: -10px;
+  border-left: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background-color: var(--off-white);
+}
+
+.calendar-detail__list {
+  position: relative;
+  height: 100%;
+  overflow: scroll;
+  z-index: 4;
+}
+
+.calendar-detail__list::-webkit-scrollbar {
+  display: none;
+}

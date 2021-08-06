@@ -1,0 +1,55 @@
+.calendar-detail__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--bold-medium);
+  color: var(--body);
+  height: 28px;
+}
+
+.calendar-detail__info-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-detail__category {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  color: var(--off-white);
+  font-weight: bold;
+  border-radius: 15px;
+}
+
+.calendar-detail__content {
+  display: block;
+  margin-left: 5px;
+  width: 100px;
+  overflow: hidden;
+}
+
+.calendar-detail__price {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 60px;
+  font-weight: bold;
+  width: 100px;
+  overflow: hidden;
+}
+
+.calendar-detail__price--income {
+  color: var(--primary1);
+}
+
+.calendar-detail__price--income::before {
+  content: '+';
+}
+
+.calendar-detail__price--expenditure {
+  color: var(--error);
+}
+
+.calendar-detail__price--expenditure::before {
+  content: '-';
+}
