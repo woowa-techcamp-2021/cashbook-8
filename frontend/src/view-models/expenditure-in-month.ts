@@ -79,6 +79,7 @@ class ExpenditureInMonthViewModel extends ViewModel {
     try {
       const totalCashes = await cashHistoryAPI.getTotalCashes(year, month, categoryId);
       this.categoryExpendituresModel.categoryExpenditures = totalCashes;
+      this.categoryExpendituresModel.categoryId = categoryId;
     } catch (error) {
       const { status } = error;
 

@@ -68,6 +68,10 @@ const models = {
     categoryExpenditures: {
       action: actions.ON_CATEGORY_EXPENDITURE_CHANGE,
       data: null
+    },
+    categoryId: {
+      action: actions.ON_CATEGORY_EXPENDITURE_CHANGE,
+      data: null
     }
   }).getProxy(),
   user: new UserModel({
